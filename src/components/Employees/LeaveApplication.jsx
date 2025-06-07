@@ -79,7 +79,7 @@ const LeaveApplication = () => {
                       </tbody>
                     </table>
                   </div>
-    </section>
+  </section>
   </div>)
   :
   <Loading/>

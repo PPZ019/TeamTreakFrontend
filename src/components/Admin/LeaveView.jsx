@@ -3,25 +3,21 @@ import { getEmployees, getLeaders, viewLeaves } from '../../http';
 import { useHistory } from "react-router-dom";
 import Loading from '../Loading';
 
-
-
 const LeaveView = () => {
-  const [type, setType] = useState();
-  const [status, setStatus] = useState();
-  const [appliedDate, setAppliedDate] = useState();
-  const [applications,setApplications] = useState();
+  const [type, setType] = useState('');
+  const [status, setStatus] = useState('');
+  const [appliedDate, setAppliedDate] = useState('');
+  const [applications,setApplications] = useState(null);
   const history = useHistory();
-  const [employees, setEmployees] = useState();
-  const [employeeMap, setEmployeeMap] = useState();
-  const [selectedEmployee, setSelectedEmployee] = useState();
+  const [employees, setEmployees] = useState([]);
+  const [employeeMap, setEmployeeMap] = useState({});
+  const [selectedEmployee, setSelectedEmployee] = useState('');
 
-  useEffect(()=>{
-
+  useEffect(() => {
     let empObj = {};
     const fetchData = async () => {
       const res = await viewLeaves({});
-      const {data} = res;
-      setApplications(data);
+      setApplications(res.data);
     }
 
     const fetchEmployees = async () => {
@@ -30,152 +26,245 @@ const LeaveView = () => {
       emps.data.forEach(employee => empObj[employee.id] = [employee.name, employee.email]);
       leaders.data.forEach(leader => empObj[leader.id] = [leader.name, leader.email]);
       setEmployeeMap(empObj);
-      setEmployees([...emps.data,...leaders.data]);
+      setEmployees([...emps.data, ...leaders.data]);
     }
 
     fetchData();
     fetchEmployees();
-
-  },[]);
+  }, []);
 
   const searchLeaveApplications = async () => {
-      const obj = {
-        
-      }
+    const obj = {};
+    if (selectedEmployee) obj.applicantID = selectedEmployee;
+    if (type) obj.type = type;
+    if (status) obj.adminResponse = status;
+    if (appliedDate) obj.appliedDate = appliedDate;
 
-      if(selectedEmployee){
-        obj["applicantID"] = selectedEmployee;
-      }
+    const res = await viewLeaves(obj);
+    setApplications(res.data);
 
-      if(type){
-        obj["type"] = type;
-      }
-      if(status){
-        obj["adminResponse"] = status
-      }
-      if(appliedDate){
-        obj["appliedDate"] = appliedDate;
-      }
+    setAppliedDate('');
+    setType('');
+    setStatus('');
+    setSelectedEmployee('');
+  }
 
-      console.log(obj);
-
-      const res = await viewLeaves(obj);
-      const {data} = res;
-      setApplications(data);
-
-      setAppliedDate("");
-      setType("");
-      setStatus(""); 
+  // Custom colors
+  const colors = {
+    background: '#1E201E',
+    card: '#3C3D37',
+    accent: '#697565',
+    text: '#ECDFCC'
   }
 
   return (
     <>
-    {
-      applications?
-      (<div className="main-content">
-      <section className="section">
-              <div className="card">
-                <div className="card-header d-flex justify-content-between">
-                  <h4>Leave Applications</h4>
-                </div>
+      {applications ? (
+        <div
+          className="min-h-screen p-6"
+          style={{ backgroundColor: colors.background, color: colors.text }}
+        >
+          <section className="mb-6">
+            <div
+              className="rounded-md shadow p-4 mb-6 flex justify-between items-center"
+              style={{ backgroundColor: colors.card }}
+            >
+              <h4 className="text-4xl font-semibold" style={{ color: colors.text }}>
+                Leave Applications
+              </h4>
+            </div>
+
+            <div className="flex flex-wrap gap-4 justify-center items-end mb-6">
+              {/* Employee select */}
+              <div className="w-48">
+                <label className="block mb-1 font-medium" style={{ color: colors.text }}>
+                  Employee
+                </label>
+                <select
+                  className="w-full rounded px-3 py-2 focus:outline-none"
+                  style={{
+                    backgroundColor: colors.card,
+                    border: `1px solid ${colors.accent}`,
+                    color: colors.text,
+                  }}
+                  value={selectedEmployee}
+                  onChange={(e) => setSelectedEmployee(e.target.value)}
+                >
+                  <option value="" style={{ backgroundColor: colors.card, color: colors.text }}>
+                    All Employees
+                  </option>
+                  {employees.map(emp => (
+                    <option
+                      key={emp._id}
+                      value={emp.id}
+                      style={{ backgroundColor: colors.card, color: colors.text }}
+                    >
+                      {emp.name}
+                    </option>
+                  ))}
+                </select>
               </div>
-        
-        <div className="d-flex justify-content-center align-items-center w-100">
-  
-        <div className="form-group col-md-2">
-        <label>Employee</label>
-          <select
-            className='form-control select2'
-            value={selectedEmployee}
-            onChange={(e) => setSelectedEmployee(e.target.value)}
+
+              {/* Leave Type */}
+              <div className="w-48">
+                <label className="block mb-1 font-medium" style={{ color: colors.text }}>
+                  Leave Type
+                </label>
+                <select
+                  className="w-full rounded px-3 py-2 focus:outline-none"
+                  style={{
+                    backgroundColor: colors.card,
+                    border: `1px solid ${colors.accent}`,
+                    color: colors.text,
+                  }}
+                  value={type}
+                  onChange={e => setType(e.target.value)}
+                >
+                  <option value="" style={{ backgroundColor: colors.card, color: colors.text }}>
+                    Select
+                  </option>
+                  <option value="Sick Leave" style={{ backgroundColor: colors.card, color: colors.text }}>
+                    Sick Leave
+                  </option>
+                  <option value="Casual Leave" style={{ backgroundColor: colors.card, color: colors.text }}>
+                    Casual Leave
+                  </option>
+                  <option value="Emergency Leave" style={{ backgroundColor: colors.card, color: colors.text }}>
+                    Emergency Leave
+                  </option>
+                </select>
+              </div>
+
+              {/* Status */}
+              <div className="w-48">
+                <label className="block mb-1 font-medium" style={{ color: colors.text }}>
+                  Status
+                </label>
+                <select
+                  className="w-full rounded px-3 py-2 focus:outline-none"
+                  style={{
+                    backgroundColor: colors.card,
+                    border: `1px solid ${colors.accent}`,
+                    color: colors.text,
+                  }}
+                  value={status}
+                  onChange={e => setStatus(e.target.value)}
+                >
+                  <option value="" style={{ backgroundColor: colors.card, color: colors.text }}>
+                    Select
+                  </option>
+                  <option value="Pending" style={{ backgroundColor: colors.card, color: colors.text }}>
+                    Pending
+                  </option>
+                  <option value="Approved" style={{ backgroundColor: colors.card, color: colors.text }}>
+                    Approved
+                  </option>
+                  <option value="Rejected" style={{ backgroundColor: colors.card, color: colors.text }}>
+                    Rejected
+                  </option>
+                </select>
+              </div>
+
+              {/* Applied Date */}
+              <div className="w-56">
+                <label className="block mb-1 font-medium" style={{ color: colors.text }}>
+                  Applied Date
+                </label>
+                <input
+                  type="date"
+                  className="w-full rounded px-3 py-2 focus:outline-none"
+                  style={{
+                    backgroundColor: colors.card,
+                    border: `1px solid ${colors.accent}`,
+                    color: colors.text,
+                  }}
+                  value={appliedDate}
+                  onChange={e => setAppliedDate(e.target.value)}
+                />
+              </div>
+
+              {/* Search Button */}
+              <button
+                onClick={searchLeaveApplications}
+                className="font-semibold px-6 py-2 rounded transition"
+                style={{
+                  backgroundColor: colors.accent,
+                  color: colors.text,
+                  border: `1px solid ${colors.accent}`,
+                }}
+                onMouseEnter={e => {
+                  e.target.style.backgroundColor = colors.text;
+                  e.target.style.color = colors.accent;
+                }}
+                onMouseLeave={e => {
+                  e.target.style.backgroundColor = colors.accent;
+                  e.target.style.color = colors.text;
+                }}
+              >
+                Search
+              </button>
+            </div>
+          </section>
+
+          {/* Table */}
+          <div
+            className="overflow-x-auto rounded-md shadow"
+            style={{ backgroundColor: colors.card }}
           >
-            <option value="">Employees</option>
-            {employees?.map((employee) => (
-              <option key={employee._id} value={employee.id}>
-                {employee.name}
-              </option>
-            ))}
-          </select>
-        </div>
-         
-        <div className="form-group col-md-2">
-                              <label>Leave Type</label>
-                              <select name='type' onChange={(e)=>setType(e.target.value)} className="form-control select2">
-                                 <option>Select</option>
-                                  <option>Sick Leave</option>
-                                  <option>Casual Leave</option>
-                                  <option>Emergency Leave</option>
-                              </select>
-                          </div>
-                          <div className="form-group col-md-2">
-                              <label>Status</label>
-                              <select name='type' onChange={(e)=>setStatus(e.target.value)} className="form-control select2">
-                                 <option>Select</option>
-                                  <option>Pending</option>
-                                  <option>Approved</option>
-                                  <option>Rejected</option>
-                              </select>
-                          </div> 
-  
-                           <div className="form-group col-md-4"> 
-                          <label>Applied Date</label>
-                          <div className="input-group">
-                                  <div className="input-group-prepend">
-                                  <div className="input-group-text">
-                                  <i class="fa fa-calendar"></i>
-                                  </div>
-                                  </div>
-                                  <input onChange={(e)=>setAppliedDate(e.target.value)} type="date" id="startDate" name="startDate" className="form-control"></input>
-                            
-                              </div>
-                          </div>                  
-  
-       
-        
-        <button onClick={searchLeaveApplications} className="btn btn-lg btn-primary col">Search</button>
-      </div>
-      </section>
-      <div className="table-responsive">
-          <table className="table table-striped table-md center-text">
+            <table className="min-w-full rounded-md" style={{ color: colors.text }}>
               <thead>
-                 <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Type</th>
-                    <th>Title</th>
-                    <th>Applied Date</th>
-                    <th>Status</th>
+                <tr style={{ borderBottom: `1px solid ${colors.accent}` }}>
+                  <th className="px-4 py-3 text-left">#</th>
+                  <th className="px-4 py-3 text-left">Name</th>
+                  <th className="px-4 py-3 text-left">Email</th>
+                  <th className="px-4 py-3 text-left">Type</th>
+                  <th className="px-4 py-3 text-left">Title</th>
+                  <th className="px-4 py-3 text-left">Applied Date</th>
+                  <th className="px-4 py-3 text-left">Status</th>
                 </tr>
               </thead>
-              
-              <tbody className="sidebar-wrapper">
-               {
-                 applications?.map((application,idx) => 
-                 
-                <tr className='hover-effect' onClick={()=>history.push(`leaves/${application._id}`)}> 
-                <td>{idx+1}</td>  
-                <td>{employeeMap && employeeMap[application.applicantID][0]}</td>
-                <td>{employeeMap && employeeMap[application.applicantID][1]}</td>
-                <td>{application.type}</td>
-                <td>{application.title}</td>
-                <td>{application.appliedDate}</td>
-                <td className={`${application.adminResponse==="Rejected"?"text-danger":application.adminResponse==="Pending"?"text-primary":"text-success"}`}>{application.adminResponse}</td>
-                </tr>
-               
-                 
-                )
-              }            
+              <tbody>
+                {applications.map((app, idx) => (
+                  <tr
+                    key={app._id}
+                    onClick={() => history.push(`leaves/${app._id}`)}
+                    className="cursor-pointer transition"
+                    style={{
+                      borderBottom: `1px solid ${colors.accent}`,
+                      backgroundColor: colors.card,
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = colors.accent)}
+                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = colors.card)}
+                  >
+                    <td className="px-4 py-2">{idx + 1}</td>
+                    <td className="px-4 py-2">{employeeMap[app.applicantID]?.[0]}</td>
+                    <td className="px-4 py-2">{employeeMap[app.applicantID]?.[1]}</td>
+                    <td className="px-4 py-2">{app.type}</td>
+                    <td className="px-4 py-2">{app.title}</td>
+                    <td className="px-4 py-2">{app.appliedDate}</td>
+                    <td
+                      className="px-4 py-2 font-semibold"
+                      style={{
+                        color:
+                          app.adminResponse === 'Rejected'
+                            ? '#F87171' /* red-400 */
+                            : app.adminResponse === 'Pending'
+                            ? '#FBBF24' /* yellow-400 */
+                            : '#34D399' /* green-400 */
+                      }}
+                    >
+                      {app.adminResponse}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
-          </table>
-      </div>
-    </div>)
-    :
-    <Loading/>
-    }
+            </table>
+          </div>
+        </div>
+      ) : (
+        <Loading />
+      )}
     </>
-
-    
   )
 }
 

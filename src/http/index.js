@@ -57,12 +57,25 @@ export const applyforleave = data => api.post('/employee/apply-leave-application
 export const viewLeaveApplications = data  => api.post('/employee/view-leave-applications',data);
 export const viewEmployeeSalary = data => api.post('employee/view-salary',data);
 
-api.interceptors.response.use((response)=>{
-    console.log("All Cookies",document.cookie);
-    return response.data;
-},(error)=>{
-    console.log(error);
-    return error.response.data
-})
+api.interceptors.response.use(
+    (response) => {
+      return response.data;
+    },
+    (error) => {
+      console.log("Axios Error:", error);
+  
+      const fallback = {
+        success: false,
+        message:
+          error?.message === "Network Error"
+            ? "Server not reachable. Please try again later."
+            : "Something went wrong.",
+      };
+  
+      // Reject with a safe object
+      return Promise.reject(error.response?.data || fallback);
+    }
+  );
+  
 
 export default api;

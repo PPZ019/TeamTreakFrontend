@@ -25,16 +25,28 @@ const LoginForm = () =>
         })
     }
 
-    const onSubmit = async (e) =>
-    {
-        e.preventDefault();
-        const {email,password} = formData;
-        if(!email || !password) return toast.error('All Fields Required');
-        const res = await doLogin({email,password});
-        const {success} = res;
-        if(success)
-            dispatch(setAuth(res.user));
-    }
+    const onSubmit = async (e) => {
+      e.preventDefault();
+      const { email, password } = formData;
+    
+      if (!email || !password) return toast.error("All fields are required");
+    
+      try {
+        const res = await doLogin({ email, password });
+    
+        if (res.success) {
+          dispatch(setAuth(res.user));
+          toast.success("Login successful");
+        } else {
+          toast.error(res.message || "Invalid credentials");
+        }
+      } catch (error) {
+        toast.error(error.message || "Login failed. Please try again.");
+        console.error("Login Error:", error);
+      }
+    };
+    
+    
 
     return(
         <div id="app">
