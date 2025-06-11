@@ -47,7 +47,7 @@ import AssignSalary from './components/Admin/AssignSalary';
 import Salaries from './components/Admin/Salaries';
 import SalaryView from './components/Admin/Salary';
 import ProtectedRoute from './ProtectedRoute'
-
+import Template from './components/login/template'
 
 
 
@@ -110,8 +110,8 @@ const App = () =>
   <Route path="/userLeaveApplications" element={<EmployeeRoute><LeaveApplications /></EmployeeRoute>} />
   <Route path="/userLeaveApplications/:id" element={<EmployeeRoute><LeaveApplication /></EmployeeRoute>} />
 
-  <Route path="/" element={<GuestRoute><Login /></GuestRoute>} />
-  <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
+  <Route path="/" element={<GuestRoute><Template /></GuestRoute>} />
+  <Route path="/login" element={<GuestRoute><Template /></GuestRoute>} />
   <Route path="/forgot" element={<GuestRoute><Forgot /></GuestRoute>} />
 
   

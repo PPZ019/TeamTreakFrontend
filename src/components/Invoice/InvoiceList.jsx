@@ -25,7 +25,7 @@ const InvoiceList = () => {
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold text-[#211C84]">Invoice List</h2>
+        <h2 className="text-2xl font-semibold text-blue-900">Invoice List</h2>
         <button
           onClick={() => navigate('/invoices/create')}
           className="bg-[#211C84] text-white px-4 py-2 rounded shadow hover:bg-[#4D55CC] transition"
