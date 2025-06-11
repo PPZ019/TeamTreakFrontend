@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCounts } from "../../http";
 import { setCount } from "../../store/main-slice";
@@ -27,15 +27,39 @@ const Admin = () => {
     { title: "Total Team", label: "Team", count: team },
   ];
 
+  const [summary, setSummary] = useState({
+    totalPaid: 0,
+    totalUnpaid: 0,
+    totalInvoices: 0,
+    quoteCustomer: 0, // placeholder
+    quoteLeads: 0      // placeholder
+  });
+
+  useEffect(() => {
+    fetch('http://localhost:5500/api/invoice/invoiceSummary')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setSummary(prev => ({
+            ...prev,
+            totalPaid: data.result.totalPaid,
+            totalUnpaid: data.result.totalUnpaid,
+            totalInvoices: data.result.totalInvoices
+          }));
+        }
+      })
+      .catch(err => console.error('Failed to fetch summary', err));
+  }, []);
+
   return (
     <div className="space-y-8">
       {/* CardSummary row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <CardSummary title="Invoices" value="₹00.00" color="green" />
-        <CardSummary title="Quotes For Customers" value="₹00.00" color="purple" />
-        <CardSummary title="Quotes For Leads" value="₹00.00" color="green" />
-        <CardSummary title="Unpaid" value="₹00.00" color="red" />
-      </div>
+      <CardSummary title="Invoices" value={`₹${summary.totalPaid.toFixed(2)}`} color="green" />
+      <CardSummary title="Quotes For Customers" value={`₹${summary.quoteCustomer.toFixed(2)}`} color="purple" />
+      <CardSummary title="Quotes For Leads" value={`₹${summary.quoteLeads.toFixed(2)}`} color="green" />
+      <CardSummary title="Unpaid" value={`₹${summary.totalUnpaid.toFixed(2)}`} color="red" />
+    </div>
 
       {/* StatCard row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
