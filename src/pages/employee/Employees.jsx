@@ -54,7 +54,7 @@ const Employees = () => {
                 All Employees
               </h4>
               <button
-                onClick={() => navigate('/employees/create')}
+                onClick={() => navigate('/adduser')}
                 className="btn-primary"
                 style={{
                   background: '#211C84',
