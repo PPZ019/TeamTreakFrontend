@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { dLogout } from "../../http";
 import { setAuth } from "../../store/auth-slice";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -11,13 +11,13 @@ const Employee = () =>
 {
 
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const logout = async () =>
     {
         await dLogout();
         dispatch(setAuth(null))
-        return history.push('/login');
+        return navigate.push('/login');
     }
     return(
       <ul className="sidebar-menu">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import CountsCard from "../../../components/dashboard/CountsCard";
+import StatCard from "../../../components/dashboard/StatCard";
 import RowMember from "../../../components/rows/row-member";
 import { getFreeEmployees, getTeam, getTeamMembers, getFreeLeaders } from "../../../http";
 import { useDispatch } from "react-redux";
@@ -88,10 +88,10 @@ const Team = () => {
                 </div>
               </div>
               <div className="row">
-                <CountsCard title='Total Employee' icon='fa-user' count={team.information.employee} />
-                <CountsCard title='Total Employee' icon='fa-user' count={team.information.employee} />
-                <CountsCard title='Total Employee' icon='fa-user' count={team.information.employee} />
-                <CountsCard title='Total Employee' icon='fa-user' count={team.information.employee} />
+                <StatCard title='Total Employee' icon='fa-user' count={team.information.employee} />
+                <StatCard title='Total Employee' icon='fa-user' count={team.information.employee} />
+                <StatCard title='Total Employee' icon='fa-user' count={team.information.employee} />
+                <StatCard title='Total Employee' icon='fa-user' count={team.information.employee} />
               </div>
 
               <div className="card">

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { getEmployees, getLeaders, viewAllSalaries } from '../../http';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loading from '../Loading';
 
 const Salaries = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
   const [employeeMap, setEmployeeMap] = useState({});
   const [selectedEmployee, setSelectedEmployee] = useState('');
@@ -140,7 +140,7 @@ const Salaries = () => {
                 {salaries.map((salary, idx) => (
                   <tr
                     key={salary._id}
-                    onClick={() => history.push(`salary/${salary._id}`)}
+                    onClick={() => navigate.push(`salary/${salary._id}`)}
                     className="cursor-pointer transition"
                     style={{
                       borderBottom: `1px solid ${colors.accent}`,

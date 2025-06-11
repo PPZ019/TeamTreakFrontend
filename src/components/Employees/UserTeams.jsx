@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmployeeTeam } from "../../http";
-import { NavLink } from 'react-router-dom/cjs/react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { setTeam } from '../../store/team-slice';
 import { setTeamMembers } from '../../store/user-slice';
 import Loading from '../Loading';

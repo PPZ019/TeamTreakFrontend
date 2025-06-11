@@ -10,7 +10,7 @@ const Dashboard = () =>
     return(
         <div className="main-content">
         <section className="section">
-         <HeaderSection title='Dashboard'/>
+         {/* <HeaderSection title='Dashboard'/> */}
           {
             user.type==='Admin' ? <Admin/> : user.type==='Leader' ? <Leader/> : <Employee/>
           }

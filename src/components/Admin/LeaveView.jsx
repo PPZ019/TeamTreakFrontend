@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getEmployees, getLeaders, viewLeaves } from '../../http';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loading from '../Loading';
 
 const LeaveView = () => {
@@ -8,7 +8,7 @@ const LeaveView = () => {
   const [status, setStatus] = useState('');
   const [appliedDate, setAppliedDate] = useState('');
   const [applications,setApplications] = useState(null);
-  const history = useHistory();
+  const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
   const [employeeMap, setEmployeeMap] = useState({});
   const [selectedEmployee, setSelectedEmployee] = useState('');
@@ -227,7 +227,7 @@ const LeaveView = () => {
                 {applications.map((app, idx) => (
                   <tr
                     key={app._id}
-                    onClick={() => history.push(`leaves/${app._id}`)}
+                    onClick={() => navigate.push(`leaves/${app._id}`)}
                     className="cursor-pointer transition"
                     style={{
                       borderBottom: `1px solid ${colors.accent}`,

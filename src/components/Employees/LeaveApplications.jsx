@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { viewLeaveApplications } from '../../http';
 import { useSelector } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loading from '../Loading';
 
 
@@ -16,7 +16,7 @@ const LeaveApplications = () => {
   const [status, setStatus] = useState();
   const [appliedDate, setAppliedDate] = useState();
   const [applications,setApplications] = useState();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const obj = {
@@ -122,7 +122,7 @@ const LeaveApplications = () => {
                {
                  applications?.map((application,idx) => 
                  
-                <tr className='hover-effect' onClick={()=>history.push(`userLeaveApplications/${application._id}`)}> 
+                <tr className='hover-effect' onClick={()=>navigate.push(`userLeaveApplications/${application._id}`)}> 
                 <td>{idx+1}</td>  
                 <td>{application.type}</td>
                 <td>{application.title}</td>
