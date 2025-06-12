@@ -8,7 +8,7 @@ const SideBar = () => {
   const { user } = useSelector(state => state.authSlice);
 
   return (
-    <div className="w-64 min-h-screen text-white flex flex-col bg-white">
+    <div className="w-64 min-h-screen text-white flex flex-col bg-white z-50 fixed">
       <aside className="flex flex-col h-full">
         
         {/* Header */}

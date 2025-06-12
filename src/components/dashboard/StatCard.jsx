@@ -1,32 +1,73 @@
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { FiBarChart2 } from "react-icons/fi";
 
-const colors = ["#10B981", "#EF4444", "#8B5CF6", "#F59E0B"];
+ChartJS.register(ArcElement, Tooltip, Legend);
 
-const StatCard = ({ title, stats }) => (
-  <div className="bg-white rounded-2xl shadow p-4 w-full flex flex-col items-center">
-    <h4 className="text-sm font-semibold mb-4">{title}</h4>
-    {stats.map(({ label, percent }, i) => {
-      const color = colors[i % colors.length];
-      return (
-        <div key={i} className="flex flex-col items-center space-y-2">
-          <div className="w-24 h-24">
-            <CircularProgressbar
-              value={parseFloat(percent)}
-              text={`${percent}%`}
-              styles={buildStyles({
-                textColor: color,
-                pathColor: color,
-                trailColor: "#E5E7EB",
-                textSize: "16px",
-              })}
-            />
-          </div>
-          <span className="text-xs text-gray-600">{label}</span>
-        </div>
-      );
-    })}
-  </div>
-);
+const COLORS = ["#34d399", "#f87171", "#c084fc", "#7e22ce"];
+
+const StatCard = ({ title, stats }) => {
+  const totalPercent = stats.reduce((sum, s) => sum + parseFloat(s.percent), 0);
+  const filledStats = [...stats];
+
+  if (totalPercent < 100) {
+    filledStats.push({
+      label: "Others",
+      percent: (100 - totalPercent).toFixed(1),
+    });
+  }
+
+  const data = {
+    labels: filledStats.map((s) => s.label),
+    datasets: [
+      {
+        data: filledStats.map((s) => parseFloat(s.percent)),
+        backgroundColor: COLORS,
+        borderColor: "#fff",
+        borderWidth: 2,
+        hoverOffset: 8,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          color: "#374151",
+          font: {
+            size: 12,
+            weight: "bold",
+          },
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            return `${context.label}: ${context.raw}%`;
+          },
+        },
+      },
+    },
+  };
+
+  return (
+    <div className="bg-white rounded-2xl shadow p-4 w-full flex flex-col items-center">
+      {/* Title with Icon */}
+      <div className="flex items-center gap-2 text-sm font-semibold mb-4 text-gray-800">
+        <FiBarChart2 className="text-purple-600 text-base" />
+        <span>{title}</span>
+      </div>
+
+      {/* Pie Chart */}
+      <div className="w-full h-60">
+        <Pie data={data} options={options} />
+      </div>
+    </div>
+  );
+};
+
 
 export default StatCard;
