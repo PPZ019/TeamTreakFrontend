@@ -76,12 +76,12 @@ const LoginForm = () => {
               onChange={inputEvent}
               required
               placeholder="Enter your password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-600 focus:outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-600 focus:outline-none "
             />
             <button
               type="button"
               onClick={togglePassword}
-              className="absolute right-3 top-2 text-gray-500 hover:text-blue-900 text-xl"
+              className="absolute right-3 top-2 text-gray-500 hover:text-blue-900 text-xl  focus:outline-none"
             >
               {showPassword ?<AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
             </button>
