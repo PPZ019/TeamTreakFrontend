@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { doLogin } from "../../http";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/auth-slice";
@@ -13,6 +13,7 @@ const LoginForm = () => {
     email: "",
     password: ""
   });
+  const navigate = useNavigate()
 
   const togglePassword = () => setShowPassword(!showPassword);
 
@@ -32,6 +33,9 @@ const LoginForm = () => {
       if (res.success) {
         dispatch(setAuth(res.user));
         toast.success("Login successful");
+         console.log("Navigating to /home"); // ✅ Debug line
+  navigate("/home");
+
       } else {
         toast.error(res.message || "Invalid credentials");
       }

@@ -35,21 +35,21 @@ const Admin = () => {
     quoteLeads: 0      // placeholder
   });
 
-  useEffect(() => {
-    fetch('http://localhost:5500/api/invoice/invoiceSummary')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setSummary(prev => ({
-            ...prev,
-            totalPaid: data.result.totalPaid,
-            totalUnpaid: data.result.totalUnpaid,
-            totalInvoices: data.result.totalInvoices
-          }));
-        }
-      })
-      .catch(err => console.error('Failed to fetch summary', err));
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://localhost:5500/api/invoice/invoiceSummary')
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       if (data.success) {
+  //         setSummary(prev => ({
+  //           ...prev,
+  //           totalPaid: data.result.totalPaid,
+  //           totalUnpaid: data.result.totalUnpaid,
+  //           totalInvoices: data.result.totalInvoices
+  //         }));
+  //       }
+  //     })
+  //     .catch(err => console.error('Failed to fetch summary', err));
+  // }, []);
 
   return (
     <div className="space-y-8">

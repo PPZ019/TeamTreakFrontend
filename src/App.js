@@ -1,6 +1,5 @@
 
 import {Navigate,Routes,Route} from 'react-router-dom'
-import Login from './pages/auth/Login'
 import Forgot from './pages/auth/Forgot'
 import Home from './pages/Home'
 import Invoice from './pages/Invoice'
@@ -63,7 +62,6 @@ const App = () =>
     <Routes>
       <Route element={<ProtectedRoute />}>
     <Route element={<MainLayout />}>
-      {/* <Route path="/" element={<Home />} /> */}
       <Route path="/home" element={<Home />} />
       <Route path="/invoices" element={<Invoice />} />
       <Route path="/invoices/create" element={<InvoiceCreate />} />
@@ -141,7 +139,7 @@ const App = () =>
 
 const GuestRoute = ({ children }) => {
   const { isAuth } = useSelector((state) => state.authSlice);
-  return !isAuth ? children : <Navigate to="/" />;
+  return !isAuth ? children : <Navigate to="/home" />;
 };
 
 // const ProtectedRoute = ({children,...rest}) =>

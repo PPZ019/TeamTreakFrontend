@@ -6,11 +6,11 @@ function Template({ title, description1, description2 }) {
   const loading = auth.loading;
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center px-4 py-8 bg-gray-100">
+    <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center px-4 py-8 bg-gray-100 pt-2">
       {loading ? (
         <div className="spinner"></div>
       ) : (
-        <div className="w-full max-w-7xl flex flex-col md:flex-row justify-between gap-12 bg-gradient-to-br from-blue-50 to-white p-8 rounded-3xl shadow-2xl">
+        <div className="w-full max-w-7xl flex flex-col md:flex-row justify-between gap-6 bg-gradient-to-br from-blue-50 to-white p-8 rounded-3xl shadow-2xl">
           {/* Left Section - Login */}
           <div className="w-full md:w-1/2 bg-gradient-to-br from-blue-50 to-white p-10 rounded-xl shadow-md border">
             <h1 className="text-4xl font-bold text-blue-900 mb-4">{title}</h1>
@@ -22,7 +22,7 @@ function Template({ title, description1, description2 }) {
           </div>
 
           {/* Right Section - Features */}
-          <div className="w-full md:w-1/2 space-y-6">
+          <div className="w-full md:w-1/2 space-y-4">
             {[
               {
                 icon: "🤖",
