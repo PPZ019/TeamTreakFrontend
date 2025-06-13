@@ -5,11 +5,11 @@ const RowLeader = ({index,data}) =>
     return(
         <tr>
             <td>{index}</td>
-            <td><figure className="avatar"> <img src={data.image} alt={data.name}/> </figure></td>
+            {/* <td><figure className="avatar"> <img src={data.image} alt={data.name}/> </figure></td> */}
             <td>{data.name}</td>
             <td>{data.email}</td>
             <td>{data.mobile}</td>
-            <td><div className={`badge ${data.status==='Active' ? 'badge-primary' :'badge-danger'}`}>{data.status}</div></td>
+            <td><div className={`badge ${data.status==='Active' ? 'bg-green-100 text-green-700' :'badge-danger'}`}>{data.status}</div></td>
             <td>
                 { data.team && Object.keys(data.team).length!==0 ?
                     <NavLink to={`/team/${data.team.id}`} className='badge  badge-primary' style={{padding:'0px 10px 0px 0px'}}>

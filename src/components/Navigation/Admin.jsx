@@ -44,7 +44,7 @@ const Admin = () => {
       {sectionHeading("Starter")}
       <NavLink to="/adduser" className={navLinkClass}><FaUserPlus /><span>Add User</span></NavLink>
       <NavLink to="/addteam" className={navLinkClass}><FaAddressCard /><span>Add Team</span></NavLink>
-      <NavLink to="/blank" className={navLinkClass}><FaRegSquare /><span>Blank Page</span></NavLink>
+      {/* <NavLink to="/blank" className={navLinkClass}><FaRegSquare /><span>Blank Page</span></NavLink> */}
 
       {/* Settings Section (dropdown) */}
       <div

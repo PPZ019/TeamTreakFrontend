@@ -38,7 +38,7 @@ const InvoiceList = () => {
         <input
           type="text"
           placeholder="Search by client or number..."
-          className="w-full border-2 border-[#211C84] p-3 rounded focus:outline-none focus:ring-2 focus:ring-[#7A73D1]"
+          className="w-full border-2 border-blue-900 focus:border-[#211C84] rounded-md py-2 px-4 text-sm outline-none transition-all"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -54,7 +54,7 @@ const InvoiceList = () => {
             <th className="p-3 border text-center">Total</th>
             <th className="p-3 border text-center">Paid</th>
             <th className="p-3 border text-center">Status</th>
-            <th className="p-3 border text-center"></th>
+            <th className="p-3 border text-center">Action</th>
           </tr>
         </thead>
         <tbody>
