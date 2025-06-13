@@ -43,14 +43,14 @@ const Salaries = () => {
         <div className="min-h-screen bg-white text-slate-800 p-6">
           <section className="mb-6">
             <div className="bg-slate-100 rounded-lg shadow p-6 mb-6">
-              <h4 className="text-4xl font-semibold text-center">Salaries</h4>
+              <h4 className="text-4xl font-semibold text-center text-blue-900">Salaries</h4>
             </div>
 
             <div className="flex flex-wrap gap-4 justify-center items-end mb-6">
               {/* Dropdown */}
               <div className="w-72">
                 <label className="block mb-1 font-medium text-slate-800">
-                  Employee
+                  
                 </label>
                 <select
                   className="w-full px-3 py-2 rounded border border-slate-300 focus:outline-blue-900 bg-white"

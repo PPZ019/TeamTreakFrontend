@@ -83,6 +83,8 @@ const LeaveView = () => {
                   onChange={(e) => setType(e.target.value)}
                 >
                   <option value="">Select</option>
+                  <option value="Maternity Leave">Maternity Leave</option>
+                  <option value="Unpaid Leave">Unpaid Leave</option>
                   <option value="Sick Leave">Sick Leave</option>
                   <option value="Casual Leave">Casual Leave</option>
                   <option value="Emergency Leave">Emergency Leave</option>
