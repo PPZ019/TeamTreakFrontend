@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { getEmployees, getLeaders, viewAllSalaries } from '../../http';
 import { useNavigate } from "react-router-dom";
 import Loading from '../Loading';
@@ -15,7 +15,7 @@ const Salaries = () => {
     const fetchData = async () => {
       const res = await viewAllSalaries({});
       setSalaries(res.data);
-    }
+    };
 
     const fetchEmployees = async () => {
       const emps = await getEmployees();
@@ -24,7 +24,7 @@ const Salaries = () => {
       leaders.data.forEach(leader => empObj[leader.id] = [leader.name, leader.email]);
       setEmployeeMap(empObj);
       setEmployees([...emps.data, ...leaders.data]);
-    }
+    };
 
     fetchData();
     fetchEmployees();
@@ -32,134 +32,72 @@ const Salaries = () => {
 
   const searchSalary = async () => {
     const obj = {};
-    if (selectedEmployee) {
-      obj["employeeID"] = selectedEmployee;
-    }
+    if (selectedEmployee) obj["employeeID"] = selectedEmployee;
     const res = await viewAllSalaries(obj);
     setSalaries(res.data);
-  }
-
-  // Theme colors
-  const colors = {
-    background: '#1E201E',
-    card: '#3C3D37',
-    accent: '#697565',
-    text: '#ECDFCC'
   };
 
   return (
     <>
       {salaries ? (
-        <div
-          className="min-h-screen p-6"
-          style={{ backgroundColor: colors.background, color: colors.text }}
-        >
+        <div className="min-h-screen bg-white text-slate-800 p-6">
           <section className="mb-6">
-            <div
-              className="rounded-md shadow p-4 mb-6"
-              style={{ backgroundColor: colors.card }}
-            >
-              <div className="flex justify-between items-center">
-                <h4 className="text-4xl font-semibold text-center" style={{ color: colors.text }}>
-                  Salaries
-                </h4>
-              </div>
+            <div className="bg-slate-100 rounded-lg shadow p-6 mb-6">
+              <h4 className="text-4xl font-semibold text-center">Salaries</h4>
             </div>
 
             <div className="flex flex-wrap gap-4 justify-center items-end mb-6">
+              {/* Dropdown */}
               <div className="w-72">
-                <label className="block mb-1 font-medium" style={{ color: colors.text }}>
+                <label className="block mb-1 font-medium text-slate-800">
                   Employee
                 </label>
                 <select
-                  className="w-full rounded px-3 py-2 focus:outline-none"
-                  style={{
-                    backgroundColor: colors.card,
-                    border: `1px solid ${colors.accent}`,
-                    color: colors.text,
-                  }}
+                  className="w-full px-3 py-2 rounded border border-slate-300 focus:outline-blue-900 bg-white"
                   value={selectedEmployee}
                   onChange={(e) => setSelectedEmployee(e.target.value)}
                 >
-                  <option
-                    value=""
-                    style={{ backgroundColor: colors.card, color: colors.text }}
-                  >
-                    Employees
-                  </option>
+                  <option value="">Employees</option>
                   {employees.map((employee) => (
-                    <option
-                      key={employee._id}
-                      value={employee.id}
-                      style={{ backgroundColor: colors.card, color: colors.text }}
-                    >
+                    <option key={employee._id} value={employee.id}>
                       {employee.name}
                     </option>
                   ))}
                 </select>
               </div>
 
+              {/* Search Button */}
               <button
                 onClick={searchSalary}
-                className="font-semibold px-6 py-2 rounded transition"
-                style={{
-                  backgroundColor: colors.accent,
-                  color: colors.text,
-                  border: `1px solid ${colors.accent}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = colors.text;
-                  e.target.style.color = colors.accent;
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = colors.accent;
-                  e.target.style.color = colors.text;
-                }}
+                className="px-6 py-2 font-semibold rounded bg-blue-900 text-white border border-blue-900 hover:bg-white hover:text-blue-900 transition duration-200"
               >
                 Search
               </button>
             </div>
           </section>
 
-          <div
-            className="overflow-x-auto rounded-md shadow"
-            style={{ backgroundColor: colors.card }}
-          >
-            <table className="min-w-full rounded-md" style={{ color: colors.text }}>
+          {/* Table */}
+          <div className="overflow-x-auto rounded-lg shadow bg-slate-100">
+            <table className="min-w-full text-left text-slate-800">
               <thead>
-                <tr style={{ borderBottom: `1px solid ${colors.accent}` }}>
-                  <th className="px-4 py-3 text-left">#</th>
-                  <th className="px-4 py-3 text-left">Name</th>
-                  <th className="px-4 py-3 text-left">Email</th>
-                  <th className="px-4 py-3 text-left">Salary</th>
-                  <th className="px-4 py-3 text-left">Bonus</th>
+                <tr className="border-b border-blue-900">
+                  <th className="px-4 py-3">#</th>
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3">Email</th>
+                  <th className="px-4 py-3">Salary</th>
+                  <th className="px-4 py-3">Bonus</th>
                 </tr>
               </thead>
-
               <tbody>
                 {salaries.map((salary, idx) => (
                   <tr
                     key={salary._id}
-                    onClick={() => navigate.push(`salary/${salary._id}`)}
-                    className="cursor-pointer transition"
-                    style={{
-                      borderBottom: `1px solid ${colors.accent}`,
-                      backgroundColor: colors.card,
-                    }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.backgroundColor = colors.accent)
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.backgroundColor = colors.card)
-                    }
+                    onClick={() => navigate(`salary/${salary._id}`)}
+                    className="cursor-pointer border-b border-slate-300 hover:bg-blue-100 transition"
                   >
                     <td className="px-4 py-2">{idx + 1}</td>
-                    <td className="px-4 py-2">
-                      {employeeMap[salary.employeeID]?.[0]}
-                    </td>
-                    <td className="px-4 py-2">
-                      {employeeMap[salary.employeeID]?.[1]}
-                    </td>
+                    <td className="px-4 py-2">{employeeMap[salary.employeeID]?.[0]}</td>
+                    <td className="px-4 py-2">{employeeMap[salary.employeeID]?.[1]}</td>
                     <td className="px-4 py-2">{salary.salary}</td>
                     <td className="px-4 py-2">{salary.bonus}</td>
                   </tr>

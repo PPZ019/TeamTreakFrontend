@@ -20,7 +20,7 @@ const RowTeam = ({index,data}) =>
                 </div> }
             </td>
             <td><div className={`badge ${data.status==='Active' ? 'bg-green-100 text-green-700' :'badge-danger'}`}>{data.status}</div></td>
-            <td><NavLink to={`/team/${data.id}`} className="btn btn-secondary">Detail</NavLink></td>
+            <td><NavLink to={`/team/${data.id}`} className="bg-[#F0F1FF] hover:bg-[#B5A8D5] text-[#211C84] px-3 py-1 font-light rounded hover:no-underline">Detail</NavLink></td>
         </tr>
     );
 }

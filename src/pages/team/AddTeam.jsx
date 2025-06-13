@@ -98,7 +98,7 @@ const AddTeam = () =>
                         </div>
 
                         <div className="form-group text-center col-md-12">
-                            <button className='btn btn-primary btn-lg' type='submit' style={{width:'30vh'}}>Add Team</button>
+                            <button className='bg-blue-900 text-white hover:bg-blue-800 text-lg py-3 rounded-xl' type='submit' style={{width:'30vh'}}>Add Team</button>
                         </div>
 
                     </form>

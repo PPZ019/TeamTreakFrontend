@@ -32,7 +32,7 @@ const SideBar = () => {
             href="https://placementplaza.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full inline-flex items-center justify-center px-4 py-2 rounded transition text-white bg-[#4D55CC] hover:bg-[#7A73D1]"
+            className="w-full inline-flex items-center justify-center px-4 py-2 rounded transition text-white bg-blue-900 hover:bg-[#7A73D1]"
           >
             <i className="fas fa-rocket mr-2"></i> Team Treak
           </a>

@@ -7,13 +7,13 @@ const RowEmployee = ({index,data}) =>
     const {user} = useSelector(state => state.authSlice); 
     console.log(user)
     return(
-        <tr>
+        <tr className="text-md font-light text-center">
             <td>{index}</td>
             {/* <td><figure className="avatar"> <img src={data.image} alt={data.name}/> </figure></td> */}
             <td>{data.name}</td>
             <td>{data.email}</td>
             <td>{data.mobile}</td>
-            <td><div className={`text-center p-2 rounded text-xs font-semibold  ${data.status==='Active'  ? 'bg-green-100 text-green-700'
+            <td><div className={`text-center p-2 rounded text-xs  ${data.status==='Active'  ? 'bg-green-100 text-green-700'
     : 'bg-red-100 text-red-700'}`}>{data.status}</div></td>
             
             {
@@ -34,7 +34,7 @@ const RowEmployee = ({index,data}) =>
             }
             {
                 user.type==="Admin"?
-                (<td><NavLink to={`/employee/${data.id}`} className="bg-[#F0F1FF] hover:bg-[#B5A8D5] text-[#211C84] px-3 py-2 rounded font-semi">Detail</NavLink></td>)
+                (<td><NavLink to={`/employee/${data.id}`} className="bg-[#F0F1FF] hover:bg-[#B5A8D5] text-[#211C84] px-3 py-1 font-light rounded ">Detail</NavLink></td>)
                 :""
             }
         </tr>

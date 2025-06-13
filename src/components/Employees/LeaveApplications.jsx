@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -51,10 +52,50 @@ const ApplyForLeave = () => {
     } catch (error) {
       toast.error("An error occurred. Please try again.", { theme: "colored" });
     }
+=======
+import React, { useEffect, useState } from 'react';
+import { viewLeaveApplications } from '../../http';
+import { useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import Loading from '../Loading';
+
+const LeaveApplications = () => {
+  const { user } = useSelector(state => state.authSlice);
+  const [type, setType] = useState("");
+  const [status, setStatus] = useState("");
+  const [appliedDate, setAppliedDate] = useState("");
+  const [applications, setApplications] = useState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const obj = { applicantID: user.id };
+
+    const fetchData = async () => {
+      const res = await viewLeaveApplications(obj);
+      setApplications(res.data);
+    };
+
+    fetchData();
+  }, []);
+
+  const searchLeaveApplications = async () => {
+    const obj = { applicantID: user.id };
+    if (type) obj["type"] = type;
+    if (status) obj["adminResponse"] = status;
+    if (appliedDate) obj["appliedDate"] = appliedDate;
+
+    const res = await viewLeaveApplications(obj);
+    setApplications(res.data);
+
+    setAppliedDate("");
+    setType("");
+    setStatus("");
+>>>>>>> Stashed changes
   };
 
   return (
     <>
+<<<<<<< Updated upstream
       {/* Inline CSS for Animations */}
       <style>
         {`
@@ -141,6 +182,112 @@ const ApplyForLeave = () => {
                   />
                 </div>
               </div>
+=======
+      {applications ? (
+        <div className="min-h-screen bg-blue-900 text-white px-6 py-8">
+          <section className="mb-6">
+            <div className="bg-gray-900 rounded-xl p-6 shadow-md">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-bold">Leave Applications</h2>
+              </div>
+            </div>
+          </section>
+
+          {/* Filters */}
+          <div className="flex flex-wrap gap-4 mb-8 justify-start items-end">
+            <div className="flex flex-col">
+              <label className="text-sm mb-1">Leave Type</label>
+              <select
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                className="bg-gray-800 border border-gray-600 text-white rounded p-2"
+              >
+                <option value="">Select</option>
+                <option>Sick Leave</option>
+                <option>Casual Leave</option>
+                <option>Emergency Leave</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col">
+              <label className="text-sm mb-1">Status</label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="bg-gray-800 border border-gray-600 text-white rounded p-2"
+              >
+                <option value="">Select</option>
+                <option>Pending</option>
+                <option>Approved</option>
+                <option>Rejected</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col">
+              <label className="text-sm mb-1">Applied Date</label>
+              <input
+                type="date"
+                value={appliedDate}
+                onChange={(e) => setAppliedDate(e.target.value)}
+                className="bg-gray-800 border border-gray-600 text-white rounded p-2"
+              />
+            </div>
+
+            <button
+              onClick={searchLeaveApplications}
+              className="bg-white text-blue-900 font-bold px-4 py-2 rounded hover:bg-gray-200 transition"
+            >
+              Search
+            </button>
+          </div>
+
+          {/* Table */}
+          <div className="overflow-auto bg-gray-900 rounded-xl shadow-md">
+            <table className="min-w-full text-left">
+              <thead>
+                <tr className="bg-gray-800 text-white">
+                  <th className="px-4 py-2">#</th>
+                  <th className="px-4 py-2">Type</th>
+                  <th className="px-4 py-2">Title</th>
+                  <th className="px-4 py-2">Applied Date</th>
+                  <th className="px-4 py-2">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {applications.map((application, idx) => (
+                  <tr
+                    key={idx}
+                    onClick={() => navigate(`/userLeaveApplications/${application._id}`)}
+                    className="hover:bg-gray-800 cursor-pointer transition"
+                  >
+                    <td className="px-4 py-2">{idx + 1}</td>
+                    <td className="px-4 py-2">{application.type}</td>
+                    <td className="px-4 py-2">{application.title}</td>
+                    <td className="px-4 py-2">{application.appliedDate}</td>
+                    <td
+                      className={`px-4 py-2 font-medium ${
+                        application.adminResponse === "Rejected"
+                          ? "text-red-400"
+                          : application.adminResponse === "Pending"
+                          ? "text-yellow-300"
+                          : "text-green-400"
+                      }`}
+                    >
+                      {application.adminResponse}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </>
+  );
+};
+>>>>>>> Stashed changes
 
               {/* Leave Type */}
               <div className="relative">
