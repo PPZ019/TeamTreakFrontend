@@ -7,12 +7,8 @@ import InvoiceCreate from './components/Invoice/InvoiceCreate'
 import InvoiceRead from './components/Invoice/InvoiceRead'
 import InvoiceRecord from './components/Invoice/InvoiceRecord'
 import InvoiceUpdate from './components/Invoice/InvoiceUpdate'
-<<<<<<< Updated upstream
-import { useSelector } from 'react-redux';
-=======
 import {useSelector} from 'react-redux';
 import ChatPage from "./pages/ChatPages";
->>>>>>> Stashed changes
 import '@popperjs/core';
 import './App.css';
 import Loading from './components/Loading';
@@ -52,7 +48,7 @@ import Salaries from './components/Admin/Salaries';
 import SalaryView from './components/Admin/Salary';
 import ProtectedRoute from './ProtectedRoute'
 import Template from './components/login/template'
-import ChatPage from './pages/ChatPage'
+// import ChatPage from './pages/ChatPage'
 
 
 // import './assets/css/asdfasdf';
@@ -61,7 +57,6 @@ import ChatPage from './pages/ChatPage'
 const App = () => {
   const loading = useAutoLogin();
 
-<<<<<<< Updated upstream
   return loading ?
     <Loading /> : (
       <>
@@ -71,23 +66,11 @@ const App = () => {
             <Route element={<MainLayout />}>
               <Route path="/home" element={<Home />} />
               <Route path="/invoices" element={<Invoice />} />
+              <Route path="/chat" element={<ChatPage />} />
               <Route path="/invoices/create" element={<InvoiceCreate />} />
               <Route path="/invoices/read/:id" element={<InvoiceRead />} />
               <Route path="/invoices/payment/:id" element={<InvoiceRecord />} />
               <Route path="/invoices/edit/:id" element={<InvoiceUpdate />} />
-              <Route path="/payments" element={<div>Payments Page</div>} />
-              <Route path="/customers" element={<div>Customers Page</div>} />
-              <Route path="/peoples" element={<div>Peoples Page</div>} />
-              <Route path="/companies" element={<div>Companies Page</div>} />
-              <Route path="/leads" element={<div>Leads Page</div>} />
-              <Route path="/quotes-leads" element={<div>Quotes Leads Page</div>} />
-              <Route path="/products" element={<div>Products Page</div>} />
-              <Route path="/product-category" element={<div>Product Category Page</div>} />
-              <Route path="/expenses" element={<div>Expenses Page</div>} />
-              <Route path="/expense-category" element={<div>Expenses Category Page</div>} />
-              <Route path="/report" element={<div>Report Page</div>} />
-              <Route path="/quotes-customers" element={<div>Quotes For Customers Page</div>} />
-
               {/* HRMS */}
               <Route path="/employees" element={<Employees />} />
               <Route path="/leaders" element={<Leaders />} />
@@ -104,50 +87,6 @@ const App = () => {
               <Route path="/logout" element={<div>Logout Page</div>} />
             </Route>
           </Route>
-=======
-  return loading ? 
-  <Loading/> : (
-    <Routes>
-      <Route element={<ProtectedRoute />}>
-    <Route element={<MainLayout />}>
-      <Route path="/home" element={<Home />} />
-      <Route path="/invoices" element={<Invoice />} />
-      <Route path="/chat" element={<ChatPage />} />
-      <Route path="/invoices/create" element={<InvoiceCreate />} />
-      <Route path="/invoices/read/:id" element={<InvoiceRead />} />
-      <Route path="/invoices/payment/:id" element={<InvoiceRecord />} />
-      <Route path="/invoices/edit/:id" element={<InvoiceUpdate />} />
-      <Route path="/payments" element={<div>Payments Page</div>} />
-      <Route path="/customers" element={<div>Customers Page</div>} />
-      <Route path="/peoples" element={<div>Peoples Page</div>} />
-      <Route path="/companies" element={<div>Companies Page</div>} />
-      <Route path="/leads" element={<div>Leads Page</div>} />
-      <Route path="/quotes-leads" element={<div>Quotes Leads Page</div>} />
-      <Route path="/products" element={<div>Products Page</div>} />
-      <Route path="/product-category" element={<div>Product Category Page</div>} />
-      <Route path="/expenses" element={<div>Expenses Page</div>} />
-      <Route path="/expense-category" element={<div>Expenses Category Page</div>} />
-      <Route path="/report" element={<div>Report Page</div>} />
-      <Route path="/quotes-customers" element={<div>Quotes For Customers Page</div>} />
-      
-      {/* HRMS */}
-      <Route path="/employees" element={<Employees />} />
-      <Route path="/leaders" element={<Leaders />} />
-      <Route path="/admins" element={<Admins />} />
-      <Route path="/teams" element={<Teams />} />
-      <Route path="/attendance" element={<AttendanceView />} />
-      <Route path="/leaves" element={<LeaveView />} />
-      <Route path="/assignSalary" element={<AssignSalary />} />
-      <Route path="/salaries" element={<Salaries />} />
-      <Route path="/adduser" element={<AddUser />} />
-      <Route path="/addteam" element={<AddTeam />} />
-      <Route path="/contact" element={<div>Contact Us Page</div>} />
-      <Route path="/about" element={<div>About Us Page</div>} />
-      <Route path="/logout" element={<div>Logout Page</div>} />
-    </Route>
-  </Route>
->>>>>>> Stashed changes
-
 
           <Route path="/userTeams" element={<EmployeeRoute><UserTeams /></EmployeeRoute>} />
           <Route path="/userteam/:id" element={<EmployeeRoute><EmployeeTeam /></EmployeeRoute>} />
