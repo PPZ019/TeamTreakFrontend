@@ -141,7 +141,7 @@ const AttendanceView = () => {
 
         <button
   onClick={searchAttendance}
-  className="px-6 py-2.5 rounded-xl bg-blue-900 600 text-white font-semibold shadow-md hover:shadow-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
+  className="px-6 py-2.5 rounded-xl bg-blue-900 600 text-white font-semibold shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
 >
   Search
 </button>

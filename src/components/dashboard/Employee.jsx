@@ -26,7 +26,7 @@ const Employee = () => {
                 <span className="relative text-white">Welcome, {user?.name || 'Guest'}!</span>
               </span>
             </h4>
-            <p className="text-sm mt-2 text-indigo-100 animate-slideUp">We're thrilled to have you here!</p>
+            <p className="text-sm mt-2 text-blue-100 animate-slideUp">We're thrilled to have you here!</p>
           </div>
         </div>
 
@@ -77,9 +77,9 @@ const Employee = () => {
                         key={item.label}
                         className={`${
                           index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
-                        } hover:bg-indigo-50 transition-colors duration-200`}
+                        } hover:bg-blue-50 transition-colors duration-200`}
                       >
-                        <th className="p-3 text-left font-semibold text-indigo-800 w-1/3">
+                        <th className="p-3 text-left font-semibold text-blue-800 w-1/3">
                           {item.label}
                         </th>
                         <td className="p-3 text-gray-700">{item.value}</td>

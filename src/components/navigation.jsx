@@ -32,8 +32,7 @@ const Navigation = () => {
   }, []);
 
   return (
-    <nav className="bg-white px-4 py-4 flex justify-between items-center text-black top-0 left-0 right-0  fixed">
-
+<nav className="bg-white px-4 py-4 flex justify-between items-center text-black top-0 left-0 right-0 fixed z-50"> 
       {/* Left - Logo / Search (Optional) */}
       <div className="text-lg font-semibold text-[#4D55CC]">
         {/* <NavLink to="/">Dashboard</NavLink> */}

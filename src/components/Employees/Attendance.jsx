@@ -119,19 +119,19 @@ const Attendance = () => {
         `}
       </style>
 
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-indigo-50 to-gray-100 p-4 md:p-8">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 p-4 md:p-8">
         {attendance ? (
           <section className="max-w-5xl mx-auto">
             {/* Header Card */}
             <div className="bg-white rounded-xl shadow-2xl mb-6 transform transition-all hover:scale-[1.02] duration-300 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-900 to-indigo-800 opacity-10 animate-pulse"></div>
-              <div className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-800 text-white rounded-t-xl p-6 relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-900 opacity-10 animate-pulse"></div>
+              <div className="bg-gradient-to-r from-blue-900 via-blue-900 to-blue-900 text-white rounded-t-xl p-6 relative">
                 <h4 className="text-2xl md:text-3xl font-extrabold tracking-tight animate-fadeIn">
                   <span className="relative inline-block">
                     <span className="relative text-white">Attendance Dashboard</span>
                   </span>
                 </h4>
-                <p className="text-sm mt-2 text-indigo-100 animate-slideUp font-medium">
+                <p className="text-sm mt-2 text-blue-100 animate-slideUp font-medium">
                   Stay on top of your attendance with style! 🚀
                 </p>
                 <button
@@ -194,7 +194,7 @@ const Attendance = () => {
                 ].map(({ value, onChange, options, placeholder }, idx) => (
                   <select
                     key={idx}
-                    className="border-2 border-indigo-200 rounded-lg p-3 bg-gradient-to-br from-white to-indigo-50 focus:ring-4 focus:ring-indigo-300 focus:border-indigo-500 transition-all duration-300 hover:shadow-md text-gray-700 font-medium"
+                    className="border-2 border-blue-200 rounded-lg p-3 bg-gradient-to-br from-white to-blue-50 focus:ring-4 focus:ring-blue-300 focus:border-blue-500 transition-all duration-300 hover:shadow-md text-gray-700 font-medium"
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
                   >
@@ -208,7 +208,7 @@ const Attendance = () => {
                 ))}
                 <button
                   onClick={searchAttendance}
-                  className="bg-gradient-to-r from-blue-600 to-indigo-400 text-white px-6 py-3 rounded-full hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-indigo-500/50 flex items-center justify-center gap-2"
+                  className="bg-gradient-to-r from-blue-600 to-blue-400 text-white px-6 py-3 rounded-full hover:from-blue-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/50 flex items-center justify-center gap-2"
                 >
                   
                     <path
@@ -228,7 +228,7 @@ const Attendance = () => {
               <div className="overflow-x-auto p-6">
                 <table className="w-full text-sm md:text-base">
                   <thead>
-                    <tr className="bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800">
+                    <tr className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800">
                       <th className="p-4 text-left font-semibold">#</th>
                       <th className="p-4 text-left font-semibold">Date</th>
                       <th className="p-4 text-left font-semibold">Day</th>
@@ -240,7 +240,7 @@ const Attendance = () => {
                       attendance.map((attendance, idx) => (
                         <tr
                           key={attendance._id || idx}
-                          className="border-b border-indigo-100 hover:bg-indigo-50/50 transition-all duration-200"
+                          className="border-b border-blue-100 hover:bg-blue-50/50 transition-all duration-200"
                         >
                           <td className="p-4 text-gray-700 font-medium">{idx + 1}</td>
                           <td className="p-4 text-gray-700">{`${attendance.date}/${attendance.month}/${attendance.year}`}</td>
@@ -287,21 +287,21 @@ const Attendance = () => {
             </div>
           </section>
         ) : (
-          <div className="min-h-screen bg-gradient-to-br from-gray-50 via-indigo-50 to-gray-100 flex items-center justify-center p-4">
+          <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 flex items-center justify-center p-4">
             <div className="bg-white rounded-xl shadow-lg p-6 w-full w-max-2xl space-y-4">
-              <div className="h-6 bg-indigo-100 rounded w-1/4 animate-pulse mx-auto"></div>
+              <div className="h-6 bg-blue-100 rounded w-1/4 animate-pulse mx-auto"></div>
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="h-10 bg-indigo-100 rounded animate-pulse"></div>
+                  <div key={i} className="h-10 bg-blue-100 rounded animate-pulse"></div>
                 ))}
               </div>
               <div className="space-y-4">
                 {[...Array(3)].map((_, i) => (
                   <div key={i} className="flex space-x-4 p-4 animate-pulse">
-                    <div className="h-4 bg-indigo-100 rounded w-1/12"></div>
-                    <div className="h-4 bg-indigo-100 rounded w-1/4"></div>
-                    <div className="h-4 bg-indigo-100 rounded w-1/6"></div>
-                    <div className="h-4 bg-indigo-100 rounded w-1/6"></div>
+                    <div className="h-4 bg-blue-100 rounded w-1/12"></div>
+                    <div className="h-4 bg-blue-100 rounded w-1/4"></div>
+                    <div className="h-4 bg-blue-100 rounded w-1/6"></div>
+                    <div className="h-4 bg-blue-100 rounded w-1/6"></div>
                   </div>
                 ))}
               </div>

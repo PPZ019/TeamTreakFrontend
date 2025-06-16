@@ -62,7 +62,7 @@ const UserTeams = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-gray-200 hover:bg-indigo-50 transition-colors duration-200">
+                    <tr className="border-b border-gray-200 hover:bg-blue-50 transition-colors duration-200">
                       <td className="p-4 text-gray-700">1</td>
                       <td className="p-4">
                         <img
@@ -79,7 +79,7 @@ const UserTeams = () => {
                         {userteam.leader ? (
                           <NavLink
                             to="/"
-                            className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors duration-200"
+                            className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors duration-200"
                           >
                             <img
                               className="w-6 h-6 rounded-full mr-2 object-cover"
@@ -132,7 +132,7 @@ const UserTeams = () => {
                       <td className="p-4">
                         <NavLink
                           to={`/userteam/${userteam.id}`}
-                          className="bg-indigo-600 text-white px-3 py-1 rounded-lg hover:bg-indigo-700 transition-colors duration-200"
+                          className="bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 transition-colors duration-200"
                         >
                           Detail
                         </NavLink>
