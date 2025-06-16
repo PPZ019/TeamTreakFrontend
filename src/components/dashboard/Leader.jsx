@@ -8,9 +8,9 @@ const Leader = () => {
 
   return (
     <div>
-      <section className="section">
-        <div className="card">
-          <div className="card-header d-flex justify-content-between">
+      <section className="">
+        <div className="">
+          <div className="">
             <h4>Welcome {user?.name}</h4>
           </div>
         </div>
