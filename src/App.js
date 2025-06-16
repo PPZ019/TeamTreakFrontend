@@ -9,7 +9,6 @@ import InvoiceUpdate from './components/Invoice/InvoiceUpdate'
 import { useSelector } from 'react-redux';
 import ChatPage from "./pages/ChatPages";
 import { Outlet } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import GuestRoute from "./GuestRoute"
 
 
@@ -33,8 +32,6 @@ import './assets/css/bootstrap.min.css';
 import './assets/css/style.css';
 import './assets/css/components.css';
 import Leaders from './pages/leader/Leaders';
-import SideBar from './components/sidebar';
-import Navigation from './components/navigation';
 import Members from './pages/leaderpage/Members';
 import UserTeams from './components/Employees/UserTeams';
 import Attendance from './components/Employees/Attendance';
@@ -200,27 +197,27 @@ const LeaderRoute = () => {
 };
 
 
-const AdminLeaderRouter = ({ children, ...rest }) => {
-  const { user } = useSelector((state) => state.authSlice);
-  return (
-    <Route {...rest} render={({ location }) => {
-      return user && (user.type === 'Admin' || user.type === 'Leader') ? (
-        <>
-          <SideBar />
-          <Navigation />
-          {children}
-        </>) : (
-        <Navigate
-          to={{
-            pathname: '/',
-            state: {
-              from: location
-            }
-          }}
-        />
-      );
-    }} />
-  );
-}
+// const AdminLeaderRouter = ({ children, ...rest }) => {
+//   const { user } = useSelector((state) => state.authSlice);
+//   return (
+//     <Route {...rest} render={({ location }) => {
+//       return user && (user.type === 'Admin' || user.type === 'Leader') ? (
+//         <>
+//           <SideBar />
+//           <Navigation />
+//           {children}
+//         </>) : (
+//         <Navigate
+//           to={{
+//             pathname: '/',
+//             state: {
+//               from: location
+//             }
+//           }}
+//         />
+//       );
+//     }} />
+//   );
+// }
 
 export default App;

@@ -37,21 +37,6 @@ const Salary = () => {
   }
 
   return (
-<<<<<<< Updated upstream
-    <>
-    {
-      salary?
-      (<div className="">
-      <section className="">
-              <div className="card">
-                <div className="card-header d-flex justify-content-between">
-                  {
-                    !salary?
-                    (<h4>Salary not yet updated</h4>)
-                    :
-                    (<h4>Updated Salary from {salary?.assignedDate}</h4>)
-                  }
-=======
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header Card */}
@@ -101,7 +86,6 @@ const Salary = () => {
                     </svg>
                     <span>{user.address}</span>
                   </div>
->>>>>>> Stashed changes
                 </div>
               </div>
             </div>
