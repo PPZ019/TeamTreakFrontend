@@ -7,8 +7,13 @@ import InvoiceCreate from './components/Invoice/InvoiceCreate'
 import InvoiceRead from './components/Invoice/InvoiceRead'
 import InvoiceRecord from './components/Invoice/InvoiceRecord'
 import InvoiceUpdate from './components/Invoice/InvoiceUpdate'
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import ChatPage from "./pages/ChatPages";
+import { Outlet } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import GuestRoute from "./GuestRoute"
+
+
 import '@popperjs/core';
 import './App.css';
 import Loading from './components/Loading';
@@ -47,12 +52,9 @@ import AssignSalary from './components/Admin/AssignSalary';
 import Salaries from './components/Admin/Salaries';
 import SalaryView from './components/Admin/Salary';
 import ProtectedRoute from './ProtectedRoute'
+import EmployeeRoute from './EmployeeRoute'
 import Template from './components/login/template'
-// import ChatPage from './pages/ChatPage'
 
-
-// import './assets/css/asdfasdf';
-// import './assets/css/asdfasdf';
 
 const App = () => {
   const loading = useAutoLogin();
@@ -60,7 +62,7 @@ const App = () => {
   return loading ?
     <Loading /> : (
       <>
-     
+
         <Routes>
           <Route element={<ProtectedRoute />}>
             <Route element={<MainLayout />}>
@@ -84,54 +86,75 @@ const App = () => {
               <Route path="/addteam" element={<AddTeam />} />
               <Route path="/contact" element={<div>Contact Us Page</div>} />
               <Route path="/about" element={<div>About Us Page</div>} />
-              <Route path="/logout" element={<div>Logout Page</div>} />
             </Route>
           </Route>
 
-          <Route path="/userTeams" element={<EmployeeRoute><UserTeams /></EmployeeRoute>} />
-          <Route path="/userteam/:id" element={<EmployeeRoute><EmployeeTeam /></EmployeeRoute>} />
-          <Route path="/dashboardEmployee" element={<EmployeeRoute><DashboardEmployee /></EmployeeRoute>} />
-          <Route path="/userAttendance" element={<EmployeeRoute><Attendance /></EmployeeRoute>} />
-          <Route path="/applyforleave" element={<EmployeeRoute><ApplyForLeave /></EmployeeRoute>} />
-          <Route path="/userSalary" element={<EmployeeRoute><Salary /></EmployeeRoute>} />
-          <Route path="/userLeaveApplications" element={<EmployeeRoute><LeaveApplications /></EmployeeRoute>} />
-          <Route path="/userLeaveApplications/:id" element={<EmployeeRoute><LeaveApplication /></EmployeeRoute>} />
+            <Route element={<EmployeeRoute />}>
+            <Route element={<MainLayout />}>
+              <Route path="/userTeams" element={<UserTeams />} />
+              <Route path="/userteam/:id" element={<EmployeeTeam />} />
+              <Route path="/dashboardEmployee" element={<DashboardEmployee />} />
+              <Route path="/userAttendance" element={<Attendance />} />
+              <Route path="/applyforleave" element={<ApplyForLeave />} />
+              <Route path="/userSalary" element={<Salary />} />
+              <Route path="/userLeaveApplications" element={<LeaveApplications />} />
+              <Route path="/userLeaveApplications/:id" element={<LeaveApplication />} />
+              </Route>
 
-          <Route path="/" element={<GuestRoute><Template /></GuestRoute>} />
-          <Route path="/login" element={<GuestRoute><Template /></GuestRoute>} />
-          <Route path="/forgot" element={<GuestRoute><Forgot /></GuestRoute>} />
+              {/* <Route path="/employees" element={<AdminRoute><Employees /></AdminRoute>} /> */}
+              <Route element={<AdminRoute />}>
+              <Route element={<MainLayout />}>
+                <Route path="/admins" element={<Admins />} />
+                <Route path="/teams" element={<Teams />} />
+                <Route path="/adduser" element={<AddUser />} />
+                <Route path="/attendance" element={<AttendanceView />} />
+                <Route path="/leaves" element={<LeaveView />} />
+                <Route path="/assignSalary" element={<AssignSalary />} />
+                <Route path="/salaries" element={<Salaries />} />
+                <Route path="/leaves/:id" element={<Leave />} />
+                <Route path="/salary/:id" element={<SalaryView />} />
+                <Route path="/addteam" element={<AddTeam />} />
+                <Route path="/employee/:id" element={<Employee />} />
+                <Route path="/team/:id" element={<Team />} />
+                <Route path="/edituser/:id" element={<EditUser />} />
+                <Route path="/editteam/:id" element={<EditTeam />} />
+                <Route path="/admin/:id" element={<Admin />} />
+                <Route path="/leaders" element={<Leaders />} />
+                </Route>
+              </Route>
 
+              <Route element={<LeaderRoute />}>
+              <Route element={<MainLayout />}>
+                <Route path="/members" element={<Members />} />
+              </Route>
+              </Route>
 
-          <Route path="/employees" element={<AdminRoute><Employees /></AdminRoute>} />
-          <Route path="/admins" element={<AdminRoute><Admins /></AdminRoute>} />
-          <Route path="/teams" element={<AdminRoute><Teams /></AdminRoute>} />
-          <Route path="/adduser" element={<AdminRoute><AddUser /></AdminRoute>} />
-          <Route path="/attendance" element={<AdminRoute><AttendanceView /></AdminRoute>} />
-          <Route path="/leaves" element={<AdminRoute><LeaveView /></AdminRoute>} />
-          <Route path="/assignSalary" element={<AdminRoute><AssignSalary /></AdminRoute>} />
-          <Route path="/salaries" element={<AdminRoute><Salaries /></AdminRoute>} />
-          <Route path="/leaves/:id" element={<AdminRoute><Leave /></AdminRoute>} />
-          <Route path="/salary/:id" element={<AdminRoute><SalaryView /></AdminRoute>} />
-          <Route path="/addteam" element={<AdminRoute><AddTeam /></AdminRoute>} />
-          <Route path="/employee/:id" element={<AdminRoute><Employee /></AdminRoute>} />
-          <Route path="/team/:id" element={<AdminRoute><Team /></AdminRoute>} />
-          <Route path="/edituser/:id" element={<AdminRoute><EditUser /></AdminRoute>} />
-          <Route path="/editteam/:id" element={<AdminRoute><EditTeam /></AdminRoute>} />
-          <Route path="/admin/:id" element={<AdminRoute><Admin /></AdminRoute>} />
-          <Route path="/leaders" element={<AdminRoute><Leaders /></AdminRoute>} />
-
-          <Route path="/members" element={<LeaderRoute><Members /></LeaderRoute>} />
+            </Route>
+            <Route element={<GuestRoute />}>
+            <Route path="/" element={<Template />} />
+            <Route path="/login" element={<Template />} />
+            <Route path="/forgot" element={<Forgot />} />
+        
+            </Route>
         </Routes>
+
 
       </>
 
     )
 }
 
-const GuestRoute = ({ children }) => {
-  const { isAuth } = useSelector((state) => state.authSlice);
-  return !isAuth ? children : <Navigate to="/home" />;
-};
+// const GuestRoute = ({ children }) => {
+//   const { isAuth } = useSelector((state) => state.authSlice);
+//   const location = useLocation();
+
+//   return !isAuth ? (
+//     children
+//   ) : (
+//     <Navigate to="/home" state={{ from: location }} replace />
+//   );
+// };
+
 
 // const ProtectedRoute = ({children,...rest}) =>
 //   {
@@ -157,20 +180,21 @@ const GuestRoute = ({ children }) => {
 //   }
 
 
-const AdminRoute = ({ children }) => {
+const AdminRoute = () => {
   const { user } = useSelector((state) => state.authSlice);
-  return user && user.type === 'Admin' ? children : <Navigate to="/" />;
+  if (!user || !(user.type === 'Admin' || user.type === 'Leader')) {
+    return <Navigate to="/" replace />;
+  }
+  return <Outlet />;
 };
 
-const LeaderRoute = ({ children }) => {
+
+
+const LeaderRoute = () => {
   const { user } = useSelector((state) => state.authSlice);
-  return user && user.type === 'Leader' ? children : <Navigate to="/" />;
+  return user && user.type === 'Leader' ? <Outlet /> : <Navigate to="/" replace />;
 };
 
-const EmployeeRoute = ({ children }) => {
-  const { user } = useSelector((state) => state.authSlice);
-  return user && (user.type === 'Employee' || user.type === 'Leader') ? children : <Navigate to="/" />;
-};
 
 const AdminLeaderRouter = ({ children, ...rest }) => {
   const { user } = useSelector((state) => state.authSlice);

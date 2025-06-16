@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { NavLink } from "react-router-dom";
-import { dLogout } from "../http";
+import { dLogout } from "../http/index";
 import { setAuth } from "../store/auth-slice";
 import { useState, useEffect, useRef } from "react";
 
@@ -43,7 +43,7 @@ const Navigation = () => {
       <div className="flex items-center gap-4">
 
         {/* Select Dropdowns */}
-        <select className="border-2 border-blue-900 rounded-lg p-2 text-sm text-blue-900">
+        {/* <select className="border-2 border-blue-900 rounded-lg p-2 text-sm text-blue-900">
           <option>Main</option>
           <option>Add..</option>
         </select>
@@ -52,16 +52,15 @@ const Navigation = () => {
         </select>
         <select className="border-2 border-blue-900 rounded-lg p-2 text-sm text-blue-900">
           <option>English</option>
-        </select>
+        </select> */}
 
         {/* Notifications */}
-        <div className="relative group">
+        {/* <div className="relative group">
           <button className="relative focus:outline-none">
             <i className="far fa-bell text-xl hover:text-[#4D55CC]"></i>
             <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full animate-ping"></span>
           </button>
 
-          {/* Dropdown */}
           <div className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-md hidden group-hover:block z-50">
             <div className="p-4 border-b font-semibold flex justify-between">
               Notifications
@@ -94,7 +93,7 @@ const Navigation = () => {
               </NavLink>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Profile Dropdown */}
         <div className="relative" ref={dropdownRef}>

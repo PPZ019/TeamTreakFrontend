@@ -33,8 +33,8 @@ const Salary = () => {
     <>
     {
       salary?
-      (<div className="main-content">
-      <section className="section">
+      (<div className="">
+      <section className="">
               <div className="card">
                 <div className="card-header d-flex justify-content-between">
                   {

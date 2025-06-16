@@ -62,9 +62,9 @@ const Employee = () => {
       </div>
       {showSettings && (
         <>
-          <NavLink to="/contact" className={navLinkClass}><FaTeamspeak /><span>Contact me</span></NavLink>
-          <NavLink to="/about" className={navLinkClass}><FaInfoCircle /><span>About me</span></NavLink>
-          <NavLink onClick={logout} to="#" className={navLinkClass}><FaSignOutAlt /><span>Logout</span></NavLink>
+          {/* <NavLink to="/contact" className={navLinkClass}><FaTeamspeak /><span>Contact me</span></NavLink>
+          <NavLink to="/about" className={navLinkClass}><FaInfoCircle /><span>About me</span></NavLink> */}
+          <NavLink onClick={logout} to="#" className="flex items-center text-black hover:bg-[#F0F1FF] hover:text-[#211C84] gap-3 px-3 py-2 text-md rounded-md transition hover:no-underline "><FaSignOutAlt /><span>Logout</span></NavLink>
         </>
       )}
     </div>
