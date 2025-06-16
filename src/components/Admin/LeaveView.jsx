@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getEmployees, getLeaders, viewLeaves } from '../../http';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading';
 
 const LeaveView = () => {
@@ -8,185 +8,202 @@ const LeaveView = () => {
   const [status, setStatus] = useState('');
   const [appliedDate, setAppliedDate] = useState('');
   const [applications, setApplications] = useState(null);
-  const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
   const [employeeMap, setEmployeeMap] = useState({});
   const [selectedEmployee, setSelectedEmployee] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    let empObj = {};
-    const fetchData = async () => {
-      const res = await viewLeaves({});
-      setApplications(res.data);
+    const fetchAll = async () => {
+      try {
+        const [leaveRes, empRes, leaderRes] = await Promise.all([
+          viewLeaves({}),
+          getEmployees(),
+          getLeaders(),
+        ]);
+
+        const allEmployees = [...empRes.data, ...leaderRes.data];
+        const empObj = {};
+        allEmployees.forEach((emp) => {
+          empObj[emp.id] = [emp.name, emp.email];
+        });
+
+        setEmployeeMap(empObj);
+        setEmployees(allEmployees);
+        setApplications(leaveRes.data);
+      } catch (err) {
+        setError('Failed to fetch leave data.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const fetchEmployees = async () => {
-      const emps = await getEmployees();
-      const leaders = await getLeaders();
-      emps.data.forEach(employee => empObj[employee.id] = [employee.name, employee.email]);
-      leaders.data.forEach(leader => empObj[leader.id] = [leader.name, leader.email]);
-      setEmployeeMap(empObj);
-      setEmployees([...emps.data, ...leaders.data]);
-    };
-
-    fetchData();
-    fetchEmployees();
+    fetchAll();
   }, []);
 
-  const searchLeaveApplications = async () => {
-    const obj = {};
-    if (selectedEmployee) obj.applicantID = selectedEmployee;
-    if (type) obj.type = type;
-    if (status) obj.adminResponse = status;
-    if (appliedDate) obj.appliedDate = appliedDate;
-
-    const res = await viewLeaves(obj);
-    setApplications(res.data);
-
-    setAppliedDate('');
-    setType('');
-    setStatus('');
-    setSelectedEmployee('');
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Rejected':
+        return 'text-red-600';
+      case 'Pending':
+        return 'text-yellow-600';
+      case 'Approved':
+        return 'text-green-600';
+      default:
+        return '';
+    }
   };
 
+  const searchLeaveApplications = async () => {
+    try {
+      const query = {};
+      if (selectedEmployee) query.applicantID = selectedEmployee;
+      if (type) query.type = type;
+      if (status) query.adminResponse = status;
+      if (appliedDate) query.appliedDate = appliedDate;
+
+      setLoading(true);
+      const res = await viewLeaves(query);
+      setApplications(res.data);
+    } catch (err) {
+      setError('Search failed.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+      setAppliedDate('');
+      setType('');
+      setStatus('');
+      setSelectedEmployee('');
+    }
+  };
+
+  if (loading) return <Loading />;
+  if (error) return <div className="text-red-600 p-4">{error}</div>;
+
   return (
-    <>
-      {applications ? (
-        <div className="min-h-screen p-6 bg-white text-blue-900">
-          <section className="mb-6">
-            <div className="rounded-md p-4 mb-0 flex justify-between items-center bg-white">
-              <h4 className="text-4xl font-semibold">Leave Applications</h4>
-            </div>
-
-            <div className="flex flex-wrap gap-4 justify-center items-end mb-6 border p-4 rounded-lg">
-              {/* Employee */}
-              <div className="w-48">
-                <label className="block mb-1 font-medium">Employee</label>
-                <select
-                  className="w-full rounded px-3 py-2 border border-blue-900"
-                  value={selectedEmployee}
-                  onChange={(e) => setSelectedEmployee(e.target.value)}
-                >
-                  <option value="">All Employees</option>
-                  {employees.map(emp => (
-                    <option key={emp._id} value={emp.id}>{emp.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Leave Type */}
-              <div className="w-48">
-                <label className="block mb-1 font-medium">Leave Type</label>
-                <select
-                  className="w-full rounded px-3 py-2 border border-blue-900"
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
-                >
-                  <option value="">Select</option>
-                  <option value="Maternity Leave">Maternity Leave</option>
-                  <option value="Unpaid Leave">Unpaid Leave</option>
-                  <option value="Sick Leave">Sick Leave</option>
-                  <option value="Casual Leave">Casual Leave</option>
-                  <option value="Emergency Leave">Emergency Leave</option>
-                </select>
-              </div>
-
-              {/* Status */}
-              <div className="w-48">
-                <label className="block mb-1 font-medium">Status</label>
-                <select
-                  className="w-full rounded px-3 py-2 border border-blue-900"
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                >
-                  <option value="">Select</option>
-                  <option value="Pending">Pending</option>
-                  <option value="Approved">Approved</option>
-                  <option value="Rejected">Rejected</option>
-                </select>
-              </div>
-
-              {/* Applied Date */}
-              <div className="w-56">
-                <label className="block mb-1 font-medium">Applied Date</label>
-                <input
-                  type="date"
-                  className="w-full rounded px-3 py-2 border border-blue-900"
-                  value={appliedDate}
-                  onChange={(e) => setAppliedDate(e.target.value)}
-                />
-              </div>
-
-              {/* Search */}
-              <button
-                onClick={searchLeaveApplications}
-                className="font-semibold px-6 py-2 rounded border border-blue-900 bg-blue-900 text-white transition"
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#1E3A8A';
-                  e.target.style.color = '#1E3A8A'; // blue-900
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = '#1E3A8A';
-                  e.target.style.color = 'white';
-                }}
-              >
-                Search
-              </button>
-            </div>
-          </section>
-
-          {/* Table */}
-          <div className="overflow-x-auto rounded-md border border-blue-900 bg-white">
-            <table className="min-w-full rounded-md text-blue-900">
-              <thead>
-                <tr className="border-b border-blue-900">
-                  <th className="px-4 py-3 text-center">S No</th>
-                  <th className="px-4 py-3 text-center">Name</th>
-                  <th className="px-4 py-3 text-center">Email</th>
-                  <th className="px-4 py-3 text-center">Type</th>
-                  <th className="px-4 py-3 text-center">Title</th>
-                  <th className="px-4 py-3 text-center">Applied Date</th>
-                  <th className="px-4 py-3 text-center">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {applications.map((app, idx) => (
-                  <tr
-                    key={app._id}
-                    onClick={() => navigate(`/leaves/${app._id}`)}
-                    className="cursor-pointer transition text-center"
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#DBEAFE')}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
-                  >
-                    <td className="px-4 py-2 text-center">{idx + 1}</td>
-                    <td className="px-4 py-2 text-center">{employeeMap[app.applicantID]?.[0]}</td>
-                    <td className="px-4 py-2 text-center">{employeeMap[app.applicantID]?.[1]}</td>
-                    <td className="px-4 py-2 text-center">{app.type}</td>
-                    <td className="px-4 py-2 text-center">{app.title}</td>
-                    <td className="px-4 py-2 text-center">{app.appliedDate}</td>
-                    <td
-                      className="px-4 py-2 text-center font-semibold"
-                      style={{
-                        color:
-                          app.adminResponse === 'Rejected'
-                            ? '#DC2626' // red-600
-                            : app.adminResponse === 'Pending'
-                            ? '#CA8A04' // yellow-600
-                            : '#059669' // green-600
-                      }}
-                    >
-                      {app.adminResponse}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+    <div className="min-h-screen p-6 bg-white text-blue-900">
+      <section className="mb-6">
+        <div className="p-4 mb-4 flex justify-between items-center">
+          <h4 className="text-4xl font-bold">Leave Applications</h4>
         </div>
-      ) : (
-        <Loading />
-      )}
-    </>
+
+        {/* Filters */}
+        <div className="flex flex-wrap gap-4 justify-center items-end mb-6 border p-4 rounded-lg shadow-sm">
+          {/* Employee */}
+          <div className="w-48">
+            <label htmlFor="employee" className="block mb-1 font-medium">Employee</label>
+            <select
+              id="employee"
+              className="w-full rounded px-3 py-2 border border-blue-900"
+              value={selectedEmployee}
+              onChange={(e) => setSelectedEmployee(e.target.value)}
+            >
+              <option value="">All Employees</option>
+              {employees.map((emp) => (
+                <option key={emp.id} value={emp.id}>{emp.name}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Type */}
+          <div className="w-48">
+            <label htmlFor="type" className="block mb-1 font-medium">Leave Type</label>
+            <select
+              id="type"
+              className="w-full rounded px-3 py-2 border border-blue-900"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            >
+              <option value="">Select</option>
+              {['Maternity Leave', 'Unpaid Leave', 'Sick Leave', 'Casual Leave', 'Emergency Leave'].map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Status */}
+          <div className="w-48">
+            <label htmlFor="status" className="block mb-1 font-medium">Status</label>
+            <select
+              id="status"
+              className="w-full rounded px-3 py-2 border border-blue-900"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="">Select</option>
+              {['Pending', 'Approved', 'Rejected'].map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Applied Date */}
+          <div className="w-56">
+            <label htmlFor="appliedDate" className="block mb-1 font-medium">Applied Date</label>
+            <input
+              id="appliedDate"
+              type="date"
+              className="w-full rounded px-3 py-2 border border-blue-900"
+              value={appliedDate}
+              onChange={(e) => setAppliedDate(e.target.value)}
+            />
+          </div>
+
+          {/* Search Button */}
+          <button
+            onClick={searchLeaveApplications}
+            className="px-6 py-2 font-semibold bg-blue-900 text-white rounded hover:bg-blue-800 transition"
+          >
+            Search
+          </button>
+        </div>
+      </section>
+
+      {/* Table */}
+      <div className="overflow-x-auto border border-blue-900 rounded-md">
+        <table className="min-w-full text-center text-blue-900">
+          <thead>
+            <tr className="border-b border-blue-900 bg-blue-100">
+              <th className="px-4 py-3">S No</th>
+              <th className="px-4 py-3">Name</th>
+              <th className="px-4 py-3">Email</th>
+              <th className="px-4 py-3">Type</th>
+              <th className="px-4 py-3">Title</th>
+              <th className="px-4 py-3">Applied Date</th>
+              <th className="px-4 py-3">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {applications.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="py-4 text-gray-500">No applications found.</td>
+              </tr>
+            ) : (
+              applications.map((app, idx) => (
+                <tr
+                  key={app._id}
+                  onClick={() => navigate(`/leaves/${app._id}`)}
+                  className="cursor-pointer hover:bg-blue-100 transition"
+                >
+                  <td className="px-4 py-2">{idx + 1}</td>
+                  <td className="px-4 py-2">{employeeMap[app.applicantID]?.[0]}</td>
+                  <td className="px-4 py-2">{employeeMap[app.applicantID]?.[1]}</td>
+                  <td className="px-4 py-2">{app.type}</td>
+                  <td className="px-4 py-2">{app.title}</td>
+                  <td className="px-4 py-2">{app.appliedDate}</td>
+                  <td className={`px-4 py-2 font-semibold ${getStatusColor(app.adminResponse)}`}>
+                    {app.adminResponse}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

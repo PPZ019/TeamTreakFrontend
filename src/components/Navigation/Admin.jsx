@@ -32,9 +32,11 @@ const Admin = () => {
 
       {/* HRMS Section */}
       <NavLink to="/employees" className={navLinkClass}><FaUsers /><span>Employees</span></NavLink>
-      <NavLink to="/leaders" className={navLinkClass}><FaUserFriends /><span>Leaders</span></NavLink>
+      <NavLink to="/leaders" className={navLinkClass}><FaUserFriends /><span>Clients</span></NavLink>
       <NavLink to="/admins" className={navLinkClass}><FaUsersCog /><span>Admins</span></NavLink>
-      <NavLink to="/teams" className={navLinkClass}><FaFire /><span>Teams</span></NavLink>
+      {/* <NavLink to="/teams" className={navLinkClass}><FaFire /><span>Teams</span></NavLink> */}
+       <NavLink to="/companies" className={navLinkClass}><FaUsersCog /><span>Companies</span></NavLink>
+       <NavLink to="/holidays" className={navLinkClass}><FaUsersCog /><span>Holidays</span></NavLink>
       <NavLink to="/attendance" className={navLinkClass}><FaUser /><span>Attendance</span></NavLink>
       <NavLink to="/leaves" className={navLinkClass}><FaBook /><span>Leaves</span></NavLink>
       <NavLink to="/assignSalary" className={navLinkClass}><FaPen /><span>Assign Salary</span></NavLink>

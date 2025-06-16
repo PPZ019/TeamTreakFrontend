@@ -43,7 +43,7 @@ const Navigation = () => {
       <div className="flex items-center gap-4">
 
         {/* Select Dropdowns */}
-        <select className="border-2 border-blue-900 rounded-lg p-2 text-sm text-blue-900">
+        {/* <select className="border-2 border-blue-900 rounded-lg p-2 text-sm text-blue-900">
           <option>Main</option>
           <option>Add..</option>
         </select>
@@ -52,7 +52,7 @@ const Navigation = () => {
         </select>
         <select className="border-2 border-blue-900 rounded-lg p-2 text-sm text-blue-900">
           <option>English</option>
-        </select>
+        </select> */}
 
         {/* Notifications */}
         <div className="relative group">

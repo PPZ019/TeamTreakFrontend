@@ -40,7 +40,7 @@ const AssignSalary = () => {
   };
 
   return (
-    <div className="main-content bg-white text-slate-800 min-h-screen">
+    <div className="main-content bg-white text-blue-900 font-bold min-h-screen">
       <section className="section px-4 py-8">
         <HeaderSection title="Assign Salary" />
         <div className="bg-slate-100 rounded-2xl shadow-xl p-8 max-w-5xl mx-auto mt-6">

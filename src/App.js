@@ -1,4 +1,3 @@
-
 import { Navigate, Routes, Route } from 'react-router-dom'
 import Forgot from './pages/auth/Forgot'
 import Home from './pages/Home'
@@ -48,6 +47,7 @@ import Salaries from './components/Admin/Salaries';
 import SalaryView from './components/Admin/Salary';
 import ProtectedRoute from './ProtectedRoute'
 import Template from './components/login/template'
+import Company from '../src/components/Admin/companies/CompanyPage'
 // import ChatPage from './pages/ChatPage'
 
 
@@ -82,6 +82,9 @@ const App = () => {
               <Route path="/salaries" element={<Salaries />} />
               <Route path="/adduser" element={<AddUser />} />
               <Route path="/addteam" element={<AddTeam />} />
+          <Route path="/companies" element={<Company />} />
+          
+        
               <Route path="/contact" element={<div>Contact Us Page</div>} />
               <Route path="/about" element={<div>About Us Page</div>} />
               <Route path="/logout" element={<div>Logout Page</div>} />

@@ -234,7 +234,7 @@ const barOptions = {
   {/* Bar Chart: spans 3 columns */}
   <div className="col-span-1 lg:col-span-3 bg-white rounded-xl shadow-md p-4 flex flex-col justify-center overflow-hidden">
     <div className="w-full flex justify-between items-center mb-2">
-      <h3 className="text-lg font-semibold text-gray-700">Invoice Summary (Bar)</h3>
+      <h3 className="text-lg font-semibold text-gray-700">Invoice Summary</h3>
     </div>
     <div className="w-full mx-auto">
       <Bar data={barData} options={barOptions} />
