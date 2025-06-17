@@ -151,7 +151,7 @@ const AddUser = () => {
             <label className="font-semibold text-sm block mb-1">User Type</label>
             <select name='type' onChange={inputEvent} value={formData.type} className="w-full border border-gray-300 rounded px-3 py-2 text-black">
               <option>Employee</option>
-              <option>Leader</option>
+              <option>Client</option>
               <option>Admin</option>
             </select>
           </div>

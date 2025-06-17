@@ -37,7 +37,7 @@ const Salary = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header Card */}
         <div className="bg-gradient-to-r from-blue-900 to-blue-900 rounded-xl shadow-2xl mb-6 overflow-hidden">

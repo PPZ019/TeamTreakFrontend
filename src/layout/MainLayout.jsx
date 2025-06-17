@@ -11,7 +11,7 @@ const MainLayout = () => {
   return (
     <div className="flex min-h-screen relative">
     {/* Sidebar */}
-    <div className="w-64 bg-gray-800 text-white">
+    <div className="w-64 bg-gray-800">
       <SideBar />
     </div>
 

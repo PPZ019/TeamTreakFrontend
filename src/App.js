@@ -51,6 +51,7 @@ import ProtectedRoute from './ProtectedRoute'
 import EmployeeRoute from './EmployeeRoute'
 import Template from './components/login/template'
 import Company from '../src/components/Admin/companies/CompanyPage'
+import Holiday from '../src/components/Admin/holidays/HolidayCalendar'
 // import ChatPage from './pages/ChatPage'
 
 
@@ -82,7 +83,8 @@ const App = () => {
               <Route path="/salaries" element={<Salaries />} />
               <Route path="/adduser" element={<AddUser />} />
               <Route path="/addteam" element={<AddTeam />} />
-          <Route path="/companies" element={<Company />} />
+          <Route path="/company" element={<Company />} />
+          <Route path="/holiday" element={<Holiday />} />
           
         
               <Route path="/contact" element={<div>Contact Us Page</div>} />

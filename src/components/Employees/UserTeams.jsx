@@ -39,7 +39,7 @@ const UserTeams = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8">
       <section className="max-w-5xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-[1.01] duration-300">
           <div className="bg-gradient-to-r from-blue-900 to-blue-800 text-white rounded-t-lg p-6">

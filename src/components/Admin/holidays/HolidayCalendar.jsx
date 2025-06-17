@@ -22,31 +22,34 @@ const HolidayCalendar = () => {
   return (
     <div className="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* Calendar */}
-      <div className="bg-white shadow rounded-lg p-4">
-        <h2 className="text-xl font-bold text-blue-900 mb-4">📅 Holiday Calendar</h2>
-        <Calendar
-          onChange={setSelectedDate}
-          value={selectedDate}
-          tileContent={({ date, view }) => {
-            const holiday = getHolidayByDate(date);
-            if (view === "month" && holiday) {
-              return (
-                <div
-                  className={`mt-1 text-xs rounded text-white px-1 ${
-                    holiday.type === "National"
-                      ? "bg-red-500"
-                      : holiday.type === "Festival"
-                      ? "bg-green-500"
-                      : "bg-yellow-500"
-                  }`}
-                >
-                  {holiday.title}
-                </div>
-              );
-            }
-          }}
-        />
-      </div>
+      <div className="bg-white shadow rounded-lg p-4 flex justify-center">
+  <div>
+    <h2 className="text-xl font-bold text-blue-900 mb-4 text-center">📅 Holiday Calendar</h2>
+    <Calendar
+      onChange={setSelectedDate}
+      value={selectedDate}
+      tileContent={({ date, view }) => {
+        const holiday = getHolidayByDate(date);
+        if (view === "month" && holiday) {
+          return (
+            <div
+              className={`mt-1 text-xs rounded text-white px-1 ${
+                holiday.type === "National"
+                  ? "bg-red-500"
+                  : holiday.type === "Festival"
+                  ? "bg-green-500"
+                  : "bg-yellow-500"
+              }`}
+            >
+              {holiday.title}
+            </div>
+          );
+        }
+      }}
+    />
+  </div>
+</div>
+
 
       {/* Holiday List */}
       <div className="bg-white shadow rounded-lg p-4">
