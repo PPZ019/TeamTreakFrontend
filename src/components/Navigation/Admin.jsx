@@ -48,6 +48,8 @@ const Admin = () => {
       {/* <NavLink to="/employees" className={navLinkClass}><FaUsers /><span>Employees</span></NavLink> */}
       <NavLink to="/leaders" className={navLinkClass}><FaUserFriends /><span>Leaders</span></NavLink>
       <NavLink to="/admins" className={navLinkClass}><FaUsersCog /><span>Admins</span></NavLink>
+      <NavLink to="/holiday" className={navLinkClass}><FaTeamspeak /><span>Holiday Calendar</span></NavLink>
+      <NavLink to="/company" className={navLinkClass}><FaInfoCircle /><span>Companies</span></NavLink>
       {/* <NavLink to="/teams" className={navLinkClass}><FaFire /><span>Teams</span></NavLink> */}
       {/* <NavLink to="/attendance" className={navLinkClass}><FaUser /><span>Attendance</span></NavLink> */}
       {/* <NavLink to="/leaves" className={navLinkClass}><FaBook /><span>Leaves</span></NavLink> */}

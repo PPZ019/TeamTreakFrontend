@@ -101,7 +101,7 @@ const ApplyForLeave = () => {
         `}
       </style>
 
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 p-4 sm:p-6 md:p-8">
+      <div className="min-h-screen p-4 sm:p-6 md:p-8">
         <section className="max-w-4xl mx-auto">
           {/* Header Card */}
           <div className="bg-white rounded-2xl shadow-2xl mb-6 transform transition-all hover:scale-[1.02] duration-300 relative overflow-hidden">
