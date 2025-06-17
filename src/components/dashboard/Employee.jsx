@@ -14,7 +14,7 @@ const Employee = () => {
     );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8">
       <section className="max-w-5xl mx-auto">
         {/* Welcome Card */}
         <div className="bg-white rounded-lg shadow-lg mb-6 transform transition-all hover:scale-[1.01] duration-300 relative overflow-hidden">

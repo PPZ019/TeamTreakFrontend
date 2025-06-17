@@ -8,12 +8,12 @@ const SideBar = () => {
   const { user } = useSelector(state => state.authSlice);
 
   return (
-    <div className="w-64 min-h-screen text-white flex flex-col bg-white z-50 fixed">
+    <div className="w-64 min-h-screen flex flex-col bg-white z-50 fixed">
       <aside className="flex flex-col h-full">
         
         {/* Header */}
         <div className="px-4 pt-4 ">
-          <NavLink to="/home" className="text-3xl font-bold mb-8 text-[#211C84] hover:no-underline">
+          <NavLink to="/home" className="text-3xl font-bold mb-8 text-blue-900 hover:no-underline">
             TeamTreak
           </NavLink>
           {/* <NavLink to="/home" className="block text-sm font-semibold text-[#B5A8D5]">

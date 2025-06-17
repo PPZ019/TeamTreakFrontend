@@ -1,0 +1,6 @@
+resolve: {
+    alias: {
+      memoize: 'memoizee'
+    }
+  }
+  

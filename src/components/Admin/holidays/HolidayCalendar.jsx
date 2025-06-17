@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Calendar from "react-calendar";
-import 'react-calendar/dist/Calendar.css';
+// import Calendar from "react-calendar";
+// import 'react-calendar/dist/Calendar.css';
 import { format } from "date-fns";
 
 const holidays = [
@@ -24,7 +24,7 @@ const HolidayCalendar = () => {
       {/* Calendar */}
       <div className="bg-white shadow rounded-lg p-4">
         <h2 className="text-xl font-bold text-blue-900 mb-4">📅 Holiday Calendar</h2>
-        <Calendar
+        {/* <Calendar
           onChange={setSelectedDate}
           value={selectedDate}
           tileContent={({ date, view }) => {
@@ -45,7 +45,7 @@ const HolidayCalendar = () => {
               );
             }
           }}
-        />
+        /> */}
       </div>
 
       {/* Holiday List */}
