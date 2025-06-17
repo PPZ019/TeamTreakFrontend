@@ -67,10 +67,10 @@ const UserTeams = () => {
                       <td className="p-4">
                         <img
                           className="w-12 h-12 rounded-full object-cover border border-gray-200"
-                          src={userteam.image || 'https://via.placeholder.com/50'}
+                          src={userteam.image || 'https://picsum.photos/50'}
                           alt={userteam.name || 'Team image'}
                           onError={(e) => {
-                            e.target.src = 'https://via.placeholder.com/50';
+                            e.target.src = 'https://picsum.photos/50';
                           }}
                         />
                       </td>
@@ -83,10 +83,10 @@ const UserTeams = () => {
                           >
                             <img
                               className="w-6 h-6 rounded-full mr-2 object-cover"
-                              src={userteam.leader.image || 'https://via.placeholder.com/30'}
+                              src={userteam.leader.image || 'https://picsum.photos/30'}
                               alt={userteam.leader.name || 'Leader'}
                               onError={(e) => {
-                                e.target.src = 'https://via.placeholder.com/30';
+                                e.target.src = 'https://picsum.photos/30';
                               }}
                             />
                             <span className="text-sm font-semibold">{userteam.leader.name}</span>

@@ -4,6 +4,10 @@ import { useSelector } from 'react-redux';
 const Employee = () => {
   const { user } = useSelector((state) => state.authSlice);
 
+  // Debug logs for verification
+  console.log("👤 user:", user);
+  console.log("🖼️ user.image:", user?.image);
+
   if (!user)
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
@@ -17,13 +21,13 @@ const Employee = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-8">
       <section className="max-w-5xl mx-auto">
         {/* Welcome Card */}
-        <div className="bg-white rounded-lg shadow-lg mb-6 transform transition-all hover:scale-[1.01] duration-300 relative overflow-hidden">
+        <div className="bg-white rounded-lg shadow-lg mb-6 transform transition-all hover:scale-105 duration-300 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-800 to-blue-800 opacity-10"></div>
           <div className="bg-gradient-to-r from-blue-900 to-blue-800 text-white rounded-t-lg p-6 relative">
             <h4 className="text-xl md:text-2xl font-bold tracking-tight animate-fadeIn">
               <span className="relative inline-block">
-                <span className="absolute -inset-1  opacity-50"></span>
-                <span className="relative text-white">Welcome, {user?.name || 'Guest'}!</span>
+                <span className="absolute -inset-1 opacity-50"></span>
+                <span className="relative">Welcome, {user?.name || 'Guest'}!</span>
               </span>
             </h4>
             <p className="text-sm mt-2 text-blue-100 animate-slideUp">We're thrilled to have you here!</p>
@@ -33,22 +37,22 @@ const Employee = () => {
         {/* Profile Card */}
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="p-6 md:p-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Profile Image */}
-              <div className="relative">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+              {/* Profile Image as Circle */}
+              <div className="flex justify-center items-center">
                 <img
-                  className="w-full h-48 md:h-64 object-cover rounded-lg border border-gray-200 transform transition-all hover:scale-105 duration-300"
-                  src={user?.image || 'https://via.placeholder.com/150'}
+                  className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full border-4 border-white shadow-md transition-transform duration-300 hover:scale-105"
+                  src={user?.image ? user.image : 'https://picsum.photos/150'}
                   alt={`${user?.name}'s profile`}
                   onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/150';
+                    console.log("❌ Image failed to load, fallback triggered");
+                    e.target.src = 'https://picsum.photos/150';
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>
               </div>
 
               {/* Profile Details */}
-              <div className="col-span-2">
+              <div className="md:col-span-2">
                 <table className="w-full text-sm md:text-base">
                   <tbody>
                     {[
@@ -63,7 +67,7 @@ const Employee = () => {
                             className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
                               user?.status === 'active'
                                 ? 'bg-green-100 text-green-700 animate-slowBlink'
-                                : 'bg-green-100 text-green-700 animate-slowBlink'
+                                : 'bg-red-100 text-red-700 animate-slowBlink'
                             }`}
                           >
                             {user?.status || 'N/A'}
@@ -75,9 +79,7 @@ const Employee = () => {
                     ].map((item, index) => (
                       <tr
                         key={item.label}
-                        className={`${
-                          index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
-                        } hover:bg-blue-50 transition-colors duration-200`}
+                        className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-blue-50 transition-colors duration-200`}
                       >
                         <th className="p-3 text-left font-semibold text-blue-800 w-1/3">
                           {item.label}

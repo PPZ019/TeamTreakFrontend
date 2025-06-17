@@ -35,7 +35,9 @@ const Navigation = () => {
 <nav className="bg-white px-4 py-4 flex justify-between items-center text-black top-0 left-0 right-0 fixed z-50"> 
       {/* Left - Logo / Search (Optional) */}
       <div className="text-lg font-semibold text-[#4D55CC]">
-        {/* <NavLink to="/">Dashboard</NavLink> */}
+        <NavLink to="/home" className="text-3xl font-bold mb-8 text-[#211C84] hover:no-underline">
+            TeamTreak
+          </NavLink>
       </div>
 
       {/* Right - Dropdowns + Notifications + Profile */}
