@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { dLogout } from "../../http";
 import { setAuth } from "../../store/auth-slice";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+
 import {
   FaFire,
   FaUsers,
@@ -11,62 +11,73 @@ import {
   FaPen,
   FaBook,
   FaPiggyBank,
-  FaTeamspeak,
-  FaInfoCircle,
-  FaSignOutAlt,
-  FaChevronDown,
-  FaChevronUp
+  FaSignOutAlt
 } from "react-icons/fa";
 
 const Employee = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showSettings, setShowSettings] = useState(false);
+  const [active, setActive] = useState(null);
 
   const logout = async () => {
-    await dLogout();
-    dispatch(setAuth(null));
-    navigate('/login');
+    if (window.confirm("Are you sure you want to logout?")) {
+      await dLogout();
+      dispatch(setAuth(null));
+      navigate("/login");
+    }
   };
 
   const navLinkClass = ({ isActive }) =>
-    `flex items-center gap-3 px-3 py-2 text-md rounded-md transition hover:no-underline ${
+    `flex items-center gap-4 px-4 py-3 rounded-lg transition duration-150 text-sm font-medium
+    ${
       isActive
-        ? 'bg-[#B5A8D5] text-[#211C84] font-semibold'
-        : 'text-black hover:bg-[#F0F1FF] hover:text-[#211C84]'
+        ? "bg-[#B5A8D5] text-[#211C84] shadow-md"
+        : "text-gray-700 hover:bg-[#F0F1FF] hover:text-[#211C84]"
     }`;
 
-  const sectionHeading = (label) => (
-    <div className="mt-4 px-3 py-2 text-[#211C84] uppercase text-sm font-bold tracking-widest select-none">
-      {label}
-    </div>
-  );
-
   return (
-    <div className="flex flex-col space-y-1 bg-white text-black h-[600px] overflow-r-auto">
-      {/* Main Links */}
-      <NavLink to="/home" className={navLinkClass}><FaFire /><span>Dashboard</span></NavLink>
-      <NavLink to="/userTeams" className={navLinkClass}><FaUsers /><span>Team</span></NavLink>
-      <NavLink to="/userAttendance" className={navLinkClass}><FaUser /><span>Attendance</span></NavLink>
-      <NavLink to="/applyforleave" className={navLinkClass}><FaPen /><span>Apply For Leave</span></NavLink>
-      <NavLink to="/userLeaveApplications" className={navLinkClass}><FaBook /><span>Leave Applications</span></NavLink>
-      <NavLink to="/userSalary" className={navLinkClass}><FaPiggyBank /><span>Salary</span></NavLink>
+    <div className="w-full h-full bg-white text-black p-4 overflow-y-auto shadow-sm">
+      <nav className="flex flex-col space-y-2">
+        <NavLink to="/home" className={navLinkClass}>
+          <FaFire className="text-lg" />
+          Dashboard
+        </NavLink>
 
-      {/* Settings Section (dropdown) */}
-      <div
-        onClick={() => setShowSettings(!showSettings)}
-        className="mt-4 px-2 flex justify-between items-center text-[#211C84] uppercase text-md font-semibold tracking-widest cursor-pointer select-none"
-      >
-        <span>Settings</span>
-        {showSettings ? <FaChevronUp size={14} /> : <FaChevronDown size={14} />}
+        <NavLink to="/userTeams" className={navLinkClass}>
+          <FaUsers className="text-lg" />
+          Team
+        </NavLink>
+
+        <NavLink to="/userAttendance" className={navLinkClass}>
+          <FaUser className="text-lg" />
+          Attendance
+        </NavLink>
+
+        <NavLink to="/applyforleave" className={navLinkClass}>
+          <FaPen className="text-lg" />
+          Apply For Leave
+        </NavLink>
+
+        <NavLink to="/userLeaveApplications" className={navLinkClass}>
+          <FaBook className="text-lg" />
+          Leave Applications
+        </NavLink>
+
+        <NavLink to="/userSalary" className={navLinkClass}>
+          <FaPiggyBank className="text-lg" />
+          Salary
+        </NavLink>
+      </nav>
+
+      <div className="mt-6 border-t pt-4">
+        <button
+          onClick={logout}
+          className="flex items-center gap-4 px-4 py-3 w-full text-left text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition duration-150"
+        >
+          <FaSignOutAlt className="text-lg" />
+          Logout
+        </button>
       </div>
-      {showSettings && (
-        <>
-          {/* <NavLink to="/contact" className={navLinkClass}><FaTeamspeak /><span>Contact me</span></NavLink>
-          <NavLink to="/about" className={navLinkClass}><FaInfoCircle /><span>About me</span></NavLink> */}
-          <NavLink onClick={logout} to="#" className="flex items-center text-black hover:bg-[#F0F1FF] hover:text-[#211C84] gap-3 px-3 py-2 text-md rounded-md transition hover:no-underline "><FaSignOutAlt /><span>Logout</span></NavLink>
-        </>
-      )}
     </div>
   );
 };
