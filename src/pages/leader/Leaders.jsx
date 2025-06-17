@@ -24,7 +24,7 @@ const Leaders = () => {
 
         <div className="card shadow rounded-lg overflow-hidden">
           <div className="card-header bg-white border-b-2 border-[#211C84] px-6 py-4">
-            <h4 className="text-[#211C84] text-xl font-semibold m-0">All Leaders</h4>
+            <h4 className="text-[#211C84] text-xl font-semibold m-0">All Clients</h4>
           </div>
 
           <div className="card-body p-0">

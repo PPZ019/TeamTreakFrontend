@@ -1,266 +1,249 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import HeaderSection from "../../components/HeaderSection";
-import { updateUser,getUser } from "../../http";
-import Modal from '../../components/modal/Modal';
+import { updateUser, getUser } from "../../http";
+import Modal from "../../components/modal/Modal";
 
-const EditUser = () =>
-{
-    const initialState = {
-        name:'',
-        email:'',
-        mobile:'',
-        password:'',
-        type:'',
-        address:'',
-        profile:'',
-        status:''
-    };
-    const [imagePreview, setImagePreview] = useState('/assets/icons/user.png');
-    const [formData,setFormData] = useState(initialState);
-    const [showModal,setShowModal] = useState(false);
-    const [updateFormData,setUpdatedFormData] = useState({});
+const EditUser = () => {
+  const initialState = {
+    name: "",
+    email: "",
+    username: "",
+    mobile: "",
+    password: "",
+    type: "",
+    address: "",
+    profile: "",
+    status: "",
+    adminPassword: ""
+  };
 
-    const [userType,setUserType] = useState('User');
+  const [formData, setFormData] = useState(initialState);
+  const [updateFormData, setUpdatedFormData] = useState({});
+  const [imagePreview, setImagePreview] = useState("/assets/icons/user.png");
+  const [showModal, setShowModal] = useState(false);
+  const [userType, setUserType] = useState("User");
 
-    const {id} = useParams();
-    
-    useEffect(()=>{
-        (async()=>{
-            const res = await getUser(id);
-            if(res.success)
-            {
-                setUserType(res.data.type);
-                setFormData(res.data)
-                setImagePreview(res.data.image);
-            }
-        })();
-    },[id])
+  const { id } = useParams();
 
-    const inputEvent = (e) =>
-    {
-        const {name,value} = e.target;
-        setFormData((old)=>
-        {
-            return{
-                ...old,
-                [name]:value
-            }
+  useEffect(() => {
+    (async () => {
+      const res = await getUser(id);
+      if (res.success) {
+        setUserType(res.data.type);
+        setFormData(res.data);
+        setImagePreview(res.data.image || "/assets/icons/user.png");
+      }
+    })();
+  }, [id]);
 
-        });
-        setUpdatedFormData((old)=>
-        {
-            return{
-                ...old,
-                [name]:value
-            }
-        })
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setUpdatedFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setFormData((prev) => ({ ...prev, profile: file }));
+    setUpdatedFormData((prev) => ({ ...prev, profile: file }));
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => setImagePreview(reader.result);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (updateFormData.type && !showModal) {
+      return setShowModal(true);
     }
 
-    const onSubmit = async (e) =>
-    {
-        e.preventDefault();
-        console.log(updateFormData.type)
-        console.log(formData.type)
-        if(updateFormData.type && !showModal) return setShowModal(true);
+    const fd = new FormData();
+    Object.entries(updateFormData).forEach(([key, value]) =>
+      fd.append(key, value)
+    );
 
-        const fd = new FormData();
-        Object.keys(updateFormData).map((key)=>
-        {
-            return fd.append(key,updateFormData[key]);
-        })
-        const {success,message} = await updateUser(id,fd);
-        console.log("Update User:",message)
-        return (success) && toast.success(message)
-    }
+    const { success, message } = await updateUser(id, fd);
+    if (success) toast.success(message);
+  };
 
-    const captureImage = (e) =>
-    {
-        const file = e.target.files[0];
-        setFormData((old)=>
-        {
-            return{
-                ...old,
-                profile:file
-            }
+  const modalAction = () => setShowModal((prev) => !prev);
 
-        })
-
-        setUpdatedFormData((old)=>
-        {
-            return{
-                ...old,
-                profile:file
-            }
-
-        })
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () =>
-        {
-            setImagePreview(reader.result);
-        }
-    }
-    const modalAction = () => setShowModal(showModal? false : true);
-
-    return(
-        <>
-        {
-            showModal && 
-            <Modal close={modalAction} title="Update User" width='35%'>
-                <div className="row" style={{margin:'20px'}}>
-                    <div className="col col-md-4">
-                        <div className="input-group justify-content-center text-center">
-                            <img className='rounded' src={imagePreview} width='120' alt="" /> 
-                        </div>
-                    </div>
-                    <div className="col col-md-8">
-                        <table className='table table-md'>
-                            <tr>
-                                <th>Name</th>
-                                <td>{formData.name}</td>
-                            </tr> 
-                            <tr>
-                                <th>Email</th>
-                                <td>{formData.email}</td>
-                            </tr>
-                            <tr>
-                                <th>User Type</th>
-                                <td>{formData.type}</td>
-                            </tr>
-                        </table>
-                    </div>
+  return (
+    <>
+      {showModal && (
+        <Modal close={modalAction} title="Confirm Role Change" width="35%">
+          <div className="row m-3">
+            <div className="col-md-4 text-center">
+              <img className="rounded" src={imagePreview} width="120" alt="" />
+            </div>
+            <div className="col-md-8">
+              <table className="table table-sm">
+                <tbody>
+                  <tr>
+                    <th>Name</th>
+                    <td>{formData.name}</td>
+                  </tr>
+                  <tr>
+                    <th>Email</th>
+                    <td>{formData.email}</td>
+                  </tr>
+                  <tr>
+                    <th>Current Role</th>
+                    <td>{formData.type}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="form-group px-3">
+            <label>Admin Password</label>
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <div className="input-group-text">
+                  <i className="fas fa-lock"></i>
                 </div>
-                <div className="form-group col-md-12">
-                    <label>Enter Your Password</label>
-                    <div className="input-group">
-                        <div className="input-group-prepend">
-                        <div className="input-group-text">
-                            <i className="fas fa-lock"></i>
-                        </div>
-                        </div>
-                        <input onChange={inputEvent} value={formData.adminPassword} type="password" placeholder={`Enter Your Password To Change ${formData.name}'s Type`} id='adminPassword' name='adminPassword' className="form-control"/>
-                    </div>
-                </div>
-                <div className="justify-content-center text-center mb-3">
-                    <button className='btn btn-primary btn-lg' type='submit' form='updateUserForm' style={{width:'30vh'}}>Add {formData.type}</button>
-                </div>
-            </Modal>
-        }
-        <div className="main-content">
+              </div>
+              <input
+                onChange={handleInputChange}
+                value={formData.adminPassword || ""}
+                type="password"
+                name="adminPassword"
+                className="form-control"
+                placeholder={`Enter your password to confirm role change`}
+              />
+            </div>
+          </div>
+          <div className="text-center mt-3">
+            <button
+              className="btn btn-primary"
+              type="submit"
+              form="updateUserForm"
+            >
+              Confirm Update
+            </button>
+          </div>
+        </Modal>
+      )}
+
+      <div className="main-content">
         <section className="section">
-            <HeaderSection title={`Edit ${userType}`}/>
-                <div className="card">
-                  <div className="card-body pr-5 pl-5 m-1">
-                    <form className='row' onSubmit={onSubmit} id='updateUserForm'>
-                        <div className="form-group col-md-12 text-center">
-                            <div className="input-group justify-content-center">
-                                <input type="file" id='profile' name='profile' className="form-control d-none" onChange={captureImage} accept="image/*" />
-                                <label htmlFor='profile'> <img className='rounded' src={imagePreview} width='120' alt="" /> </label>
-                            </div>
-                        </div>
+          <HeaderSection title={`Edit ${userType}`} />
+          <div className="card shadow-sm">
+            <div className="card-body px-4 py-4">
+              <form id="updateUserForm" className="row" onSubmit={handleSubmit}>
+                <div className="form-group col-md-12 text-center">
+                  <input
+                    type="file"
+                    id="profile"
+                    name="profile"
+                    className="d-none"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                  <label htmlFor="profile">
+                    <img
+                      src={imagePreview}
+                      className="rounded shadow-sm"
+                      width="120"
+                      alt="User"
+                      style={{ cursor: "pointer" }}
+                    />
+                  </label>
+                  <div className="text-muted mt-2">Click image to change</div>
+                </div>
 
-                        <div className="form-group col-md-4">
-                            <label>Enter Name</label>
-                            <div className="input-group">
-                                <div className="input-group-prepend">
-                                <div className="input-group-text">
-                                    <i className="fas fa-user"></i>
-                                </div>
-                                </div>
-                                <input onChange={inputEvent} value={formData.name} type="text" id='name' name='name' className="form-control"/>
-                            </div>
+                {[
+                  { label: "Name", icon: "user", name: "name", type: "text" },
+                  { label: "Email", icon: "envelope", name: "email", type: "email" },
+                  { label: "Username", icon: "user-circle", name: "username", type: "text" },
+                  { label: "Mobile", icon: "phone", name: "mobile", type: "tel" },
+                  { label: "Password", icon: "lock", name: "password", type: "password" },
+                ].map((field, i) => (
+                  <div className="form-group col-md-4" key={i}>
+                    <label>{field.label}</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <div className="input-group-text">
+                          <i className={`fas fa-${field.icon}`}></i>
                         </div>
+                      </div>
+                      <input
+                        onChange={handleInputChange}
+                        value={formData[field.name] || ""}
+                        type={field.type}
+                        name={field.name}
+                        className="form-control"
+                      />
+                    </div>
+                  </div>
+                ))}
 
-                        <div className="form-group col-md-4">
-                            <label>Enter Email</label>
-                            <div className="input-group">
-                                <div className="input-group-prepend">
-                                <div className="input-group-text">
-                                    <i className="fas fa-envelope"></i>
-                                </div>
-                                </div>
-                                <input onChange={inputEvent} value={formData.email} type="email" id='email' name='email' className="form-control"/>
-                            </div>
-                        </div>
+                <div className="form-group col-md-3">
+                  <label>User Type</label>
+                  <select
+                    name="type"
+                    onChange={handleInputChange}
+                    value={formData.type}
+                    className="form-control"
+                  >
+                    <option>Employee</option>
+                    <option>Client</option>
+                    <option>Admin</option>
+                  </select>
+                </div>
 
-                        <div className="form-group col-md-4">
-                            <label>Enter Username</label>
-                            <div className="input-group">
-                                <div className="input-group-prepend">
-                                <div className="input-group-text">
-                                    <i className="fas fa-user-circle"></i>
-                                </div>
-                                </div>
-                                <input onChange={inputEvent} value={formData.username} type="username" id='username' name='username' className="form-control"/>
-                            </div>
-                        </div>
+                <div className="form-group col-md-3">
+                  <label>Status</label>
+                  <select
+                    name="status"
+                    onChange={handleInputChange}
+                    value={formData.status}
+                    className="form-control"
+                  >
+                    <option>Active</option>
+                    <option>Banned</option>
+                  </select>
+                </div>
 
-                        <div className="form-group col-md-3">
-                            <label>Enter Mobile Number</label>
-                            <div className="input-group">
-                                <div className="input-group-prepend">
-                                <div className="input-group-text">
-                                    <i className="fas fa-phone"></i>
-                                </div>
-                                </div>
-                                <input onChange={inputEvent} value={formData.mobile} type="tel" id='mobile' name='mobile' className="form-control"/>
-                            </div>
-                        </div>
-
-                        <div className="form-group col-md-3">
-                            <label>Enter Password</label>
-                            <div className="input-group">
-                                <div className="input-group-prepend">
-                                <div className="input-group-text">
-                                    <i className="fas fa-lock"></i>
-                                </div>
-                                </div>
-                                <input onChange={inputEvent} value={formData.password} type="password" id='password' name='password' className="form-control"/>
-                            </div>
-                        </div>
-
-                        <div className="form-group col-md-3">
-                            <label>User Type</label>
-                            <select name='type' onChange={inputEvent} value={formData.type} className="form-control select2">
-                                <option>Employee</option>
-                                <option>Leader</option>
-                                <option>Admin</option>
-                            </select>
-                        </div>
-
-                        <div className="form-group col-md-3">
-                            <label>User Status</label>
-                            <select name='status' onChange={inputEvent} value={formData.status} className="form-control select2">
-                                <option>Active</option>
-                                <option>Banned</option>
-                            </select>
-                        </div>
-
-                        <div className="form-group col-md-12 ">
-                            <label>Enter Address</label>
-                            <div className="input-group">
-                                <div className="input-group-prepend">
-                                <div className="input-group-text">
-                                    <i className="fas fa-map-marker-alt"></i>
-                                </div>
-                                </div>
-                                <input onChange={inputEvent} value={formData.address} type="text" id='address' name='address' className="form-control"/>
-                            </div>
-                        </div>
-
-                        <div className="form-group text-center col-md-12">
-                            <button className='btn btn-primary btn-lg' type='submit' style={{width:'30vh'}}>Update {userType}</button>
-                        </div>
-                    </form>
+                <div className="form-group col-md-12">
+                  <label>Address</label>
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">
+                        <i className="fas fa-map-marker-alt"></i>
+                      </div>
+                    </div>
+                    <input
+                      onChange={handleInputChange}
+                      value={formData.address || ""}
+                      type="text"
+                      name="address"
+                      className="form-control"
+                    />
                   </div>
                 </div>
+
+                <div className="form-group col-md-12 text-center">
+                  <button
+                    className="btn btn-primary btn-lg"
+                    type="submit"
+                    style={{ minWidth: "200px" }}
+                  >
+                    Update {userType}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </section>
       </div>
-      </>
-    )
-}
+    </>
+  );
+};
 
 export default EditUser;

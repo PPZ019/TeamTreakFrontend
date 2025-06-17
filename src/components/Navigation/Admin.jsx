@@ -46,7 +46,7 @@ const Admin = () => {
 
       {/* HRMS Section */}
       {/* <NavLink to="/employees" className={navLinkClass}><FaUsers /><span>Employees</span></NavLink> */}
-      <NavLink to="/leaders" className={navLinkClass}><FaUserFriends /><span>Leaders</span></NavLink>
+      <NavLink to="/leaders" className={navLinkClass}><FaUserFriends /><span>Clients</span></NavLink>
       <NavLink to="/admins" className={navLinkClass}><FaUsersCog /><span>Admins</span></NavLink>
       <NavLink to="/holiday" className={navLinkClass}><FaTeamspeak /><span>Holiday Calendar</span></NavLink>
       <NavLink to="/company" className={navLinkClass}><FaInfoCircle /><span>Companies</span></NavLink>
@@ -59,7 +59,7 @@ const Admin = () => {
       {/* Starter Section */}
       {sectionHeading("Starter")}
       <NavLink to="/adduser" className={navLinkClass}><FaUserPlus /><span>Add User</span></NavLink>
-      <NavLink to="/addteam" className={navLinkClass}><FaAddressCard /><span>Add Team</span></NavLink>
+      {/* <NavLink to="/addteam" className={navLinkClass}><FaAddressCard /><span>Add Team</span></NavLink> */}
 
       {/* Settings Section (dropdown) */}
       <div
