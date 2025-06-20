@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { dLogout } from "../../http";
 import { setAuth } from "../../store/auth-slice";
+import LogoutModal from "../logout/LogoutModal";
 
 import {
   FaFire,
@@ -17,14 +18,12 @@ import {
 const Employee = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [active, setActive] = useState(null);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   const logout = async () => {
-    if (window.confirm("Are you sure you want to logout?")) {
-      await dLogout();
-      dispatch(setAuth(null));
-      navigate("/login");
-    }
+    await dLogout();
+    dispatch(setAuth(null));
+    navigate("/login");
   };
 
   const navLinkClass = ({ isActive }) =>
@@ -41,11 +40,6 @@ const Employee = () => {
         <NavLink to="/home" className={navLinkClass}>
           <FaFire className="text-lg" />
           Dashboard
-        </NavLink>
-
-        <NavLink to="/userTeams" className={navLinkClass}>
-          <FaUsers className="text-lg" />
-          Team
         </NavLink>
 
         <NavLink to="/userAttendance" className={navLinkClass}>
@@ -71,12 +65,20 @@ const Employee = () => {
 
       <div className="mt-6 border-t pt-4">
         <button
-          onClick={logout}
-          className="flex items-center gap-4 px-4 py-3 w-full text-left text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition duration-150"
+          onClick={() => setLogoutModalOpen(true)}
+          className="flex items-center gap-3 px-3 py-2 text-md rounded-md transition hover:no-underline text-black hover:bg-[#F0F1FF] hover:text-[#211C84]"
         >
-          <FaSignOutAlt className="text-lg" />
-          Logout
+          <FaSignOutAlt />
+          <span>Logout</span>
         </button>
+
+        <LogoutModal
+          isOpen={logoutModalOpen}
+          onCancel={() => setLogoutModalOpen(false)}
+          onConfirm={() => {setLogoutModalOpen(false);
+            logout();
+          }}
+        />
       </div>
     </div>
   );
