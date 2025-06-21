@@ -10,8 +10,9 @@ import { useSelector } from 'react-redux';
 import ChatPage from "./pages/ChatPages";
 import { Outlet } from 'react-router-dom';
 import GuestRoute from "./GuestRoute"
-
-
+import SalarySetup from './pages/Salary/salarySetup'
+import Announcement from "../src/pages/Announcement"
+import ViewAnnouncement from "../src/pages/ViewAnnouncement"
 import '@popperjs/core';
 import './App.css';
 import Loading from './components/Loading';
@@ -48,6 +49,7 @@ import AssignSalary from './components/Admin/AssignSalary';
 import Salaries from './components/Admin/Salaries';
 import SalaryView from './components/Admin/Salary';
 import ProtectedRoute from './ProtectedRoute'
+import LeaderRoute from './LeaderRoute'
 import EmployeeRoute from './EmployeeRoute'
 import Template from './components/login/template'
 import Company from '../src/components/Admin/companies/CompanyPage'
@@ -74,43 +76,61 @@ const App = () => {
               <Route path="/invoices/edit/:id" element={<InvoiceUpdate />} />
               {/* HRMS */}
               <Route path="/employees" element={<Employees />} />
+              <Route path="/salary-structure" element={<SalarySetup />} />
               <Route path="/leaders" element={<Leaders />} />
               <Route path="/admins" element={<Admins />} />
               <Route path="/teams" element={<Teams />} />
               <Route path="/attendance" element={<AttendanceView />} />
               <Route path="/leaves" element={<LeaveView />} />
+              <Route path="/announcement" element={<Announcement />} />
               <Route path="/assignSalary" element={<AssignSalary />} />
               <Route path="/salaries" element={<Salaries />} />
               <Route path="/adduser" element={<AddUser />} />
               <Route path="/addteam" element={<AddTeam />} />
-          <Route path="/company" element={<Company />} />
-          <Route path="/holiday" element={<Holiday />} />
-          
-        
+              <Route path="/company" element={<Company />} />
+              <Route path="/holiday" element={<Holiday />} />
+              <Route path="/view-announcements" element={<ViewAnnouncement />} />
+              <Route path="/userAttendance" element={<Attendance />} />
+    <Route path="/applyforleave" element={<ApplyForLeave />} />
+    <Route path="/userLeaveApplications" element={<LeaveApplications />} />
+    <Route path="/userLeaveApplications/:id" element={<LeaveApplication />} />
+    <Route path="/userSalary" element={<Salary />} />
+    <Route path="/invoices/read/:id" element={<InvoiceRead />} />
+
+
               <Route path="/contact" element={<div>Contact Us Page</div>} />
               <Route path="/about" element={<div>About Us Page</div>} />
             </Route>
           </Route>
 
-            <Route element={<EmployeeRoute />}>
+          <Route element={<EmployeeRoute />}>
             <Route element={<MainLayout />}>
               <Route path="/userTeams" element={<UserTeams />} />
               <Route path="/userteam/:id" element={<EmployeeTeam />} />
+              <Route path="/view-announcements" element={<ViewAnnouncement />} />
               <Route path="/dashboardEmployee" element={<DashboardEmployee />} />
+              <Route path="/invoices/read/:id" element={<InvoiceRead />} />
+              <Route path="/invoices/payment/:id" element={<InvoiceRecord />} />
               <Route path="/userAttendance" element={<Attendance />} />
               <Route path="/applyforleave" element={<ApplyForLeave />} />
               <Route path="/userSalary" element={<Salary />} />
               <Route path="/userLeaveApplications" element={<LeaveApplications />} />
               <Route path="/userLeaveApplications/:id" element={<LeaveApplication />} />
-              </Route>
+            </Route>
 
-              {/* <Route path="/employees" element={<AdminRoute><Employees /></AdminRoute>} /> */}
-              <Route element={<AdminRoute />}>
+            {/* <Route path="/employees" element={<AdminRoute><Employees /></AdminRoute>} /> */}
+           
+
+          </Route>
+          <Route element={<AdminRoute />}>
               <Route element={<MainLayout />}>
                 <Route path="/admins" element={<Admins />} />
                 <Route path="/teams" element={<Teams />} />
                 <Route path="/adduser" element={<AddUser />} />
                 <Route path="/attendance" element={<AttendanceView />} />
+              <Route path="/salary-structure" element={<SalarySetup />} />
+              <Route path="/employees" element={<Employees />} />
+              <Route path="/announcement" element={<Announcement />} />
                 <Route path="/leaves" element={<LeaveView />} />
                 <Route path="/assignSalary" element={<AssignSalary />} />
                 <Route path="/salaries" element={<Salaries />} />
@@ -123,65 +143,56 @@ const App = () => {
                 <Route path="/editteam/:id" element={<EditTeam />} />
                 <Route path="/admin/:id" element={<Admin />} />
                 <Route path="/leaders" element={<Leaders />} />
-                </Route>
               </Route>
+            </Route>
 
-              <Route element={<LeaderRoute />}>
+            <Route element={<LeaderRoute />}>
               <Route element={<MainLayout />}>
                 <Route path="/members" element={<Members />} />
+                
+                
               </Route>
-              </Route>
-
             </Route>
-            <Route element={<GuestRoute />}>
+          <Route element={<GuestRoute />}>
             <Route path="/" element={<Template />} />
             <Route path="/login" element={<Template />} />
             <Route path="/forgot" element={<Forgot />} />
-        
+
+          </Route>
+          <Route element={<FounderRoute />}>
+            <Route element={<MainLayout />}>
+              <Route path="/founder-dashboard" element={<div>Founder Dashboard</div>} />
+              {/* Add more founder-specific routes here */}
             </Route>
+          </Route>
+
+          <Route element={<CEORoute />}>
+            <Route element={<MainLayout />}>
+              <Route path="/ceo-dashboard" element={<div>CEO Dashboard</div>} />
+            </Route>
+          </Route>
+
+          <Route element={<VPRoute />}>
+            <Route element={<MainLayout />}>
+              <Route path="/vp-dashboard" element={<div>VP Dashboard</div>} />
+            </Route>
+          </Route>
+
+          <Route element={<ManagerRoute />}>
+            <Route element={<MainLayout />}>
+              <Route path="/manager-dashboard" element={<div>Manager Dashboard</div>} />
+            </Route>
+          </Route>
+
+          <Route element={<TeamLeaderRoute />}>
+            <Route element={<MainLayout />}>
+              <Route path="/teamleader-dashboard" element={<div>Team Leader Dashboard</div>} />
+            </Route>
+          </Route>
         </Routes>
-
-
       </>
-
     )
 }
-
-// const GuestRoute = ({ children }) => {
-//   const { isAuth } = useSelector((state) => state.authSlice);
-//   const location = useLocation();
-
-//   return !isAuth ? (
-//     children
-//   ) : (
-//     <Navigate to="/home" state={{ from: location }} replace />
-//   );
-// };
-
-
-// const ProtectedRoute = ({children,...rest}) =>
-//   {
-//     const {isAuth} = useSelector((state)=>state.authSlice);
-//     return (
-//       <Route {...rest} render={({location})=>{
-//         return isAuth ? (
-//           <>
-//             <MainLayout>{children}</MainLayout>
-//             {children}
-//           </>) : (
-//           <Navigate
-//             to={{
-//               pathname:'/',
-//               state:{
-//                 from:location
-//               }
-//             }}
-//           />
-//         );
-//       }} />
-//     );
-//   }
-
 
 const AdminRoute = () => {
   const { user } = useSelector((state) => state.authSlice);
@@ -192,34 +203,38 @@ const AdminRoute = () => {
 };
 
 
+// const LeaderRoute = () => {
+//   const { user } = useSelector((state) => state.authSlice);
+//   return user && (user.type === 'Leader' || user.type === 'Employee')
+//     ? <Outlet />
+//     : <Navigate to="/" replace />;
+// };
 
-const LeaderRoute = () => {
+
+const CEORoute = () => {
   const { user } = useSelector((state) => state.authSlice);
-  return user && user.type === 'Leader' ? <Outlet /> : <Navigate to="/" replace />;
+  return user && user.type === 'CEO' ? <Outlet /> : <Navigate to="/" replace />;
 };
 
+const VPRoute = () => {
+  const { user } = useSelector((state) => state.authSlice);
+  return user && user.type === 'VP' ? <Outlet /> : <Navigate to="/" replace />;
+};
 
-// const AdminLeaderRouter = ({ children, ...rest }) => {
-//   const { user } = useSelector((state) => state.authSlice);
-//   return (
-//     <Route {...rest} render={({ location }) => {
-//       return user && (user.type === 'Admin' || user.type === 'Leader') ? (
-//         <>
-//           <SideBar />
-//           <Navigation />
-//           {children}
-//         </>) : (
-//         <Navigate
-//           to={{
-//             pathname: '/',
-//             state: {
-//               from: location
-//             }
-//           }}
-//         />
-//       );
-//     }} />
-//   );
-// }
+const ManagerRoute = () => {
+  const { user } = useSelector((state) => state.authSlice);
+  return user && user.type === 'Manager' ? <Outlet /> : <Navigate to="/" replace />;
+};
+
+const TeamLeaderRoute = () => {
+  const { user } = useSelector((state) => state.authSlice);
+  return user && user.type === 'TeamLeader' ? <Outlet /> : <Navigate to="/" replace />;
+};
+
+const FounderRoute = () => {
+  const { user } = useSelector((state) => state.authSlice);
+  return user && user.type === 'Founder' ? <Outlet /> : <Navigate to="/" replace />;
+};
+
 
 export default App;

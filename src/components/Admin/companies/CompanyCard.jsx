@@ -7,8 +7,8 @@ const CompanyTable = ({ companies }) => {
       <table className="min-w-full text-sm text-left border">
         <thead className="bg-gray-100 text-blue-900 font-semibold">
           <tr>
-            <th className="px-4 py-3">Name</th>
-            <th className="px-4 py-3">Contact</th>
+            <th className="px-4 py-3">Company Name</th>
+            <th className="px-4 py-3">Phone</th>
             <th className="px-4 py-3">Country</th>
             <th className="px-4 py-3">State/City</th>
             <th className="px-4 py-3">Email</th>
@@ -22,7 +22,8 @@ const CompanyTable = ({ companies }) => {
                 <td className="px-4 py-2">{company.name}</td>
                 <td className="px-4 py-2">{company.contact}</td>
                 <td className="px-4 py-2">{company.country}</td>
-                <td className="px-4 py-2">{company.phone}</td>
+                {/* <td className="px-4 py-2">{company.phone}</td> */}
+                <td className="px-4 py-2">{company.state}</td> 
                 <td className="px-4 py-2">{company.email}</td>
                 <td className="px-4 py-2">{company.website}</td>
               </tr>

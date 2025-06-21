@@ -42,7 +42,12 @@ const Employee = () => {
               <div className="flex justify-center items-center">
                 <img
                   className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full border-4 border-white shadow-md transition-transform duration-300 hover:scale-105"
-                  src={user?.image ? user.image : 'https://picsum.photos/150'}
+                  src={
+                    user?.image?.startsWith("http")
+                      ? user.image
+                      : `http://localhost:5000/${user?.image?.replace(/^undefined/, '')}`
+                  }
+                  
                   alt={`${user?.name}'s profile`}
                   onError={(e) => {
                     console.log("❌ Image failed to load, fallback triggered");

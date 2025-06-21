@@ -48,8 +48,7 @@ const AddCompanyModal = ({ onClose, onSubmit }) => {
 
   const handleSubmit = () => {
     if (validate()) {
-      onSubmit(formData);
-      onClose(); // Close modal after success
+      onSubmit(formData); // Don't close modal here — let parent handle it
     }
   };
 
@@ -62,31 +61,29 @@ const AddCompanyModal = ({ onClose, onSubmit }) => {
         </div>
 
         <div className="space-y-4">
-          {/* Name */}
-          <div>
-            <label className="block font-medium">Name *</label>
-            <input
-              name="name"
-              className="w-full border px-3 py-2 rounded"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
-          </div>
+          {[
+            { label: "Company Name", key: "name" },
+            // { label: "Contact", key: "contact" },
+            { label: "Phone", key: "phone" },
+            { label: "Email", key: "email", type: "email" },
+            { label: "Website", key: "website" },
+          ].map(({ label, key, type }) => (
+            <div key={key}>
+              <label className="block font-medium">{label} *</label>
+              <input
+                type={type || "text"}
+                name={key}
+                className="w-full border px-3 py-2 rounded"
+                value={formData[key]}
+                onChange={handleChange}
+              />
+              {errors[key] && (
+                <p className="text-red-500 text-sm">{errors[key]}</p>
+              )}
+            </div>
+          ))}
 
-          {/* Contact */}
-          <div>
-            <label className="block font-medium">Contact *</label>
-            <input
-              name="contact"
-              className="w-full border px-3 py-2 rounded"
-              value={formData.contact}
-              onChange={handleChange}
-            />
-            {errors.contact && <p className="text-red-500 text-sm">{errors.contact}</p>}
-          </div>
-
-          {/* Country */}
+          {/* Country Dropdown */}
           <div>
             <label className="block font-medium">Country *</label>
             <select
@@ -95,18 +92,22 @@ const AddCompanyModal = ({ onClose, onSubmit }) => {
               value={formData.country}
               onChange={(e) => {
                 handleChange(e);
-                setFormData((prev) => ({ ...prev, state: "" })); // Reset state when country changes
+                setFormData((prev) => ({ ...prev, state: "" }));
               }}
             >
               <option value="">Select Country</option>
               {Object.keys(countries).map((country) => (
-                <option key={country} value={country}>{country}</option>
+                <option key={country} value={country}>
+                  {country}
+                </option>
               ))}
             </select>
-            {errors.country && <p className="text-red-500 text-sm">{errors.country}</p>}
+            {errors.country && (
+              <p className="text-red-500 text-sm">{errors.country}</p>
+            )}
           </div>
 
-          {/* State */}
+          {/* State Dropdown */}
           <div>
             <label className="block font-medium">State/City *</label>
             <select
@@ -118,50 +119,16 @@ const AddCompanyModal = ({ onClose, onSubmit }) => {
             >
               <option value="">Select State/City</option>
               {(countries[formData.country] || []).map((state) => (
-                <option key={state} value={state}>{state}</option>
+                <option key={state} value={state}>
+                  {state}
+                </option>
               ))}
             </select>
-            {errors.state && <p className="text-red-500 text-sm">{errors.state}</p>}
+            {errors.state && (
+              <p className="text-red-500 text-sm">{errors.state}</p>
+            )}
           </div>
 
-          {/* Phone */}
-          <div>
-            <label className="block font-medium">Phone *</label>
-            <input
-              name="phone"
-              className="w-full border px-3 py-2 rounded"
-              value={formData.phone}
-              onChange={handleChange}
-            />
-            {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
-          </div>
-
-          {/* Email */}
-          <div>
-            <label className="block font-medium">Email *</label>
-            <input
-              type="email"
-              name="email"
-              className="w-full border px-3 py-2 rounded"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-          </div>
-
-          {/* Website */}
-          <div>
-            <label className="block font-medium">Website *</label>
-            <input
-              name="website"
-              className="w-full border px-3 py-2 rounded"
-              value={formData.website}
-              onChange={handleChange}
-            />
-            {errors.website && <p className="text-red-500 text-sm">{errors.website}</p>}
-          </div>
-
-          {/* Actions */}
           <div className="flex justify-end gap-2 mt-6">
             <button
               onClick={onClose}

@@ -3,6 +3,11 @@ import { NavLink } from "react-router-dom";
 import Admin from './Navigation/Admin';
 import Leader from './Navigation/Leader';
 import Employee from './Navigation/Employee';
+import Founder from './Navigation/Founder';
+import CEO from './Navigation/CEO';
+import VP from './Navigation/VP';
+import Manager from './Navigation/Manager';
+import TeamLeader from './Navigation/TeamLeader';
 
 const SideBar = () => {
   const { user } = useSelector(state => state.authSlice);
@@ -23,11 +28,20 @@ const SideBar = () => {
 
         {/* Menu */}
         <div className="flex-1 p-4 overflow-y-auto">
-          {user.type === 'Admin' ? <Admin /> : user.type === 'Leader' ? <Leader /> : <Employee />}
-        </div>
+  {user.type === 'Admin' ? <Admin />
+    : user.type === 'Client' ? <Leader />
+    : user.type === 'Employee' ? <Employee />
+    : user.type === 'Founder' ? <Founder />
+    : user.type === 'CEO' ? <CEO />
+    : user.type === 'VP' ? <VP />
+    : user.type === 'Manager' ? <Manager />
+    : user.type === 'TeamLeader' ? <TeamLeader />
+    : <p>Role not recognized</p>}
+</div>
+
 
         {/* Footer */}
-        <div className="p-4 border-t border-[#4D55CC]">
+        {/* <div className="p-4 border-t border-[#4D55CC]">
           <a
             href="https://placementplaza.com/"
             target="_blank"
@@ -36,7 +50,7 @@ const SideBar = () => {
           >
             <i className="fas fa-rocket mr-2"></i> Team Treak
           </a>
-        </div>
+        </div> */}
 
       </aside>
     </div>

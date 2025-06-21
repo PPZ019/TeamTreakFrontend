@@ -1,18 +1,17 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
-  FaHome, FaUsers, FaUserFriends, FaUsersCog, FaFire, FaUser, FaBook, FaPen, FaPiggyBank,
-  FaUserPlus, FaAddressCard, FaRegSquare, FaTeamspeak, FaInfoCircle, FaSignOutAlt,
-  FaFileInvoice, FaMoneyBill, FaChevronDown, FaChevronUp
+  FaHome, FaUsers, FaUserFriends, FaUsersCog, FaUserClock,
+  FaUserPlus, FaBook, FaMoneyBill, FaPiggyBank, FaBullhorn,
+  FaTeamspeak, FaInfoCircle, FaFileInvoice, FaAddressCard,
+  FaSignOutAlt
 } from "react-icons/fa";
 import { dLogout } from "../../http";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/auth-slice";
-import { useNavigate } from "react-router-dom";
-import LogoutModal from "../../components/logout/LogoutModal"; 
+import LogoutModal from "../../components/logout/LogoutModal";
 
 const Admin = () => {
-  const [showSettings, setShowSettings] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,27 +36,32 @@ const Admin = () => {
   };
 
   return (
-    <div className="flex flex-col space-y-1 bg-white text-black h-[600px] overflow-r-auto">
-      <NavLink to="/home" className={navLinkClass}><FaHome /><span>Dashboard</span></NavLink>
-      <NavLink to="/invoices" className={navLinkClass}><FaFileInvoice /><span>Invoices</span></NavLink>
-      <NavLink to="/leaders" className={navLinkClass}><FaUserFriends /><span>Clients</span></NavLink>
-      <NavLink to="/admins" className={navLinkClass}><FaUsersCog /><span>Admins</span></NavLink>
-      <NavLink to="/holiday" className={navLinkClass}><FaTeamspeak /><span>Holiday Calendar</span></NavLink>
-      <NavLink to="/company" className={navLinkClass}><FaInfoCircle /><span>Companies</span></NavLink>
+    <div className="flex flex-col space-y-1 bg-white text-black h-[600px] overflow-y-auto">
+      <NavLink to="/home" className={navLinkClass}><FaHome />Dashboard</NavLink>
+      <NavLink to="/invoices" className={navLinkClass}><FaFileInvoice />Invoices</NavLink>
+      <NavLink to="/leaders" className={navLinkClass}><FaUserFriends />Clients</NavLink>
+      <NavLink to="/admins" className={navLinkClass}><FaUsersCog />Admins</NavLink>
+      {/* <NavLink to="/attendance" className={navLinkClass}><FaUserClock />Attendance</NavLink> */}
+      {/* <NavLink to="/leaves" className={navLinkClass}><FaBook />Leave Requests</NavLink> */}
+      {/* <NavLink to="/salary-structure" className={navLinkClass}><FaMoneyBill />Salary Setup</NavLink> */}
+      <NavLink to="/performance" className={navLinkClass}><FaPiggyBank />Performance</NavLink>
+      <NavLink to="/roles" className={navLinkClass}><FaAddressCard />Roles & Permissions</NavLink>
+      <NavLink to="/holiday" className={navLinkClass}><FaTeamspeak />Holiday Calendar</NavLink>
+      {/* <NavLink to="/employees" className={navLinkClass}><FaTeamspeak />Holiday Calendar</NavLink> */}
+      <NavLink to="/company" className={navLinkClass}><FaInfoCircle />Companies</NavLink>
+      {/* <NavLink to="/announcement" className={navLinkClass}><FaBullhorn />Announcements</NavLink> */}
+      
+      {sectionHeading("Manage Users")}
+      <NavLink to="/adduser" className={navLinkClass}><FaUserPlus />Add User</NavLink>
 
-      {/* Logout with modal */}
       <button
         onClick={() => setLogoutModalOpen(true)}
         className="flex items-center gap-3 px-3 py-2 text-md rounded-md transition hover:no-underline text-black hover:bg-[#F0F1FF] hover:text-[#211C84]"
       >
         <FaSignOutAlt />
-        <span>Logout</span>
+        Logout
       </button>
 
-      {sectionHeading("Starter")}
-      <NavLink to="/adduser" className={navLinkClass}><FaUserPlus /><span>Add User</span></NavLink>
-
-      {/* Logout Confirmation Modal */}
       <LogoutModal
         isOpen={logoutModalOpen}
         onCancel={() => setLogoutModalOpen(false)}

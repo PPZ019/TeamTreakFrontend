@@ -78,12 +78,12 @@ const InvoiceRead = () => {
           >
             Edit
           </button>
-          <button
+          {/* <button
             onClick={() => navigate(`/invoices/payment/${invoice._id}`)}
             className="bg-[#B5A8D5] text-[#211C84] px-4 py-2 rounded hover:bg-[#a497c8] transition"
           >
             Payment Record
-          </button>
+          </button> */}
         </div>
       </div>
 

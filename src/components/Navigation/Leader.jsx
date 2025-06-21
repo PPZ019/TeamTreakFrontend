@@ -3,32 +3,53 @@ import { useDispatch } from "react-redux";
 import { setAuth } from "../../store/auth-slice";
 import { dLogout } from "../../http";
 import { useNavigate } from "react-router-dom";
+import {
+  FaFire, FaUserClock, FaBook, FaPiggyBank,
+  FaChartBar, FaFileInvoice, FaSignOutAlt, FaUsers, FaUsersCog,
+  FaUserPlus,  FaBullhorn, FaUserTag, FaCalendarAlt
+  
+} from "react-icons/fa";
 
-
-const Leader = () =>
-{
+const Leader = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const navLinkClass = ({ isActive }) =>
+    `flex items-center gap-3 px-3 py-2 text-md rounded-md transition hover:no-underline ${
+      isActive
+        ? 'bg-[#B5A8D5] text-[#211C84] font-semibold'
+        : 'text-black hover:bg-[#F0F1FF] hover:text-[#211C84]'
+    }`;
+
   const logout = async () => {
-    await dLogout(); 
-    dispatch(setAuth(null)); 
+    await dLogout();
+    dispatch(setAuth(null));
     navigate("/login");
   };
 
-    return(
-    <ul className="sidebar-menu">
-      <NavLink className="nav-link" to="/home"><i className="fas fa-fire"></i> <span>Dashboard</span></NavLink>
-      <NavLink className="nav-link" to="/members"><i className="fas fa-fire"></i> <span>Members</span></NavLink>
-      <NavLink className="nav-link" to="/userAttendance"><i className="fas fa-user"></i> <span>Attendance</span></NavLink>
-      <NavLink className="nav-link" to="/applyforleave"><i className="fas fa-pen"></i> <span>Apply For Leave</span></NavLink>
-      <NavLink className="nav-link" to="/userLeaveApplications"><i className="fas fa-book"></i> <span>Leave Applications</span></NavLink>
-      <NavLink className="nav-link" to="/userSalary"><i class="fas fa-piggy-bank"></i> <span>Salary</span></NavLink>
-
-      <li className="menu-header">Settings</li>
-        <NavLink onClick={logout} className="nav-link" to="/home"><i className="fas fa-sign-out-alt"></i> <span>Logout</span></NavLink>
+  return (
+    <ul className="sidebar-menu space-y-2">
+      <NavLink className={navLinkClass} to="/home"><FaFire />Dashboard</NavLink>
+      <NavLink className={navLinkClass} to="/team-members"><FaUsers />Team Members</NavLink>
+      <NavLink className={navLinkClass} to="/team-attendance"><FaUserClock />Team Attendance</NavLink>
+      <NavLink className={navLinkClass} to="/team-leaves"><FaBook />Leave Approvals</NavLink>
+      <NavLink to="/attendance"><FaUserClock />Attendance</NavLink>
+<NavLink className={navLinkClass} to="/leave-requests"><FaBook />Leave Requests</NavLink>
+<NavLink className={navLinkClass} to="/salary-setup"><FaPiggyBank />Salary Setup</NavLink>
+<NavLink className={navLinkClass} to="/performance"><FaChartBar />Performance</NavLink>
+<NavLink className={navLinkClass} to="/roles-permissions"><FaUserTag />Roles & Permissions</NavLink>
+<NavLink className={navLinkClass} to="/holiday-calendar"><FaCalendarAlt />Holiday Calendar</NavLink>
+<NavLink className={navLinkClass} to="/announcements"><FaBullhorn />Announcements</NavLink>
+<NavLink className={navLinkClass} to="/invoices"><FaFileInvoice />Invoices</NavLink>
+      <NavLink className={navLinkClass} to="/team-performance"><FaChartBar />Performance</NavLink>
+      {/* <NavLink className={navLinkClass} to="/team-salary"><FaPiggyBank />Salary View</NavLink> */}
+      <NavLink className={navLinkClass} to="/team-reimbursements"><FaFileInvoice />Reimbursements</NavLink>
+      <NavLink to="/add-user"><FaUserPlus />Add User</NavLink>
+      <NavLink onClick={logout} className="flex items-center gap-3 px-3 py-2 text-md rounded-md transition hover:no-underline text-black hover:bg-[#F0F1FF] hover:text-[#211C84]" to="#">
+        <FaSignOutAlt />Logout
+      </NavLink>
     </ul>
-    )
-}
+  );
+};
 
 export default Leader;

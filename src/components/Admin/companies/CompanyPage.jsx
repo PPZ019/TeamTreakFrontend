@@ -1,31 +1,41 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import CompanyTable from "../companies/CompanyCard";
 import CompanyToolbar from "../companies/CompanyForm";
 import AddCompanyModal from "../companies/AddCompanyModal";
 
-const CompanyListPage = () => {
-  const [companies, setCompanies] = useState(() => {
-    const saved = localStorage.getItem("companies");
-    return saved ? JSON.parse(saved) : [];
-  });
+const API_BASE = "http://localhost:5500"; // Update if using a different port or deployment URL
 
+const CompanyListPage = () => {
+  const [companies, setCompanies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+  const fetchCompanies = async () => {
+    try {
+      const res = await axios.get(`${API_BASE}/api/company`);
+      setCompanies(res.data.result);
+    } catch (err) {
+      console.error("Error fetching companies:", err);
+    }
+  };
+
   useEffect(() => {
-    localStorage.setItem("companies", JSON.stringify(companies));
-  }, [companies]);
+    fetchCompanies();
+  }, []);
 
   const handleSearch = (term) => setSearchTerm(term);
 
-  const handleAdd = () => {
-    setShowModal(true);
-  };
+  const handleAdd = () => setShowModal(true);
 
-  const handleSaveCompany = (newCompany) => {
-    const id = Date.now();
-    setCompanies((prev) => [...prev, { id, ...newCompany }]);
-    setShowModal(false);
+  const handleSaveCompany = async (newCompany) => {
+    try {
+      const res = await axios.post(`${API_BASE}/api/company`, newCompany);
+      setCompanies((prev) => [...prev, res.data.result]);
+      setShowModal(false);
+    } catch (err) {
+      console.error("Failed to add company:", err);
+    }
   };
 
   const filteredCompanies = companies.filter((c) =>
@@ -54,5 +64,3 @@ const CompanyListPage = () => {
 };
 
 export default CompanyListPage;
-
-
