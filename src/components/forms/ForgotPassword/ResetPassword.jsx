@@ -1,94 +1,130 @@
 import { useState } from "react";
-import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
-import {resetPassword} from "../../../http/index";
+import { resetPassword } from "../../../http/index";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router";
 
-const ResetPassword = () =>
-{
-    const {email} = useSelector((state)=>state.authSlice);
-    const [formData,setFormData] = useState({
-        email:email,
-        otp:'',
-        password:''
-    });
+const ResetPassword = () => {
+  const { email } = useSelector((state) => state.authSlice);
+  const history = useHistory();
 
-    const history = useHistory();
+  const [formData, setFormData] = useState({
+    email,
+    otp: "",
+    password: "",
+  });
 
-    const inputEvent = (e) =>
-    {
-        const {name,value} = e.target;
-        setFormData((old)=>
-        {
-            return{
-                ...old,
-                [name]:value
-            }
-        })
+  const [showPassword, setShowPassword] = useState(false); 
+  const [loading, setLoading] = useState(false);
+
+  const inputEvent = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleOtpSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.otp) return toast.error("Please enter OTP");
+    setShowPassword(true); // Just show password input now
+  };
+
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
+    const { email, otp, password } = formData;
+
+    if (!email || !otp || !password) return toast.error("All fields required");
+
+    setLoading(true);
+    const res = await resetPassword({ email, otp, password });
+    setLoading(false);
+
+    if (res.success) {
+      toast.success(res.message);
+      history.push("/login");
+    } else {
+      toast.error(res.message);
     }
+  };
 
-    const onSubmit = async (e) =>
-    {
-        e.preventDefault();
-        const {email,otp,password} = formData;
-        if(!email || !otp || !password) return toast.error('All Fields Required');
-        const res = await resetPassword({email,otp,password});
-        console.log(res);
-        res.success ? toast.success(res.message) : toast.error(res.message);
-        if(res.success)
-            history.push('/login');
-    }
-    return(
-        <div id="app">
-            <section className="section">
-            <div className="container mt-5">
-                <div className="row">
-                <div className="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-                <div className="login-brand">
-                  <img src="https://www.pockethrms.com/wp-content/uploads/2022/01/Happy-Workforce.jpg" alt="logo" width="200" className=""/>
-                </div>
-                    <div className="card card-primary">
-                    <div className="card-header"><h4>Reset Password</h4></div>
-
-                    <div className="card-body">
-                        <p className="text-muted">We have send you an OTP to reset your password</p>
-                        <form onSubmit={onSubmit}>
-                        <div className="form-group">
-                            <label for="email">Email</label>
-                            <input id="email" onChange={inputEvent} value={formData.email} type="email" className="form-control" name="email" tabIndex="1" required autoFocus readOnly/>
-                        </div>
-
-                        <div className="form-group">
-                            <label for="otp">OTP</label>
-                            <input id="otp" onChange={inputEvent} value={formData.otp} type="number" className="form-control pwstrength" data-indicator="pwindicator" name="otp" tabIndex="2" required/>
-                            <div id="pwindicator" className="pwindicator">
-                            <div className="bar"></div>
-                            <div className="label"></div>
-                            </div>
-                        </div>
-
-                        <div className="form-group">
-                            <label for="password">New Password</label>
-                            <input id="password" onChange={inputEvent} value={formData.password} type="password" className="form-control" name="password" tabIndex="2" required/>
-                        </div>
-
-                        <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-lg btn-block" tabIndex="4">
-                            Reset Password
-                            </button>
-                        </div>
-                        </form>
-                    </div>
-                    </div>
-                    <div className="simple-footer">
-                    Copyright &copy; Social Codia
-                    </div>
-                </div>
-                </div>
-            </div>
-            </section>
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-white p-6">
+      <div className="w-full max-w-xl bg-white border-2 border-[#211C84] rounded-3xl px-10 py-12 space-y-8">
+        <div className="text-center">
+          <h1 className="text-4xl font-extrabold text-[#211C84] tracking-wide">Team Treak</h1>
+          <p className="mt-2 text-base text-gray-600">
+            Enter the OTP sent to your email. Then proceed to reset your password.
+          </p>
         </div>
-    )
-}
+
+        <form onSubmit={showPassword ? handlePasswordReset : handleOtpSubmit} className="space-y-6">
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              readOnly
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+            />
+          </div>
+
+          {/* OTP */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">OTP</label>
+            <input
+              type="number"
+              name="otp"
+              value={formData.otp}
+              onChange={inputEvent}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#211C84]"
+              required
+            />
+          </div>
+
+          {/* OTP Submit Button */}
+          {!showPassword && (
+            <button
+              type="submit"
+              className="w-full bg-[#211C84] hover:bg-[#372fc9] text-white font-semibold py-3 rounded-lg text-lg transition duration-300 shadow-md"
+            >
+              Proceed to Reset Password
+            </button>
+          )}
+
+          {/* Password */}
+          {showPassword && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={inputEvent}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#211C84]"
+                required
+              />
+            </div>
+          )}
+
+          {/* Final Reset Button */}
+          {showPassword && (
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#211C84] hover:bg-[#372fc9] text-white font-semibold py-3 rounded-lg text-lg transition duration-300 shadow-md"
+            >
+              {loading ? "Resetting..." : "Reset Password"}
+            </button>
+          )}
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default ResetPassword;
+

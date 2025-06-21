@@ -13,11 +13,9 @@ const Employee = () => {
   const navigate = useNavigate();
 
   const logout = async () => {
-    if (window.confirm("Are you sure you want to logout?")) {
-      await dLogout();
-      dispatch(setAuth(null));
-      navigate("/login");
-    }
+    await dLogout();
+    dispatch(setAuth(null));
+    navigate("/login");
   };
 
   const navLinkClass = ({ isActive }) =>

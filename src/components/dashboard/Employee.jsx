@@ -4,7 +4,12 @@ import { useSelector } from 'react-redux';
 const Employee = () => {
   const { user } = useSelector((state) => state.authSlice);
 
-  // Debug logs for verification
+  // ✅ Helper to construct correct image URL
+  const getImageUrl = (imgPath) => {
+    if (!imgPath) return 'https://picsum.photos/150';
+    return imgPath.startsWith('http') ? imgPath : `http://localhost:5500/${imgPath}`;
+  };
+
   console.log("👤 user:", user);
   console.log("🖼️ user.image:", user?.image);
 
@@ -38,16 +43,11 @@ const Employee = () => {
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="p-6 md:p-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-              {/* Profile Image as Circle */}
+              {/* ✅ Profile Image */}
               <div className="flex justify-center items-center">
                 <img
                   className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full border-4 border-white shadow-md transition-transform duration-300 hover:scale-105"
-                  src={
-                    user?.image?.startsWith("http")
-                      ? user.image
-                      : `http://localhost:5000/${user?.image?.replace(/^undefined/, '')}`
-                  }
-                  
+                  src={getImageUrl(user?.image)}
                   alt={`${user?.name}'s profile`}
                   onError={(e) => {
                     console.log("❌ Image failed to load, fallback triggered");
