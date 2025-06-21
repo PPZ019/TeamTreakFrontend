@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { dLogout } from "../http/index";
 import { setAuth } from "../store/auth-slice";
 import { useState, useEffect, useRef } from "react";
+import image1 from '../assets/employee.png'
 
 const Navigation = () => {
   const { name, image } = useSelector((state) => state.authSlice.user);
@@ -32,14 +33,12 @@ const Navigation = () => {
 
   return (
 <nav className="bg-white px-4 py-4 flex justify-between items-center text-black top-0 left-0 right-0 fixed z-50"> 
-      {/* Left - Logo / Search (Optional) */}
+
       <div className="text-lg font-semibold blue-900">
          <NavLink to="/home" className="text-3xl font-bold mb-8 text-blue-900 hover:no-underline">
             TeamTreak
           </NavLink>
       </div>
-
-      {/* Right - Dropdowns + Notifications + Profile */}
       <div className="flex items-center gap-4">
 
         {/* Select Dropdowns */}
@@ -102,7 +101,7 @@ const Navigation = () => {
             className="flex items-center gap-2 focus:outline-none hover:text-[#4D55CC]"
           >
             <img
-              src= "https://media.istockphoto.com/id/1437816897/photo/business-woman-manager-or-human-resources-portrait-for-career-success-company-we-are-hiring.jpg?b=1&s=612x612&w=0&k=20&c=hEPh7-WEAqHTHdQtPrfEN9-yYCiPGKvD32VZ5lcL6SU="
+              src= {image1}
               alt="avatar"
               className="w-8 h-8 rounded-full object-cover"
             />

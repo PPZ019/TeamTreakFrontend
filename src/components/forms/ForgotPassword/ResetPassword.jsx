@@ -14,7 +14,7 @@ const ResetPassword = () => {
     password: "",
   });
 
-  const [showPassword, setShowPassword] = useState(false); // Show password field manually
+  const [showPassword, setShowPassword] = useState(false); 
   const [loading, setLoading] = useState(false);
 
   const inputEvent = (e) => {
