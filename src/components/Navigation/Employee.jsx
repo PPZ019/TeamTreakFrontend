@@ -32,10 +32,11 @@ const Employee = () => {
       <NavLink to="/userAttendance" className={navLinkClass}><FaUser /> My Attendance</NavLink>
       <NavLink to="/applyforleave" className={navLinkClass}><FaPen />Apply For Leave</NavLink>
       <NavLink to="/userLeaveApplications" className={navLinkClass}><FaBook />My Leave Applications</NavLink>
+      <NavLink to="/my-performance" className={navLinkClass}><FaPiggyBank />My Performance</NavLink>
       <NavLink to="/userSalary" className={navLinkClass}><FaPiggyBank />My Salary</NavLink>
       <NavLink to="/reimbursements" className={navLinkClass}><FaFileInvoice />Expense Claims</NavLink>
       <NavLink to="/documents" className={navLinkClass}><FaFileAlt />My Documents</NavLink>
-      <NavLink to="/calendar" className={navLinkClass}><FaCalendarAlt />Holiday Calendar</NavLink>
+      <NavLink to="/HolidayCalendarView" className={navLinkClass}><FaCalendarAlt />Holiday Calendar</NavLink>
       <NavLink to="/view-announcements" className={navLinkClass}><FaBullhorn />Announcements</NavLink>
       <NavLink onClick={logout} to="#" className="flex items-center text-black hover:bg-[#F0F1FF] hover:text-[#211C84] gap-3 px-3 py-2 text-md rounded-md transition hover:no-underline"><FaSignOutAlt />Logout</NavLink>
     </nav>

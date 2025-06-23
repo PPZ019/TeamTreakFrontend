@@ -12,7 +12,10 @@ import { Outlet } from 'react-router-dom';
 import GuestRoute from "./GuestRoute"
 import SalarySetup from './pages/Salary/salarySetup'
 import Announcement from "../src/pages/Announcement"
+import RolePermission from '../src/pages/RolesPermissions'
 import ViewAnnouncement from "../src/pages/ViewAnnouncement"
+import Performance from "../src/pages/Performance"
+import MyPerformance from "../src/pages/MyPerformance"
 import '@popperjs/core';
 import './App.css';
 import Loading from './components/Loading';
@@ -22,6 +25,7 @@ import Employees from './pages/employee/Employees';
 import Admins from './pages/admin/Admins';
 import Teams from './pages/team/Teams';
 import AddUser from './pages/user/AddUser';
+import AddUsers from './pages/user/AddUsers';
 import AddTeam from './pages/team/AddTeam';
 import Employee from './pages/employee/Employee';
 import Team from './pages/team/team/Team';
@@ -55,6 +59,7 @@ import EmployeeRoute from './EmployeeRoute'
 import Template from './components/login/template'
 import Company from '../src/components/Admin/companies/CompanyPage'
 import Holiday from '../src/components/Admin/holidays/HolidayCalendar'
+import HolidayCalendarView from '../src/components/Admin/holidays/HolidayCalendarView'
 // import ChatPage from './pages/ChatPage'
 
 
@@ -78,18 +83,25 @@ const App = () => {
               {/* HRMS */}
               <Route path="/employees" element={<Employees />} />
               <Route path="/salary-structure" element={<SalarySetup />} />
+              <Route path="/performance" element={<Performance />} />
               <Route path="/leaders" element={<Leaders />} />
               <Route path="/admins" element={<Admins />} />
               <Route path="/teams" element={<Teams />} />
+              <Route path="/employees" element={<Employees />} />
+
               <Route path="/attendance" element={<AttendanceView />} />
               <Route path="/leaves" element={<LeaveView />} />
               <Route path="/announcement" element={<Announcement />} />
               <Route path="/assignSalary" element={<AssignSalary />} />
               <Route path="/salaries" element={<Salaries />} />
               <Route path="/adduser" element={<AddUser />} />
+              <Route path="/addusers" element={<AddUsers />} />
               <Route path="/addteam" element={<AddTeam />} />
               <Route path="/company" element={<Company />} />
               <Route path="/holiday" element={<Holiday />} />
+              <Route path="/HolidayCalendarView" element={<HolidayCalendarView />} />
+              <Route path="/RolePermission" element={<RolePermission />} />
+
               <Route path="/view-announcements" element={<ViewAnnouncement />} />
               <Route path="/userAttendance" element={<Attendance />} />
     <Route path="/applyforleave" element={<ApplyForLeave />} />
@@ -112,6 +124,11 @@ const App = () => {
               <Route path="/dashboardEmployee" element={<DashboardEmployee />} />
               <Route path="/invoices/read/:id" element={<InvoiceRead />} />
               <Route path="/invoices/payment/:id" element={<InvoiceRecord />} />
+              <Route path="/my-performance" element={<MyPerformance />} />
+              <Route path="/HolidayCalendarView" element={<HolidayCalendarView />} />
+  
+
+
               <Route path="/userAttendance" element={<Attendance />} />
               <Route path="/applyforleave" element={<ApplyForLeave />} />
               <Route path="/userSalary" element={<Salary />} />
@@ -133,7 +150,10 @@ const App = () => {
               <Route path="/salary-structure" element={<SalarySetup />} />
               <Route path="/employees" element={<Employees />} />
               <Route path="/announcement" element={<Announcement />} />
+              <Route path="/RolePermission" element={<RolePermission />} />
                 <Route path="/leaves" element={<LeaveView />} />
+              <Route path="/performance" element={<Performance />} />
+
                 <Route path="/assignSalary" element={<AssignSalary />} />
                 <Route path="/salaries" element={<Salaries />} />
                 <Route path="/leaves/:id" element={<Leave />} />
