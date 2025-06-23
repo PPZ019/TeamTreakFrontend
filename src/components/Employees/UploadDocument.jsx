@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const documentsList = [
@@ -15,6 +15,8 @@ const UploadDocument = () => {
   const [uploadingDoc, setUploadingDoc] = useState(null);
   const [messages, setMessages] = useState({});
   const [files, setFiles] = useState({});
+  const [documents, setDocuments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleFileChange = (docType, file) => {
     setFiles(prev => ({ ...prev, [docType]: file }));
@@ -23,7 +25,7 @@ const UploadDocument = () => {
   const handleUpload = async (docType) => {
     const file = files[docType];
     if (!file) {
-      setMessages(prev => ({ ...prev, [docType]: " Please select a file." }));
+      setMessages(prev => ({ ...prev, [docType]: "Please select a file." }));
       return;
     }
 
@@ -33,17 +35,18 @@ const UploadDocument = () => {
 
     try {
       setUploadingDoc(docType);
-      const res = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/documents/upload`,
         formData,
         {
+          withCredentials: true,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "multipart/form-data"
           }
         }
       );
       setMessages(prev => ({ ...prev, [docType]: "Uploaded successfully!" }));
+      fetchDocuments();
     } catch (err) {
       console.error(err);
       setMessages(prev => ({ ...prev, [docType]: "Upload failed." }));
@@ -52,39 +55,91 @@ const UploadDocument = () => {
     }
   };
 
+  const fetchDocuments = async () => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/documents/my`, {
+        withCredentials: true,
+      });
+      setDocuments(res.data.documents);
+    } catch (err) {
+      console.error("Failed to fetch documents", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDocuments();
+  }, []);
+
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-100 rounded-xl shadow-md mt-10">
-      <h2 className="text-2xl font-bold text-center text-blue-900 mb-6">Upload Employee Documents</h2>
-
-      <div className="space-y-5">
-        {documentsList.map((doc) => (
-          <div
-            key={doc.type}
-            className="flex flex-col md:flex-row items-start md:items-center gap-4 bg-white p-4 rounded-md shadow-sm"
-          >
-            <label className="w-full md:w-1/3 font-medium">{doc.label}</label>
-
-            <input
-              type="file"
-              onChange={(e) => handleFileChange(doc.type, e.target.files[0])}
-              className="flex-1 file:px-4 file:py-2 file:border-0 file:rounded-md file:bg-blue-900 file:text-white file:cursor-pointer border rounded-md"
-            />
-
-            <button
-              onClick={() => handleUpload(doc.type)}
-              disabled={uploadingDoc === doc.type}
-              className={`px-4 py-2 rounded-md text-white font-semibold ${
-                uploadingDoc === doc.type ? 'bg-gray-400' : 'bg-blue-900 hover:bg-blue-700'
-              }`}
+    <div className="max-w-5xl mx-auto p-6 mt-10 space-y-12">
+      {/* Upload Section */}
+      <div className="bg-white p-8 rounded-lg shadow-md">
+        <h2 className="text-3xl font-bold text-blue-900 mb-6 text-center">Upload Employee Documents</h2>
+        <div className="grid gap-6">
+          {documentsList.map((doc) => (
+            <div
+              key={doc.type}
+              className="flex flex-col md:flex-row items-start md:items-center gap-4 border-b pb-4"
             >
-              {uploadingDoc === doc.type ? "Uploading..." : "Upload"}
-            </button>
+              <label className="w-full md:w-1/4 font-semibold text-gray-700">{doc.label}</label>
 
-            {messages[doc.type] && (
-              <p className="text-sm text-green-600 font-medium">{messages[doc.type]}</p>
-            )}
+              <input
+                type="file"
+                onChange={(e) => handleFileChange(doc.type, e.target.files[0])}
+                className="w-full md:w-auto flex-1 border rounded-md px-3 py-2 file:bg-blue-900 file:text-white file:rounded file:border-0 file:px-4 file:py-2"
+              />
+
+              <button
+                onClick={() => handleUpload(doc.type)}
+                disabled={uploadingDoc === doc.type}
+                className={`px-5 py-2 rounded-md text-white transition font-semibold ${
+                  uploadingDoc === doc.type ? 'bg-gray-400' : 'bg-blue-900 hover:bg-blue-700'
+                }`}
+              >
+                {uploadingDoc === doc.type ? "Uploading..." : "Upload"}
+              </button>
+
+              {messages[doc.type] && (
+                <p className={`text-sm mt-1 ${
+                  messages[doc.type].includes("success") ? "text-green-600" : "text-red-600"
+                }`}>
+                  {messages[doc.type]}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Display Section */}
+      <div className="bg-white p-8 rounded-lg shadow-md">
+        <h2 className="text-3xl font-bold text-blue-900 mb-6 text-center">My Uploaded Documents</h2>
+        {loading ? (
+          <p className="text-center text-gray-500">Loading documents...</p>
+        ) : documents.length === 0 ? (
+          <p className="text-center text-gray-500">No documents uploaded yet.</p>
+        ) : (
+          <div className="space-y-4">
+            {documents.map((doc) => (
+              <div key={doc._id} className="flex justify-between items-center bg-gray-50 p-4 rounded-md border">
+                <div>
+                  <p className="font-semibold text-gray-800">{doc.documentType}</p>
+                  <p className="text-sm text-gray-500">Uploaded on: {new Date(doc.uploadedAt).toLocaleDateString()}</p>
+                </div>
+                <a
+                  href={`${process.env.REACT_APP_BASE_URL}/${doc.filePath}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  View
+                </a>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
