@@ -38,6 +38,7 @@ import UserTeams from './components/Employees/UserTeams';
 import Attendance from './components/Employees/Attendance';
 import LeaveApplications from './components/Employees/LeaveApplications';
 import Salary from './components/Employees/Salary';
+import UploadDocument from './components/Employees/UploadDocument';
 import ApplyForLeave from './components/Employees/ApplyForLeave';
 import EmployeeTeam from './pages/team/team/EmployeeTeam';
 import LeaveApplication from './components/Employees/LeaveApplication';
@@ -114,6 +115,7 @@ const App = () => {
               <Route path="/userAttendance" element={<Attendance />} />
               <Route path="/applyforleave" element={<ApplyForLeave />} />
               <Route path="/userSalary" element={<Salary />} />
+               <Route path="/documents" element={<UploadDocument />} />
               <Route path="/userLeaveApplications" element={<LeaveApplications />} />
               <Route path="/userLeaveApplications/:id" element={<LeaveApplication />} />
             </Route>

@@ -92,7 +92,7 @@ const ApplyForLeave = () => {
                 </span>
               </h4>
               <p className="text-sm mt-2 text-blue-100 animate-slideUp font-medium">
-                Plan your time off with ease! 🌟
+                Plan your time off with ease! 
               </p>
             </div>
           </div>

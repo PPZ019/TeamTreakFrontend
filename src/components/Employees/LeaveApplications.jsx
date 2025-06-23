@@ -113,7 +113,7 @@ const ApplyForLeave = () => {
                 </span>
               </h4>
               <p className="text-sm sm:text-base mt-2 text-blue-100 animate-slideUp font-medium">
-                Request your time off with a touch of magic! ✨
+                Request your time off with a touch of magic! 
               </p>
             </div>
           </div>

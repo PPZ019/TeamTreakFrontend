@@ -132,7 +132,7 @@ const Attendance = () => {
                   </span>
                 </h4>
                 <p className="text-sm mt-2 text-blue-100 animate-slideUp font-medium">
-                  Stay on top of your attendance with style! 🚀
+                  Stay on top of your attendance with style! 
                 </p>
                 <button
                   className={`mt-4 px-6 py-2 rounded-full font-semibold text-sm transition-all duration-300 transform hover:scale-110 flex items-center gap-2 ${
