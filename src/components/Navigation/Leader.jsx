@@ -30,9 +30,9 @@ const Leader = () => {
   return (
     <ul className="sidebar-menu space-y-2">
       <NavLink className={navLinkClass} to="/home"><FaFire />Dashboard</NavLink>
-      <NavLink className={navLinkClass} to="/team-members"><FaUsers />Team Members</NavLink>
-      <NavLink className={navLinkClass} to="/team-attendance"><FaUserClock />Team Attendance</NavLink>
-      <NavLink className={navLinkClass} to="/team-leaves"><FaBook />Leave Approvals</NavLink>
+      {/* <NavLink className={navLinkClass} to="/team-members"><FaUsers />Team Members</NavLink> */}
+      {/* <NavLink className={navLinkClass} to="/team-attendance"><FaUserClock />Team Attendance</NavLink> */}
+      {/* <NavLink className={navLinkClass} to="/team-leaves"><FaBook />Leave Approvals</NavLink> */}
       <NavLink className={navLinkClass} to="/attendance"><FaUserClock />Attendance</NavLink>
 <NavLink className={navLinkClass} to="/leaves"><FaBook />Leave Requests</NavLink>
 <NavLink className={navLinkClass} to="/salary-structure"><FaPiggyBank />Salary Setup</NavLink>
@@ -46,8 +46,9 @@ const Leader = () => {
       {/* <NavLink className={navLinkClass} to="/team-performance"><FaChartBar />Performance</NavLink> */}
 
       {/* <NavLink className={navLinkClass} to="/team-salary"><FaPiggyBank />Salary View</NavLink> */}
-      <NavLink className={navLinkClass} to="/team-reimbursements"><FaFileInvoice />Reimbursements</NavLink>
+      {/* <NavLink className={navLinkClass} to="/team-reimbursements"><FaFileInvoice />Reimbursements</NavLink> */}
       <NavLink className={navLinkClass} to="/addusers"><FaUserPlus />Add User</NavLink>
+      {/* <NavLink className={navLinkClass} to="/addteam"><FaUserPlus />Add Team</NavLink> */}
       <NavLink onClick={logout} className="flex items-center gap-3 px-3 py-2 text-md rounded-md transition hover:no-underline text-black hover:bg-[#F0F1FF] hover:text-[#211C84]" to="#">
         <FaSignOutAlt />Logout
       </NavLink>

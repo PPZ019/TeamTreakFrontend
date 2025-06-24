@@ -96,11 +96,15 @@ const App = () => {
               <Route path="/salaries" element={<Salaries />} />
               <Route path="/adduser" element={<AddUser />} />
               <Route path="/addusers" element={<AddUsers />} />
+              <Route path="/leaves" element={<LeaveView />} />
+
               <Route path="/addteam" element={<AddTeam />} />
               <Route path="/company" element={<Company />} />
               <Route path="/holiday" element={<Holiday />} />
               <Route path="/HolidayCalendarView" element={<HolidayCalendarView />} />
               <Route path="/RolePermission" element={<RolePermission />} />
+              <Route path="/leaves/:id" element={<Leave />} />
+
 
               <Route path="/view-announcements" element={<ViewAnnouncement />} />
               <Route path="/userAttendance" element={<Attendance />} />
