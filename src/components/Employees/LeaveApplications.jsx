@@ -108,8 +108,8 @@ const LeaveApplications = () => {
                 {
                   applications?.map((application,idx) => 
                   
-                 <tr className='hover-effect' onClick={()=>navigate(`userLeaveApplications/${application._id}`)
-                }> 
+                 <tr className='hover-effect'
+                > 
                  <td>{idx+1}</td>  
                  <td>{application.type}</td>
                  <td>{application.title}</td>
