@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 import Loading from '../Loading';
 import html2pdf from 'html2pdf.js';
+import  Default  from "../../assets/img/defaultprofile.jpg";
 
 const Salary = () => {
   const { user } = useSelector(state => state.authSlice);
@@ -37,7 +38,7 @@ const Salary = () => {
       }
     } catch (err) {
       console.error(err);
-      toast.error("Error fetching salary data");
+      toast.error("No salary data found for selected month.");
     } finally {
       setIsLoading(false);
     }
@@ -81,13 +82,14 @@ const Salary = () => {
       </div>
 
       <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
-        {/* Left - Info */}
+      
         <div className="md:w-1/3 bg-gray-100 py-20 px-6 text-center border-r">
-          <img
-            src={user.image || '/assets/icons/user.png'}
-            alt={user.name}
-            className="w-32 h-32 mx-auto rounded-full object-cover shadow-md border"
-          />
+        <img
+              src={user.image ? user.image : Default}
+              alt={user.name}
+              className="w-32 h-32 mx-auto rounded-full object-cover shadow-md border"
+              onError={(e) => (e.target.src = Default)}
+            />
           <h2 className="text-xl font-semibold text-gray-800 mt-4">{user.name}</h2>
           <p className="text-blue-600 font-medium">{user.designation || 'Employee'}</p>
           <div className="mt-4 text-sm text-gray-600 space-y-1 text-left">
