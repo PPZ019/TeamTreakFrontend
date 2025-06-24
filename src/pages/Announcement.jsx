@@ -54,7 +54,7 @@ const Announcements = () => {
       {/* Create Form */}
       <form
         onSubmit={handleCreate}
-        className="bg-gradient-to-r from-white via-blue-50 to-white border border-gray-200 shadow-sm rounded-xl p-6 space-y-4"
+        className="bg-white border border-gray-200 shadow-sm rounded-xl p-6 space-y-4"
       >
         <div className="grid md:grid-cols-3 gap-4">
           <div>

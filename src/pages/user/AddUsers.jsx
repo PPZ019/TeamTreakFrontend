@@ -5,7 +5,7 @@ import { addUser } from "../../http";
 import Modal from "../../components/modal/Modal";
 import { FaExclamationCircle } from "react-icons/fa";
 
-const AddUser = () => {
+const AddUsers = () => {
   const [imagePreview, setImagePreview] = useState("/assets/icons/user.png");
   const initialState = {
     name: "",
@@ -56,7 +56,9 @@ const AddUser = () => {
     }
 
     const fd = new FormData();
-    Object.keys(formData).forEach((key) => fd.append(key, formData[key]));
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value) fd.append(key, value);
+    });
 
     try {
       const { success, message } = await addUser(fd);
@@ -83,12 +85,10 @@ const AddUser = () => {
     reader.readAsDataURL(file);
   };
 
-  const modalAction = () => setShowModal(false);
-
   return (
     <>
       {showModal && (
-        <Modal close={modalAction} title="Confirm Admin Password" width="35%">
+        <Modal close={() => setShowModal(false)} title="Confirm Admin Password" width="35%">
           <div className="p-5 bg-white text-black rounded space-y-4">
             <div className="flex gap-6">
               <img className="rounded w-28 h-28 object-cover border" src={imagePreview} alt="Preview" />
@@ -98,7 +98,6 @@ const AddUser = () => {
                 <p><strong>User Type:</strong> {formData.type}</p>
               </div>
             </div>
-
             <div>
               <label className="font-semibold text-sm mb-1 block">Admin Password</label>
               <input
@@ -115,7 +114,6 @@ const AddUser = () => {
                 </p>
               )}
             </div>
-
             <div className="text-center">
               <button
                 type="submit"
@@ -131,7 +129,6 @@ const AddUser = () => {
 
       <div className="p-6">
         <HeaderSection title="Add New User" />
-
         <form onSubmit={onSubmit} id="addUserForm" className="max-w-3xl mx-auto bg-white shadow rounded-lg p-8 space-y-6">
           <div className="flex justify-center">
             <input
@@ -151,7 +148,9 @@ const AddUser = () => {
             </label>
           </div>
           {errors.profile && (
-            <p className="text-red-600 text-sm text-center"><FaExclamationCircle className="inline mr-1" /> {errors.profile}</p>
+            <p className="text-red-600 text-sm text-center">
+              <FaExclamationCircle className="inline mr-1" /> {errors.profile}
+            </p>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -160,15 +159,7 @@ const AddUser = () => {
                 <label className="block text-sm font-medium capitalize">Enter {field}</label>
                 <input
                   name={field}
-                  type={
-                    field === "email"
-                      ? "email"
-                      : field === "password"
-                      ? "password"
-                      : field === "mobile"
-                      ? "tel"
-                      : "text"
-                  }
+                  type={field === "email" ? "email" : field === "password" ? "password" : field === "mobile" ? "tel" : "text"}
                   value={formData[field]}
                   onChange={inputEvent}
                   className={`mt-1 w-full px-4 py-2 border rounded text-black ${
@@ -212,4 +203,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default AddUsers;

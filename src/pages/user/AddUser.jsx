@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios'
 import { toast } from "react-toastify";
 import HeaderSection from "../../components/HeaderSection";
 import { addUser } from "../../http";
@@ -16,6 +17,7 @@ const AddUser = () => {
     address: "",
     profile: "",
     adminPassword: "",
+    company: ""
   };
 
   const [formData, setFormData] = useState(initialState);
@@ -73,6 +75,20 @@ const AddUser = () => {
       toast.error(err.message || "Server error occurred");
     }
   };
+
+  const [companies, setCompanies] = useState([]);
+useEffect(() => {
+  const fetchCompanies = async () => {
+    try {
+      const res = await axios.get("http://localhost:5500/api/company");
+      setCompanies(res.data.result);
+    } catch (err) {
+      toast.error("Failed to load companies");
+    }
+  };
+  fetchCompanies();
+}, []);
+
 
   const captureImage = (e) => {
     const file = e.target.files[0];
@@ -197,6 +213,28 @@ const AddUser = () => {
               <option>Admin</option>
             </select>
           </div>
+          <div className="md:w-1/2">
+  <label className="block text-sm font-medium mb-1">Select Company</label>
+  <select
+    name="company"
+    value={formData.company}
+    onChange={inputEvent}
+    className="w-full border border-gray-300 rounded px-3 py-2 text-black"
+  >
+    <option value="">Select Company</option>
+    {companies.map((company) => (
+      <option key={company._id} value={company._id}>
+        {company.name}
+      </option>
+    ))}
+  </select>
+  {errors.company && (
+    <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+      <FaExclamationCircle /> {errors.company}
+    </p>
+  )}
+</div>
+
 
           <div className="text-center">
             <button

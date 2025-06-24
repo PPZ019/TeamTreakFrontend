@@ -12,11 +12,20 @@ const Employees = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await getEmployees();
-      if (res.success) {
-        setUsers(res.data);
+      try {
+        const res = await getEmployees();
+        if (res.success && Array.isArray(res.employees)) {
+          setUsers(res.employees);
+        } else {
+          console.warn("⚠️ Unexpected response format", res);
+          setUsers([]);
+        }
+      } catch (error) {
+        console.error("❌ Failed to fetch employees", error);
+        setUsers([]);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     })();
   }, []);
 
@@ -36,9 +45,7 @@ const Employees = () => {
         <div className="card shadow rounded-lg overflow-hidden">
           <div className="card-header bg-white border-b-2 border-[#211C84] px-6 py-4">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <h4 className="text-[#211C84] text-xl font-semibold m-0">
-                All Employees
-              </h4>
+              <h4 className="text-[#211C84] text-xl font-semibold m-0">All Employees</h4>
               <button
                 onClick={() => navigate('/adduser')}
                 className="bg-[#211C84] text-white px-4 py-2 rounded shadow hover:bg-[#4D55CC] transition"
@@ -57,7 +64,7 @@ const Employees = () => {
             </div>
           </div>
 
-          <div className="card-body p-0">
+          <div className="card-body">
             <div className="table-responsive">
               <table className="table w-full border-collapse">
                 <thead className="bg-gray-50">
@@ -67,24 +74,22 @@ const Employees = () => {
                     <th className="text-left py-3 px-4 border-b text-center">Email</th>
                     <th className="text-left py-3 px-4 border-b text-center">Mobile</th>
                     <th className="text-center py-3 px-4 border-b text-center">Status</th>
-                    <th className="text-left py-3 px-4 border-b text-center">Team</th>
-                    <th className="text-center py-3 px-4 border-b text-center">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loading ? (
                     <tr>
-                      <td colSpan="7" className="py-6 text-center text-gray-500 text-sm">
+                      <td colSpan="5" className="py-6 text-center text-gray-500 text-sm">
                         Loading employees...
                       </td>
                     </tr>
                   ) : filteredUsers.length > 0 ? (
                     filteredUsers.map((data, index) => (
-                      <RowEmployee  key={data._id || index} index={index + 1} data={data} />
+                      <RowEmployee key={data._id || index} index={index + 1} data={data} />
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="7" className="py-6 text-center text-gray-500 text-sm">
+                      <td colSpan="5" className="py-6 text-center text-gray-500 text-sm">
                         No employees found matching your search.
                       </td>
                     </tr>

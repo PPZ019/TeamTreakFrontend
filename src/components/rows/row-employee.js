@@ -13,7 +13,7 @@ const RowEmployee = ({index,data}) =>
             <td>{data.name}</td>
             <td>{data.email}</td>
             <td>{data.mobile}</td>
-            <td><div className={`text-center p-2 rounded text-xs  ${data.status==='Active'  ? 'bg-green-100 text-green-700'
+            <td><div className={`text-center p-2 rounded text-xs  ${data.status==='active'  ? 'bg-green-100 text-green-700'
     : 'bg-red-100 text-red-700'}`}>{data.status}</div></td>
             
             {

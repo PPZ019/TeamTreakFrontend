@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import {
   FaFire, FaUserClock, FaBook, FaPiggyBank,
   FaChartBar, FaFileInvoice, FaSignOutAlt, FaUsers, FaUsersCog,
-  FaUserPlus,  FaBullhorn, FaUserTag, FaCalendarAlt
+  FaUserPlus,  FaBullhorn, FaUserTag, FaCalendarAlt, FaTeamspeak
   
 } from "react-icons/fa";
 
@@ -30,6 +30,8 @@ const Leader = () => {
   return (
     <ul className="sidebar-menu space-y-2">
       <NavLink className={navLinkClass} to="/home"><FaFire />Dashboard</NavLink>
+      <NavLink to="/employees" className={navLinkClass}><FaTeamspeak />Employees</NavLink>
+
       {/* <NavLink className={navLinkClass} to="/team-members"><FaUsers />Team Members</NavLink> */}
       {/* <NavLink className={navLinkClass} to="/team-attendance"><FaUserClock />Team Attendance</NavLink> */}
       {/* <NavLink className={navLinkClass} to="/team-leaves"><FaBook />Leave Approvals</NavLink> */}

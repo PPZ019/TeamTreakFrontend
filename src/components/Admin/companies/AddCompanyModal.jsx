@@ -63,7 +63,7 @@ const AddCompanyModal = ({ onClose, onSubmit }) => {
         <div className="space-y-4">
           {[
             { label: "Company Name", key: "name" },
-            // { label: "Contact", key: "contact" },
+            { label: "Contact", key: "contact" },
             { label: "Phone", key: "phone" },
             { label: "Email", key: "email", type: "email" },
             { label: "Website", key: "website" },
