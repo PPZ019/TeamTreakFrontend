@@ -35,79 +35,6 @@ const LeaveApplications = () => {
 
   return (
     <>
-<<<<<<< Updated upstream
-    {
-      applications?
-      (<div className="main-content">
-      <section className="section">
-              <div className="card">
-                <div className="card-header d-flex justify-content-between">
-                  <h4>Leave Applications</h4>
-                  </div>
-                  </div>
-                  <div className="d-flex justify-content-center align-items-center w-100">
-         
-         <div className="form-group col-md-2">
-                               <label>Leave Type</label>
-                               <select name='type' onChange={(e)=>setType(e.target.value)} className="form-control select2">
-                                  <option>Select</option>
-                                   <option>Sick Leave</option>
-                                   <option>Casual Leave</option>
-                                   <option>Emergency Leave</option>
-                               </select>
-                           </div>
-                           <div className="form-group col-md-2">
-                               <label>Status</label>
-                               <select name='type' onChange={(e)=>setStatus(e.target.value)} className="form-control select2">
-                                  <option>Select</option>
-                                   <option>Pending</option>
-                                   <option>Approved</option>
-                                   <option>Rejected</option>
-                               </select>
-                           </div> 
-   
-                            <div className="form-group col-md-4"> 
-                           <label>Applied Date</label>
-                           <div className="input-group">
-                                   <div className="input-group-prepend">
-                                   <div className="input-group-text">
-                                   <i class="fa fa-calendar"></i>
-                                   </div>
-                                   </div>
-                                   <input onChange={(e)=>setAppliedDate(e.target.value)} type="date" id="startDate" name="startDate" className="form-control"></input>
-                             
-                               </div>
-                           </div>                  
-   
-        
-         
-         <button onClick={searchLeaveApplications} className="btn btn-lg btn-primary col">Search</button>
-       </div>
-       </section>
-       <div className="table-responsive">
-           <table className="table table-striped table-md center-text">
-               <thead>
-                  <tr>
-                     <th>#</th>
-                     <th>Type</th>
-                     <th>Title</th>
-                     <th>Applied Date</th>
-                     <th>Status</th>
-                 </tr>
-               </thead>
-               <tbody className="sidebar-wrapper">
-                {
-                  applications?.map((application,idx) => 
-                  
-                 <tr className='hover-effect'
-                > 
-                 <td>{idx+1}</td>  
-                 <td>{application.type}</td>
-                 <td>{application.title}</td>
-                 <td>{application.appliedDate}</td>
-                 <td className={`${application.adminResponse==="Rejected"?"text-danger":application.adminResponse==="Pending"?"text-primary":"text-success"}`}>{application.adminResponse}</td>
-                 </tr>
-=======
       {applications ? (
         <div className="min-h-screen  p-6">
           <div className="max-w-6xl mx-auto bg-white border border-gray-200 rounded-xl shadow-md p-6 md:p-8 space-y-8">
@@ -119,7 +46,6 @@ const LeaveApplications = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
               <div>
->>>>>>> Stashed changes
                 
                 <select
   value={type}
