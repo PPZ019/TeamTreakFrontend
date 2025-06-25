@@ -7,12 +7,13 @@ import { FaExclamationCircle } from "react-icons/fa";
 
 const AddUsers = () => {
   const [imagePreview, setImagePreview] = useState("/assets/icons/user.png");
+  
   const initialState = {
     name: "",
     email: "",
     mobile: "",
     password: "",
-    type: "Employee",
+    type: "employee", // 🔥 lowercase
     address: "",
     profile: "",
     adminPassword: "",
@@ -37,7 +38,7 @@ const AddUsers = () => {
     if (!password) newErrors.password = "Password is required";
     if (!address) newErrors.address = "Address is required";
     if (!profile) newErrors.profile = "Profile image is required";
-    if (type === "Admin" && !adminPassword) newErrors.adminPassword = "Admin password is required";
+    if (type === "admin" && !adminPassword) newErrors.adminPassword = "Admin password is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -50,7 +51,7 @@ const AddUsers = () => {
       return;
     }
 
-    if (formData.type === "Admin" && !showModal) {
+    if (formData.type === "admin" && !showModal) {
       setShowModal(true);
       return;
     }
@@ -61,6 +62,7 @@ const AddUsers = () => {
     });
 
     try {
+      console.log("Submitting: ", Object.fromEntries(fd));
       const { success, message } = await addUser(fd);
       if (success) {
         toast.success(message);
@@ -183,9 +185,9 @@ const AddUsers = () => {
               value={formData.type}
               className="w-full border border-gray-300 rounded px-3 py-2 text-black"
             >
-              <option>Employee</option>
-              <option>Client</option>
-              {/* <option>Admin</option> */}
+              <option value="employee">Employee</option>
+              <option value="client">Client</option>
+              <option value="admin">Admin</option>
             </select>
           </div>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from 'axios'
+import axios from 'axios';
 import { toast } from "react-toastify";
 import HeaderSection from "../../components/HeaderSection";
 import { addUser } from "../../http";
@@ -7,7 +7,6 @@ import Modal from "../../components/modal/Modal";
 import { FaExclamationCircle } from "react-icons/fa";
 
 const AddUser = () => {
-  const [imagePreview, setImagePreview] = useState("/assets/icons/user.png");
   const initialState = {
     name: "",
     email: "",
@@ -21,18 +20,40 @@ const AddUser = () => {
   };
 
   const [formData, setFormData] = useState(initialState);
+  const [imagePreview, setImagePreview] = useState("/assets/icons/user.png");
   const [errors, setErrors] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [companies, setCompanies] = useState([]);
+
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const res = await axios.get("http://localhost:5500/api/company");
+        setCompanies(res.data.result);
+      } catch {
+        toast.error("Failed to load companies");
+      }
+    };
+    fetchCompanies();
+  }, []);
 
   const inputEvent = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const captureImage = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setFormData((prev) => ({ ...prev, profile: file }));
+    const reader = new FileReader();
+    reader.onloadend = () => setImagePreview(reader.result);
+    reader.readAsDataURL(file);
+  };
+
   const validate = () => {
     const newErrors = {};
     const { name, email, mobile, password, address, profile, type, adminPassword } = formData;
-
     if (!name) newErrors.name = "Name is required";
     if (!email) newErrors.email = "Email is required";
     if (!mobile) newErrors.mobile = "Mobile number is required";
@@ -76,29 +97,6 @@ const AddUser = () => {
     }
   };
 
-  const [companies, setCompanies] = useState([]);
-useEffect(() => {
-  const fetchCompanies = async () => {
-    try {
-      const res = await axios.get("http://localhost:5500/api/company");
-      setCompanies(res.data.result);
-    } catch (err) {
-      toast.error("Failed to load companies");
-    }
-  };
-  fetchCompanies();
-}, []);
-
-
-  const captureImage = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setFormData((prev) => ({ ...prev, profile: file }));
-    const reader = new FileReader();
-    reader.onloadend = () => setImagePreview(reader.result);
-    reader.readAsDataURL(file);
-  };
-
   const modalAction = () => setShowModal(false);
 
   return (
@@ -114,7 +112,6 @@ useEffect(() => {
                 <p><strong>User Type:</strong> {formData.type}</p>
               </div>
             </div>
-
             <div>
               <label className="font-semibold text-sm mb-1 block">Admin Password</label>
               <input
@@ -131,7 +128,6 @@ useEffect(() => {
                 </p>
               )}
             </div>
-
             <div className="text-center">
               <button
                 type="submit"
@@ -147,7 +143,6 @@ useEffect(() => {
 
       <div className="p-6">
         <HeaderSection title="Add New User" />
-
         <form onSubmit={onSubmit} id="addUserForm" className="max-w-3xl mx-auto bg-white shadow rounded-lg p-8 space-y-6">
           <div className="flex justify-center">
             <input
@@ -169,7 +164,6 @@ useEffect(() => {
           {errors.profile && (
             <p className="text-red-600 text-sm text-center"><FaExclamationCircle className="inline mr-1" /> {errors.profile}</p>
           )}
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {["name", "email", "mobile", "password", "address"].map((field) => (
               <div key={field} className={field === "address" ? "md:col-span-2" : ""}>
@@ -177,13 +171,9 @@ useEffect(() => {
                 <input
                   name={field}
                   type={
-                    field === "email"
-                      ? "email"
-                      : field === "password"
-                      ? "password"
-                      : field === "mobile"
-                      ? "tel"
-                      : "text"
+                    field === "email" ? "email" :
+                    field === "password" ? "password" :
+                    field === "mobile" ? "tel" : "text"
                   }
                   value={formData[field]}
                   onChange={inputEvent}
@@ -213,28 +203,28 @@ useEffect(() => {
               <option>Admin</option>
             </select>
           </div>
-          <div className="md:w-1/2">
-  <label className="block text-sm font-medium mb-1">Select Company</label>
-  <select
-    name="company"
-    value={formData.company}
-    onChange={inputEvent}
-    className="w-full border border-gray-300 rounded px-3 py-2 text-black"
-  >
-    <option value="">Select Company</option>
-    {companies.map((company) => (
-      <option key={company._id} value={company._id}>
-        {company.name}
-      </option>
-    ))}
-  </select>
-  {errors.company && (
-    <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
-      <FaExclamationCircle /> {errors.company}
-    </p>
-  )}
-</div>
 
+          <div className="md:w-1/2">
+            <label className="block text-sm font-medium mb-1">Select Company</label>
+            <select
+              name="company"
+              value={formData.company}
+              onChange={inputEvent}
+              className="w-full border border-gray-300 rounded px-3 py-2 text-black"
+            >
+              <option value="">Select Company</option>
+              {companies.map((company) => (
+                <option key={company._id} value={company._id}>
+                  {company.name}
+                </option>
+              ))}
+            </select>
+            {errors.company && (
+              <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                <FaExclamationCircle /> {errors.company}
+              </p>
+            )}
+          </div>
 
           <div className="text-center">
             <button
