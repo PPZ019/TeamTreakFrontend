@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import axios from 'axios';
 
-export default function ExpenseClaimForm({ onSubmit }) {
+export default function ExpenseClaimForm({ onSuccess }) {
   const [formData, setFormData] = useState({
     category: '',
     amount: '',
@@ -17,19 +18,34 @@ export default function ExpenseClaimForm({ onSubmit }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newClaim = {
-      id: Date.now(),
-      ...formData,
-      status: "Pending",
-      receipt_url: formData.receipt ? URL.createObjectURL(formData.receipt) : null,
-    };
+    const data = new FormData();
+    data.append('category', formData.category);
+    data.append('amount', formData.amount);
+    data.append('date', formData.date);
+    data.append('description', formData.description);
+    if (formData.receipt) {
+      data.append('receipt', formData.receipt);
+    }
 
-    onSubmit(newClaim);
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/api/expense/claim`,
+        data,
+        {
+          withCredentials: true, // ✅ Send cookies
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      onSuccess(res.data.claim);
+    } catch (err) {
+      console.error('Error submitting claim:', err);
+    }
 
-    // Reset form
     setFormData({
       category: '',
       amount: '',
@@ -52,13 +68,9 @@ export default function ExpenseClaimForm({ onSubmit }) {
       </select>
 
       <input type="number" name="amount" placeholder="Amount" value={formData.amount} onChange={handleChange} required className="w-full border p-2 rounded" />
-
       <input type="date" name="date" value={formData.date} onChange={handleChange} required className="w-full border p-2 rounded" />
-
       <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required className="w-full border p-2 rounded" />
-
       <input type="file" name="receipt" onChange={handleChange} className="w-full" />
-
       <button type="submit" className="bg-blue-900 text-white px-4 py-2 rounded w-full">Submit</button>
     </form>
   );
