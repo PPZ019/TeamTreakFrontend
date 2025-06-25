@@ -7,7 +7,7 @@ const LeaveView = () => {
   const [type, setType] = useState('');
   const [status, setStatus] = useState('');
   const [appliedDate, setAppliedDate] = useState('');
-  const [applications, setApplications] = useState(null);
+  const [applications, setApplications] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [employeeMap, setEmployeeMap] = useState({});
   const [selectedEmployee, setSelectedEmployee] = useState('');
@@ -23,16 +23,40 @@ const LeaveView = () => {
           getEmployees(),
           getLeaders(),
         ]);
+        const empList = empRes?.employees || [];
 
-        const allEmployees = [...empRes.data, ...leaderRes.data];
         const empObj = {};
-        allEmployees.forEach((emp) => {
-          empObj[emp.id] = [emp.name, emp.email];
+        empList.forEach(emp => {
+          empObj[emp._id] = {
+            name: emp.name,
+            email: emp.email
+          };
         });
+        // const empList = empRes?.employees || [];
+        const leaderList = leaderRes?.data?.employees || [];
+        const allEmployees = [...empList, ...leaderList];
 
+        console.log("empList:", empRes.employees.map(emp => ({ name: emp.name, email: emp.email })));
+
+
+        // console.log("leaderList:", empObj);
+        // console.log("allEmployees:", allEmployees);
+        const allEmpIds = allEmployees.map(e => e._id)
+        {console.log("All Employee IDs:", allEmpIds)}
+        
+
+        // const empObj = {};
+        // allEmployees.forEach((emp) => {
+        //   empObj[emp._id] = {
+        //     name: emp.name,
+        //     email: emp.email,
+        //   };
+        // });
+       
+        
         setEmployeeMap(empObj);
-        setEmployees(allEmployees);
-        setApplications(leaveRes.data);
+        setEmployees(empList);
+        setApplications(leaveRes?.data || []);
       } catch (err) {
         setError('Failed to fetch leave data.');
         console.error(err);
@@ -43,6 +67,8 @@ const LeaveView = () => {
 
     fetchAll();
   }, []);
+
+
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -67,10 +93,9 @@ const LeaveView = () => {
 
       setLoading(true);
       const res = await viewLeaves(query);
-      setApplications(res.data);
+      setApplications(res?.data || []);
     } catch (err) {
       setError('Search failed.');
-      console.error(err);
     } finally {
       setLoading(false);
       setAppliedDate('');
@@ -79,6 +104,8 @@ const LeaveView = () => {
       setSelectedEmployee('');
     }
   };
+
+
 
   if (loading) return <Loading />;
   if (error) return <div className="text-red-600 p-4">{error}</div>;
@@ -92,7 +119,7 @@ const LeaveView = () => {
 
         {/* Filters */}
         <div className="flex flex-wrap gap-4 justify-center items-end mb-6 border p-4 rounded-lg shadow-sm">
-          {/* Employee */}
+          {/* Employee Filter */}
           <div className="w-48">
             <label htmlFor="employee" className="block mb-1 font-medium">Employee</label>
             <select
@@ -103,12 +130,12 @@ const LeaveView = () => {
             >
               <option value="">All Employees</option>
               {employees.map((emp) => (
-                <option key={emp.id} value={emp.id}>{emp.name}</option>
+                <option key={emp._id} value={emp._id}>{emp.name}</option>
               ))}
             </select>
           </div>
 
-          {/* Type */}
+          {/* Leave Type Filter */}
           <div className="w-48">
             <label htmlFor="type" className="block mb-1 font-medium">Leave Type</label>
             <select
@@ -124,7 +151,7 @@ const LeaveView = () => {
             </select>
           </div>
 
-          {/* Status */}
+          {/* Status Filter */}
           <div className="w-48">
             <label htmlFor="status" className="block mb-1 font-medium">Status</label>
             <select
@@ -140,7 +167,7 @@ const LeaveView = () => {
             </select>
           </div>
 
-          {/* Applied Date */}
+          {/* Applied Date Filter */}
           <div className="w-56">
             <label htmlFor="appliedDate" className="block mb-1 font-medium">Applied Date</label>
             <input
@@ -162,7 +189,7 @@ const LeaveView = () => {
         </div>
       </section>
 
-      {/* Table */}
+      {/* Applications Table */}
       <div className="overflow-x-auto border border-blue-900 rounded-md">
         <table className="min-w-full text-center text-blue-900">
           <thead>
@@ -182,15 +209,18 @@ const LeaveView = () => {
                 <td colSpan="7" className="py-4 text-gray-500">No applications found.</td>
               </tr>
             ) : (
-              applications.map((app, idx) => (
+              applications
+              .filter(app => employeeMap[app.applicantID]) // ✅ only show valid employees
+              .map((app, idx) => (
                 <tr
                   key={app._id}
                   onClick={() => navigate(`/leaves/${app._id}`)}
                   className="cursor-pointer hover:bg-blue-100 transition"
                 >
                   <td className="px-4 py-2">{idx + 1}</td>
-                  <td className="px-4 py-2">{employeeMap[app.applicantID]?.[0]}</td>
-                  <td className="px-4 py-2">{employeeMap[app.applicantID]?.[1]}</td>
+                  <td className="px-4 py-2">{employeeMap[app.applicantID]?.name || 'Unknown'}</td>
+<td className="px-4 py-2">{employeeMap[app.applicantID]?.email || 'Unknown'}</td>
+{console.log("Leave Applicant ID:", app.applicantID)}
                   <td className="px-4 py-2">{app.type}</td>
                   <td className="px-4 py-2">{app.title}</td>
                   <td className="px-4 py-2">{app.appliedDate}</td>

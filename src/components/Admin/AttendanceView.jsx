@@ -47,17 +47,27 @@ const AttendanceView = () => {
       setAttendance(data);
     };
     const fetchEmployees = async () => {
-      const emps = await getEmployees();
-      const leaders = await getLeaders();
-      emps.data.forEach(
-        (employee) => (empObj[employee.id] = [employee.name, employee.email])
-      );
-      leaders.data.forEach(
-        (leader) => (empObj[leader.id] = [leader.name, leader.email])
-      );
-      setEmployeeMap(empObj);
-      setEmployees([...emps.data, ...leaders.data]);
+      try {
+        const emps = await getEmployees();
+        const leaders = await getLeaders();
+    
+        let empObj = {};
+    
+        (emps.employees || []).forEach((employee) => {
+          empObj[employee._id] = [employee.name, employee.email];
+        });
+    
+        (leaders.employees || []).forEach((leader) => {
+          empObj[leader._id] = [leader.name, leader.email];
+        });
+    
+        setEmployeeMap(empObj);
+        setEmployees([...(emps.employees || []), ...(leaders.employees || [])]);
+      } catch (err) {
+        console.error("Error fetching employees:", err);
+      }
     };
+    
     fetchEmployees();
     fetchData();
   }, []);
@@ -92,7 +102,7 @@ const AttendanceView = () => {
         >
           <option value="">Employees</option>
           {employees?.map((employee) => (
-            <option key={employee._id} value={employee.id}>
+            <option key={employee._id} value={employee._id}>
               {employee.name}
             </option>
           ))}
@@ -165,7 +175,7 @@ const AttendanceView = () => {
           </tr>
         </thead>
         <tbody className="text-gray-700">
-          {attendance?.map((att, idx) => (
+        {attendance?.filter(att => employeeMap?.[att.employeeID]).map((att, idx) => (
             <tr
               key={att._id || idx}
               className="hover:bg-gray-50 transition-colors"

@@ -8,13 +8,16 @@ const ViewAnnouncements = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:5500/api/announcements/all");
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:5500/api/announcements/all", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setAnnouncements(res.data.data);
     } catch {
       toast.error("Failed to load announcements");
     }
   };
-
+  
   useEffect(() => {
     fetchData();
   }, []);

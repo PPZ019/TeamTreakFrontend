@@ -32,7 +32,7 @@ const SalarySetup = () => {
       try {
         const res = await getEmployees();
         if (res.success) {
-          setEmployees(res.data);
+          setEmployees(res.employees);
         } else {
           toast.error("Failed to load employees");
         }

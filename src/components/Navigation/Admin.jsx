@@ -40,11 +40,11 @@ const Admin = () => {
       <NavLink to="/home" className={navLinkClass}><FaHome />Dashboard</NavLink>
       <NavLink to="/invoices" className={navLinkClass}><FaFileInvoice />Invoices</NavLink>
       <NavLink to="/leaders" className={navLinkClass}><FaUserFriends />Clients</NavLink>
-      <NavLink to="/admins" className={navLinkClass}><FaUsersCog />Admins</NavLink>
+      {/* <NavLink to="/admins" className={navLinkClass}><FaUsersCog />Admins</NavLink> */}
       {/* <NavLink to="/attendance" className={navLinkClass}><FaUserClock />Attendance</NavLink> */}
       {/* <NavLink to="/leaves" className={navLinkClass}><FaBook />Leave Requests</NavLink> */}
       {/* <NavLink to="/salary-structure" className={navLinkClass}><FaMoneyBill />Salary Setup</NavLink> */}
-      <NavLink to="/performance" className={navLinkClass}><FaPiggyBank />Performance</NavLink>
+      {/* <NavLink to="/performance" className={navLinkClass}><FaPiggyBank />Performance</NavLink> */}
       <NavLink to="/RolePermission" className={navLinkClass}><FaAddressCard />Roles & Permissions</NavLink>
       <NavLink to="/holiday" className={navLinkClass}><FaTeamspeak />Holiday Calendar</NavLink>
       {/* <NavLink to="/employees" className={navLinkClass}><FaTeamspeak />Holiday Calendar</NavLink> */}

@@ -19,7 +19,10 @@ const Announcements = () => {
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5500/api/announcements/create", form);
+      const token = localStorage.getItem("token");
+      await axios.post("http://localhost:5500/api/announcements/create", form, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       toast.success("Announcement posted");
       setForm({ title: "", message: "", audience: "all" });
       fetchData();
@@ -31,7 +34,10 @@ const Announcements = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this announcement?")) return;
     try {
-      await axios.delete(`http://localhost:5500/api/announcements/delete/${id}`);
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:5500/api/announcements/delete/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       toast.success("Deleted");
       fetchData();
     } catch {
