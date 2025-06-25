@@ -32,13 +32,13 @@ const Leaders = () => {
               <table className="table w-full border-collapse">
                 <thead className="bg-gray-50">
                   <tr className="text-[#211C84] text-sm uppercase">
-                    <th className="text-left py-3 px-4 border-b">Number</th>
-                    <th className="text-left py-3 px-4 border-b">Name</th>
-                    <th className="text-left py-3 px-4 border-b">Email</th>
-                    <th className="text-left py-3 px-4 border-b">Mobile</th>
-                    <th className="text-left py-3 px-4 border-b">Company</th>
+                    <th className="text-left py-3 px-4 border-b text-center">Number</th>
+                    <th className="text-left py-3 px-4 border-b text-center">Name</th>
+                    <th className="text-left py-3 px-4 border-b text-center">Email</th>
+                    <th className="text-left py-3 px-4 border-b text-center">Mobile</th>
+                    <th className="text-left py-3 px-4 border-b text-center">Company</th>
                     <th className="text-center py-3 px-4 border-b">Status</th>
-                    {/* <th className="text-left py-3 px-4 border-b">Leading Team</th> */}
+                    {/* <th className="text-left py-3 px-4 border-b text-center">Leading Team</th> */}
                     <th className="text-center py-3 px-4 border-b">Action</th>
                   </tr>
                 </thead>

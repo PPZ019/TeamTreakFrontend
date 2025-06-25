@@ -10,7 +10,7 @@ const ViewAnnouncements = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get("http://localhost:5500/api/announcements/all", {
-        headers: { Authorization: `Bearer ${token}` }
+        withCredentials: true, 
       });
       setAnnouncements(res.data.data);
     } catch {

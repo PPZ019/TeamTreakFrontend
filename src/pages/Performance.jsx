@@ -12,8 +12,8 @@ const Performance = () => {
   // Fetch all employees
   const fetchEmployees = async () => {
     try {
-      const data = await getEmployees();
-      setEmployees(data?.data || []);
+      const res = await getEmployees();
+      setEmployees(res?.employees || []);
     } catch (error) {
       toast.error("Failed to load employees");
       setEmployees([]);

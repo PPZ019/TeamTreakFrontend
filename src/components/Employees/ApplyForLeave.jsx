@@ -27,7 +27,6 @@ const ApplyForLeave = () => {
 
     const formattedData = {
       ...formData,
-      applicantID: user.id,
       appliedDate: new Date().toISOString().split('T')[0], 
       startDate: startDate.toISOString().split('T')[0],
       endDate: endDate.toISOString().split('T')[0],

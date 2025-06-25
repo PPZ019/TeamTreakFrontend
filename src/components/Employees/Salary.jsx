@@ -4,25 +4,46 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 import Loading from '../Loading';
 import html2pdf from 'html2pdf.js';
-import  Default  from "../../assets/img/defaultprofile.jpg";
+import Default from "../../assets/img/defaultprofile.jpg";
 
 const Salary = () => {
   const { user } = useSelector(state => state.authSlice);
   const [salary, setSalary] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [companyName, setCompanyName] = useState("");
   const [selectedMonth, setSelectedMonth] = useState(() => {
     const today = new Date();
     return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
   });
   const slipRef = useRef();
+  console.log(user)
 
-  const fetchSalary = async () => {
-    if (!user?.id || !selectedMonth) return;
-    setIsLoading(true);
+  const fetchCompany = async () => {
+    if (!user?.company?._id) return;
 
     try {
+      const res = await axios.get(`http://localhost:5500/api/company/${user.company._id}`);
+      setCompanyName(res.data?.name || "Company");
+      console.log(res.data?.name );
+    } catch (err) {
+      console.error("Company fetch error", err);
+      setCompanyName("Company");
+    }
+  };
+
+  const fetchSalary = async () => {
+    if (!user?._id || !selectedMonth) {
+      console.log("Missing user ID or selectedMonth");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
       const [year, month] = selectedMonth.split("-");
-      const res = await axios.get(`http://localhost:5500/api/salary/view/${user.id}?month=${parseInt(month)}&year=${year}`);
+      const res = await axios.get(
+        `http://localhost:5500/api/salary/view/${user._id}?month=${parseInt(month)}&year=${year}`
+      );
+
       const data = res.data?.data?.[0];
 
       if (data) {
@@ -45,8 +66,11 @@ const Salary = () => {
   };
 
   useEffect(() => {
-    fetchSalary();
-  }, [user.id, selectedMonth]);
+    if (user?._id) {
+      fetchSalary();
+      fetchCompany();
+    }
+  }, [user, selectedMonth]);
 
   const downloadSlip = () => {
     if (!salary) return;
@@ -82,14 +106,14 @@ const Salary = () => {
       </div>
 
       <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
-      
+        {/* Left - Employee Info */}
         <div className="md:w-1/3 bg-gray-100 py-20 px-6 text-center border-r">
-        <img
-              src={user.image ? user.image : Default}
-              alt={user.name}
-              className="w-32 h-32 mx-auto rounded-full object-cover shadow-md border"
-              onError={(e) => (e.target.src = Default)}
-            />
+          <img
+            src={user.image || Default}
+            alt={user.name}
+            className="w-32 h-32 mx-auto rounded-full object-cover shadow-md border"
+            onError={(e) => (e.target.src = Default)}
+          />
           <h2 className="text-xl font-semibold text-gray-800 mt-4">{user.name}</h2>
           <p className="text-blue-600 font-medium">{user.designation || 'Employee'}</p>
           <div className="mt-4 text-sm text-gray-600 space-y-1 text-left">
@@ -99,12 +123,12 @@ const Salary = () => {
           </div>
         </div>
 
-        {/* Right - Slip PDF */}
+        {/* Right - Salary Slip */}
         <div ref={slipRef} className="md:w-2/3 p-6 text-sm">
           {salary ? (
             <>
               <div className="text-center mb-4">
-                <h2 className="text-2xl font-bold text-gray-800">Company Name Pvt. Ltd.</h2>
+                <h2 className="text-2xl font-bold text-gray-800">{companyName}</h2>
                 <p className="text-gray-500">Salary Slip</p>
                 <p className="text-gray-400">{new Date(salary.createdAt).toLocaleDateString()}</p>
               </div>

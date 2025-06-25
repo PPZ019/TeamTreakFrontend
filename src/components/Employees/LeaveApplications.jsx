@@ -14,14 +14,14 @@ const LeaveApplications = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await viewLeaveApplications({ applicantID: user.id });
+      const res = await viewLeaveApplications({});
       setApplications(res.data);
     };
     fetchData();
   }, []);
 
   const searchLeaveApplications = async () => {
-    const obj = { applicantID: user.id };
+    const obj = { };
     if (type) obj.type = type;
     if (status) obj.adminResponse = status;
     if (appliedDate) obj.appliedDate = appliedDate;

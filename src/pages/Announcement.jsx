@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { FaBullhorn, FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 
 const Announcements = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -9,7 +9,9 @@ const Announcements = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:5500/api/announcements/all");
+      const res = await axios.get("http://localhost:5500/api/announcements/all", {
+        withCredentials: true, // ✅ send cookies
+      });
       setAnnouncements(res.data.data);
     } catch {
       toast.error("Failed to load announcements");
@@ -19,10 +21,13 @@ const Announcements = () => {
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5500/api/announcements/create", form, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await axios.post(
+        "http://localhost:5500/api/announcements/create",
+        form,
+        {
+          withCredentials: true, // ✅ send cookies instead of header
+        }
+      );
       toast.success("Announcement posted");
       setForm({ title: "", message: "", audience: "all" });
       fetchData();
@@ -34,9 +39,8 @@ const Announcements = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this announcement?")) return;
     try {
-      const token = localStorage.getItem("token");
       await axios.delete(`http://localhost:5500/api/announcements/delete/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
+        withCredentials: true, // ✅ send cookies
       });
       toast.success("Deleted");
       fetchData();
