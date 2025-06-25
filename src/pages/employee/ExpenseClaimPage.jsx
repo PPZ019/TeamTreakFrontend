@@ -8,13 +8,11 @@ export default function ExpenseClaimPage() {
 
   const fetchClaims = async () => {
     try {
-      const token = localStorage.getItem('token');
       const res = await axios.get('http://localhost:5500/api/expense/claim', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+       withCredentials: true,
       });
       setClaims(res.data);
+      console.log(res)
     } catch (err) {
       console.error('Error fetching claims:', err);
     }

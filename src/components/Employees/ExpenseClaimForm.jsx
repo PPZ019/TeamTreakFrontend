@@ -36,9 +36,7 @@ export default function ExpenseClaimForm({ onSuccess }) {
         data,
         {
           withCredentials: true, // ✅ Send cookies
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+          
         }
       );
       onSuccess(res.data.claim);
