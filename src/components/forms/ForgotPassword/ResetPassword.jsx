@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { resetPassword } from "../../../http/index";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
   const { email } = useSelector((state) => state.authSlice);
-  const history = useHistory();
+  const navigate = useNavigate();
+
 
   const [formData, setFormData] = useState({
     email,
@@ -43,7 +44,7 @@ const ResetPassword = () => {
 
     if (res.success) {
       toast.success(res.message);
-      history.push("/login");
+      navigate("/login");
     } else {
       toast.error(res.message);
     }

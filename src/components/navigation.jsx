@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { dLogout } from "../http/index";
 import { setAuth } from "../store/auth-slice";
@@ -9,14 +9,14 @@ import image1 from '../assets/employee.png'
 const Navigation = () => {
   const { name, image } = useSelector((state) => state.authSlice.user);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const logout = async () => {
     await dLogout();
     dispatch(setAuth(null));
-    history.push("/login");
+    navigate("/login");
   };
 
   useEffect(() => {

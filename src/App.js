@@ -28,7 +28,6 @@ import AddUser from './pages/user/AddUser';
 import AddUsers from './pages/user/AddUsers';
 import AddTeam from './pages/team/AddTeam';
 import Employee from './pages/employee/Employee';
-import Team from './pages/team/team/Team';
 import EditUser from './pages/user/EditUser';
 import EditTeam from './pages/team/EditTeam';
 import Admin from './pages/admin/Admin';
@@ -40,6 +39,7 @@ import Leaders from './pages/leader/Leaders';
 import Members from './pages/leaderpage/Members';
 import UserTeams from './components/Employees/UserTeams';
 import Attendance from './components/Employees/Attendance';
+import ClientAttendance from './components/Employees/ClientAttendance';
 import LeaveApplications from './components/Employees/LeaveApplications';
 import Salary from './components/Employees/Salary';
 import UploadDocument from './components/Employees/UploadDocument';
@@ -70,134 +70,127 @@ const App = () => {
 
   return loading ?
     <Loading /> : (
-      <Routes>
-        <Route element={<ProtectedRoute />}>
-          <Route element={<MainLayout />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/invoices" element={<Invoice />} />
-            <Route path="/chat" element={<ChatPage />} />
-            <Route path="/invoices/create" element={<InvoiceCreate />} />
-            <Route path="/invoices/read/:id" element={<InvoiceRead />} />
-            <Route path="/invoices/payment/:id" element={<InvoiceRecord />} />
-            <Route path="/invoices/edit/:id" element={<InvoiceUpdate />} />
-            <Route path="/employees" element={<Employees />} />
-            <Route path="/salary-structure" element={<SalarySetup />} />
-            <Route path="/performance" element={<Performance />} />
-            <Route path="/leaders" element={<Leaders />} />
-            <Route path="/admins" element={<Admins />} />
-            <Route path="/teams" element={<Teams />} />
-            <Route path="/attendance" element={<AttendanceView />} />
-            <Route path="/leaves" element={<LeaveView />} />
-            <Route path="/announcement" element={<Announcement />} />
-            <Route path="/assignSalary" element={<AssignSalary />} />
-            <Route path="/salaries" element={<Salaries />} />
-            <Route path="/adduser" element={<AddUser />} />
-            <Route path="/addusers" element={<AddUsers />} />
-            <Route path="/addteam" element={<AddTeam />} />
-            <Route path="/company" element={<Company />} />
-            <Route path="/holiday" element={<Holiday />} />
-            <Route path="/HolidayCalendarView" element={<HolidayCalendarView />} />
-            <Route path="/RolePermission" element={<RolePermission />} />
-            <Route path="/leaves/:id" element={<Leave />} />
-            <Route path="/view-announcements" element={<ViewAnnouncement />} />
-            <Route path="/userAttendance" element={<Attendance />} />
-            <Route path="/applyforleave" element={<ApplyForLeave />} />
-            <Route path="/userLeaveApplications" element={<LeaveApplications />} />
-            <Route path="/userLeaveApplications/:id" element={<LeaveApplication />} />
-            <Route path="/userSalary" element={<Salary />} />
-            <Route path="/contact" element={<div>Contact Us Page</div>} />
-            <Route path="/about" element={<div>About Us Page</div>} />
-          </Route>
-        </Route>
+      <>
 
-        <Route element={<EmployeeRoute />}>
-          <Route element={<MainLayout />}>
-            <Route path="/userTeams" element={<UserTeams />} />
-            <Route path="/userteam/:id" element={<EmployeeTeam />} />
-            <Route path="/dashboardEmployee" element={<DashboardEmployee />} />
-            <Route path="/my-performance" element={<MyPerformance />} />
-            <Route path="/HolidayCalendarView" element={<HolidayCalendarView />} />
-            <Route path="/userAttendance" element={<Attendance />} />
-            <Route path="/applyforleave" element={<ApplyForLeave />} />
-            <Route path="/userSalary" element={<Salary />} />
-            <Route path="/documents" element={<UploadDocument />} />
-            <Route path="/my-documents" element={<MyDocument />} />
-            <Route path="/reimbursements" element={<MyExpense />} />
-            <Route path="/userLeaveApplications" element={<LeaveApplications />} />
-            <Route path="/userLeaveApplications/:id" element={<LeaveApplication />} />
-            <Route path="/my-claims" element={<MyClaims />} />
-          </Route>
-        </Route>
+        <Routes>
+          <Route element={<ProtectedRoute />}>
+            <Route element={<MainLayout />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/invoices" element={<Invoice />} />
+              <Route path="/chat" element={<ChatPage />} />
+              <Route path="/invoices/create" element={<InvoiceCreate />} />
+              <Route path="/invoices/read/:id" element={<InvoiceRead />} />
+              <Route path="/invoices/payment/:id" element={<InvoiceRecord />} />
+              <Route path="/invoices/edit/:id" element={<InvoiceUpdate />} />
+              {/* HRMS */}
+              <Route path="/employees" element={<Employees />} />
+              <Route path="/salary-structure" element={<SalarySetup />} />
+              <Route path="/performance" element={<Performance />} />
+              <Route path="/leaders" element={<Leaders />} />
+              <Route path="/admins" element={<Admins />} />
+              <Route path="/teams" element={<Teams />} />
+              <Route path="/reimbursements" element={<MyExpense />} />
 
-        <Route element={<LeaderRoute />}>
-          <Route element={<MainLayout />}>
-            <Route path="/members" element={<Members />} />
-            <Route path="/employee-claims" element={<LeaderClaims />} />
-          </Route>
-        </Route>
+              <Route path="/attendance" element={<AttendanceView />} />
+              <Route path="/attendances" element={<ClientAttendance />} />
+              <Route path="/leaves" element={<LeaveView />} />
+              <Route path="/announcement" element={<Announcement />} />
+              <Route path="/documents" element={<UploadDocument />} />
 
-        <Route element={<AdminRoute />}>
-          <Route element={<MainLayout />}>
-            <Route path="/admins" element={<Admins />} />
-            <Route path="/teams" element={<Teams />} />
-            <Route path="/adduser" element={<AddUser />} />
-            <Route path="/attendance" element={<AttendanceView />} />
-            <Route path="/salary-structure" element={<SalarySetup />} />
-            <Route path="/employees" element={<Employees />} />
-            <Route path="/announcement" element={<Announcement />} />
-            <Route path="/RolePermission" element={<RolePermission />} />
-            <Route path="/leaves" element={<LeaveView />} />
-            <Route path="/performance" element={<Performance />} />
-            <Route path="/assignSalary" element={<AssignSalary />} />
-            <Route path="/salaries" element={<Salaries />} />
-            <Route path="/leaves/:id" element={<Leave />} />
-            <Route path="/salary/:id" element={<SalaryView />} />
-            <Route path="/addteam" element={<AddTeam />} />
-            <Route path="/employee/:id" element={<Employee />} />
-            <Route path="/team/:id" element={<Team />} />
-            <Route path="/edituser/:id" element={<EditUser />} />
-            <Route path="/editteam/:id" element={<EditTeam />} />
-            <Route path="/admin/:id" element={<Admin />} />
-            <Route path="/leaders" element={<Leaders />} />
-          </Route>
-        </Route>
+              <Route path="/assignSalary" element={<AssignSalary />} />
+              <Route path="/salaries" element={<Salaries />} />
+              <Route path="/adduser" element={<AddUser />} />
+              <Route path="/addusers" element={<AddUsers />} />
+              <Route path="/my-performance" element={<MyPerformance />} />
+              <Route path="/my-documents" element={<MyDocument />} />
 
-        <Route element={<GuestRoute />}>
-          <Route path="/" element={<Template />} />
-          <Route path="/login" element={<Template />} />
-          <Route path="/forgot" element={<Forgot />} />
-        </Route>
 
-        <Route element={<FounderRoute />}>
-          <Route element={<MainLayout />}>
-            <Route path="/founder-dashboard" element={<div>Founder Dashboard</div>} />
-          </Route>
-        </Route>
+              <Route path="/addteam" element={<AddTeam />} />
+              <Route path="/company" element={<Company />} />
+              <Route path="/holiday" element={<Holiday />} />
+              <Route path="/HolidayCalendarView" element={<HolidayCalendarView />} />
+              <Route path="/RolePermission" element={<RolePermission />} />
+              <Route path="/leaves/:id" element={<Leave />} />
 
-        <Route element={<CEORoute />}>
-          <Route element={<MainLayout />}>
-            <Route path="/ceo-dashboard" element={<div>CEO Dashboard</div>} />
-          </Route>
-        </Route>
 
-        <Route element={<VPRoute />}>
-          <Route element={<MainLayout />}>
-            <Route path="/vp-dashboard" element={<div>VP Dashboard</div>} />
-          </Route>
-        </Route>
+              <Route path="/userAttendance" element={<Attendance />} />
+              <Route path="/applyforleave" element={<ApplyForLeave />} />
+              <Route path="/userLeaveApplications" element={<LeaveApplications />} />
+              <Route path="/userLeaveApplications/:id" element={<LeaveApplication />} />
+              <Route path="/userSalary" element={<Salary />} />
+              <Route path="/invoices/read/:id" element={<InvoiceRead />} />
+              <Route path="/userTeams" element={<UserTeams />} />
+              <Route path="/userteam/:id" element={<EmployeeTeam />} />
+              <Route path="/dashboardEmployee" element={<DashboardEmployee />} />
+              <Route path="/salary/:id" element={<SalaryView />} />
+              <Route path="/employee/:id" element={<Employee />} />
+              <Route path="/editteam/:id" element={<EditTeam />} />
+              <Route path="/admin/:id" element={<Admin />} />
 
-        <Route element={<ManagerRoute />}>
-          <Route element={<MainLayout />}>
-            <Route path="/manager-dashboard" element={<div>Manager Dashboard</div>} />
-          </Route>
-        </Route>
+              <Route path="/view-announcements" element={<ViewAnnouncement />} />
+              <Route path="/edituser/:id" element={<EditUser />} />
+              <Route element={<EmployeeRoute />}>
+              </Route>
 
-        <Route element={<TeamLeaderRoute />}>
-          <Route element={<MainLayout />}>
-            <Route path="/teamleader-dashboard" element={<div>Team Leader Dashboard</div>} />
+              <Route element={<AdminRoute />}>
+                <Route path="/invoices" element={<Invoice />} />
+                <Route path="/leaders" element={<Leaders />} />
+                <Route path="/admins" element={<Admins />} />
+                <Route path="/teams" element={<Teams />} />
+                <Route path="/adduser" element={<AddUser />} />
+                <Route path="/addusers" element={<AddUsers />} />
+                <Route path="/assignSalary" element={<AssignSalary />} />
+                <Route path="/salaries" element={<Salaries />} />
+                <Route path="/company" element={<Company />} />
+                <Route path="/holiday" element={<Holiday />} />
+                <Route path="/RolePermission" element={<RolePermission />} />
+                <Route path="/editteam/:id" element={<EditTeam />} />
+                <Route path="/admin/:id" element={<Admin />} />
+
+              </Route>
+              <Route element={<LeaderRoute />}>
+                <Route path="/employees" element={<Employees />} />
+                <Route path="/attendance" element={<AttendanceView />} />
+                <Route path="/leaves" element={<LeaveView />} />
+                <Route path="/salary-structure" element={<SalarySetup />} />
+                <Route path="/performance" element={<Performance />} />
+                <Route path="/announcement" element={<Announcement />} />
+                <Route path="/HolidayCalendarView" element={<HolidayCalendarView />} />
+                <Route path="/addusers" element={<AddUsers />} />
+                <Route path="/members" element={<Members />} />
+                <Route path="/employee-claims" element={<LeaderClaims />} />
+              </Route>
+              <Route element={<EmployeeRoute />}>
+                <Route path="/userAttendance" element={<Attendance />} />
+                <Route path="/applyforleave" element={<ApplyForLeave />} />
+                <Route path="/userLeaveApplications" element={<LeaveApplications />} />
+                <Route path="/userLeaveApplications/:id" element={<LeaveApplication />} />
+                <Route path="/userSalary" element={<Salary />} />
+                <Route path="/userTeams" element={<UserTeams />} />
+                <Route path="/userteam/:id" element={<EmployeeTeam />} />
+                <Route path="/dashboardEmployee" element={<DashboardEmployee />} />
+                <Route path="/my-performance" element={<MyPerformance />} />
+                <Route path="/my-documents" element={<MyDocument />} />
+                <Route path="/documents" element={<UploadDocument />} />
+                <Route path="/HolidayCalendarView" element={<HolidayCalendarView />} />
+                <Route path="/reimbursements" element={<MyExpense />} />
+                <Route path="/my-claims" element={<MyClaims />} />
+              </Route>
+
+            </Route>
           </Route>
-        </Route>
-      </Routes>
+
+
+
+          <Route element={<GuestRoute />}>
+            <Route path="/" element={<Template />} />
+            <Route path="/login" element={<Template />} />
+            <Route path="/forgot" element={<Forgot />} />
+
+          </Route>
+
+        </Routes>
+      </>
     )
 }
 
@@ -209,29 +202,5 @@ const AdminRoute = () => {
   return <Outlet />;
 };
 
-const CEORoute = () => {
-  const { user } = useSelector((state) => state.authSlice);
-  return user && user.type === 'CEO' ? <Outlet /> : <Navigate to="/" replace />;
-};
-
-const VPRoute = () => {
-  const { user } = useSelector((state) => state.authSlice);
-  return user && user.type === 'VP' ? <Outlet /> : <Navigate to="/" replace />;
-};
-
-const ManagerRoute = () => {
-  const { user } = useSelector((state) => state.authSlice);
-  return user && user.type === 'Manager' ? <Outlet /> : <Navigate to="/" replace />;
-};
-
-const TeamLeaderRoute = () => {
-  const { user } = useSelector((state) => state.authSlice);
-  return user && user.type === 'TeamLeader' ? <Outlet /> : <Navigate to="/" replace />;
-};
-
-const FounderRoute = () => {
-  const { user } = useSelector((state) => state.authSlice);
-  return user && user.type === 'Founder' ? <Outlet /> : <Navigate to="/" replace />;
-};
 
 export default App;

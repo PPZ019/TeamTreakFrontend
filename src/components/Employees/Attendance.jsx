@@ -43,7 +43,6 @@ const Attendance = () => {
       year: dt.getFullYear(),
       month: dt.getMonth() + 1,
     };
-
     if (user.type !== 'client') {
       obj.employeeID = user.id;
     }
@@ -56,23 +55,48 @@ const Attendance = () => {
   }, [user.id, user.type]);
 
   const markAttendance = async () => {
-    const res = await markEmployeeAttendance({ employeeID: user.id });
-    if (res.success) {
-      toast.success(res.message);
-      localStorage.setItem(user.id, JSON.stringify(res.newAttendance));
-      setIsAttendanceMarked(true);
+    try {
+      const ipRes = await fetch("https://api.ipify.org?format=json");
+      const ipData = await ipRes.json();
 
-      const dt = new Date();
-      const obj = {
-        employeeID: user.id,
-        year: dt.getFullYear(),
-        month: dt.getMonth() + 1,
-      };
+      let location = {};
+      await new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            location = {
+              latitude: pos.coords.latitude,
+              longitude: pos.coords.longitude,
+            };
+            resolve();
+          },
+          () => resolve()
+        );
+      });
 
-      const resData = await viewEmployeeAttendance(obj);
-      if (resData.success) setAttendance(resData.data);
-    } else {
-      toast.error(res.message || "Failed to mark attendance.");
+      const res = await markEmployeeAttendance({
+        ip: ipData.ip,
+        location,
+      });
+
+      if (res.success) {
+        toast.success(res.message);
+        localStorage.setItem(user.id, JSON.stringify(res.newAttendance));
+        setIsAttendanceMarked(true);
+
+        const dt = new Date();
+        const obj = {
+          employeeID: user.id,
+          year: dt.getFullYear(),
+          month: dt.getMonth() + 1,
+        };
+
+        const resData = await viewEmployeeAttendance(obj);
+        if (resData.success) setAttendance(resData.data);
+      } else {
+        toast.error(res.message || "Failed to mark attendance.");
+      }
+    } catch (err) {
+      toast.error("Something went wrong while marking attendance.");
     }
   };
 

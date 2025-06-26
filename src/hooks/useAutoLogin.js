@@ -10,20 +10,24 @@ export const useAutoLogin = () => {
     useEffect(() => {
         (async () => {
             try {
-                const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/auth/refresh`, {
-                    withCredentials: true
-                });
+                const res = await axios.get(
+                    `${process.env.REACT_APP_BASE_URL}/api/auth/refresh`,
+                    { withCredentials: true }
+                );
 
                 if (res.status === 200 && res.data.success) {
                     dispatch(setAuth(res.data.user));
+                } else {
+                    dispatch(setAuth(null)); // fallback if unexpected structure
                 }
             } catch (err) {
-                console.log("AutoLogin error:", err.response?.data || err.message);
+                console.warn("🔒 AutoLogin failed:", err.response?.data?.message || err.message);
+                dispatch(setAuth(null)); // logout fallback
             } finally {
                 setLoading(false);
             }
         })();
-    }, []); // ✅ don't forget empty dependency array
+    }, []);
 
     return loading;
 };
