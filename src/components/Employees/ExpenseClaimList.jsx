@@ -8,13 +8,10 @@ export default function ExpenseClaimList() {
   useEffect(() => {
     const fetchClaims = async () => {
       try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/expense/claim`,
-          {
-            withCredentials: true, // ✅ send cookies (access token)
-          }
-        );
-        setClaims(res.data);
+        const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/expense/claim`, {
+          withCredentials: true,
+        });
+        setClaims(res.data); // Assuming backend sends array
       } catch (err) {
         console.error('Error fetching claims:', err);
       } finally {
@@ -28,37 +25,40 @@ export default function ExpenseClaimList() {
   if (loading) return <p className="text-center mt-10 text-gray-500">Loading claims...</p>;
 
   return (
-    <div className="max-w-3xl mx-auto mt-8">
-      <h2 className="text-xl text-blue-900 font-bold mb-4">My Expense Claims</h2>
+    <div className="max-w-4xl mx-auto p-6">
+      <h2 className="text-2xl font-bold text-blue-900 mb-6">My Expense Claims</h2>
+
       {claims.length === 0 ? (
-        <p className="text-gray-600">No claims submitted yet.</p>
+        <p className="text-gray-600 text-center">No claims submitted yet.</p>
       ) : (
         <div className="space-y-4">
           {claims.map((claim) => (
-            <div key={claim._id} className="p-4 border rounded shadow bg-white">
-              <p><strong>Category:</strong> {claim.category}</p>
-              <p><strong>Amount:</strong> ₹{claim.amount}</p>
-              <p><strong>Date:</strong> {new Date(claim.date).toLocaleDateString()}</p>
-              <p><strong>Description:</strong> {claim.description}</p>
-              <p>
-                <strong>Status:</strong>{" "}
-                <span className={`font-semibold ${claim.status === "Approved"
-                  ? "text-green-600"
-                  : claim.status === "Rejected"
-                    ? "text-red-600"
-                    : "text-yellow-600"
-                  }`}>
-                  {claim.status}
-                </span>
-              </p>
+            <div key={claim._id} className="bg-white border rounded-xl shadow p-5">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p><strong>Category:</strong> {claim.category}</p>
+                  <p><strong>Amount:</strong> ₹{claim.amount}</p>
+                  <p><strong>Date:</strong> {new Date(claim.date).toLocaleDateString()}</p>
+                  <p><strong>Description:</strong> {claim.description}</p>
+                </div>
+                <div>
+                  <span className={`px-3 py-1 rounded-full text-sm font-semibold
+                    ${claim.status === "Approved" ? "bg-green-100 text-green-700" :
+                      claim.status === "Rejected" ? "bg-red-100 text-red-700" :
+                      "bg-yellow-100 text-yellow-700"}`}>
+                    {claim.status}
+                  </span>
+                </div>
+              </div>
+
               {claim.receipt_url && (
                 <a
                   href={`${process.env.REACT_APP_BASE_URL}${claim.receipt_url}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 underline"
+                  className="block mt-3 text-blue-600 hover:underline text-sm"
                 >
-                  View Receipt
+                  📎 View Receipt
                 </a>
               )}
             </div>
@@ -68,5 +68,3 @@ export default function ExpenseClaimList() {
     </div>
   );
 }
-
-

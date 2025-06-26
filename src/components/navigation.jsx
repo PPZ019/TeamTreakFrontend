@@ -32,12 +32,12 @@ const Navigation = () => {
   }, []);
 
   return (
-<nav className="bg-white px-4 py-4 flex justify-between items-center text-black top-0 left-0 right-0 fixed z-50"> 
+    <nav className="bg-white px-4 py-4 flex justify-between items-center text-black top-0 left-0 right-0 fixed z-50">
 
       <div className="text-lg font-semibold blue-900">
-         <NavLink to="/home" className="text-3xl font-bold mb-8 text-blue-900 hover:no-underline">
-            TeamTreak
-          </NavLink>
+        <NavLink to="/home" className="text-3xl font-bold mb-8 text-blue-900 hover:no-underline">
+          TeamTreak
+        </NavLink>
       </div>
       <div className="flex items-center gap-4">
 
@@ -101,10 +101,11 @@ const Navigation = () => {
             className="flex items-center gap-2 focus:outline-none hover:text-[#4D55CC]"
           >
             <img
-              src= {image1}
+              src={image || image1}
               alt="avatar"
-              className="w-8 h-8 rounded-full object-cover"
+              className="w-10 h-10 rounded-full object-cover"
             />
+
           </button>
 
           {isDropdownOpen && (

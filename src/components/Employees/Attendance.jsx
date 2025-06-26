@@ -24,7 +24,6 @@ const Attendance = () => {
   const numOfDays = monthDays[selectedMonth] || 31;
   const days = Array.from({ length: numOfDays }, (_, index) => index + 1);
 
-  // Check if today's attendance already marked
   useEffect(() => {
     const storedData = localStorage.getItem(user.id);
     if (storedData) {
@@ -38,7 +37,6 @@ const Attendance = () => {
     }
   }, [user.id]);
 
-  // Initial Attendance Load
   useEffect(() => {
     const dt = new Date();
     const obj = {
@@ -57,7 +55,6 @@ const Attendance = () => {
     fetchData();
   }, [user.id, user.type]);
 
-  // Mark Attendance
   const markAttendance = async () => {
     const res = await markEmployeeAttendance({ employeeID: user.id });
     if (res.success) {
@@ -79,7 +76,6 @@ const Attendance = () => {
     }
   };
 
-  // Search Attendance
   const searchAttendance = async () => {
     const obj = {};
     if (user.type !== 'client') {
@@ -154,8 +150,8 @@ const Attendance = () => {
                 </tr>
               </thead>
               <tbody>
-                {attendance?.length > 0 ? (
-                  attendance.map((att, idx) => (
+                {[...attendance].reverse().length > 0 ? (
+                  [...attendance].reverse().map((att, idx) => (
                     <tr key={idx} className="hover:bg-gray-50">
                       <td className="py-2 px-4 border text-center">{idx + 1}</td>
                       {user.type === 'client' && (
