@@ -37,7 +37,8 @@ const SalarySetup = () => {
           toast.error("Failed to load employees");
         }
       } catch (err) {
-        toast.error("Failed to load employees");
+        toast.error("Add employees to proceed with salary creation.");
+
       }
     })();
   }, []);

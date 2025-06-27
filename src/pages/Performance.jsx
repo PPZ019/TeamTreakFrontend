@@ -15,7 +15,7 @@ const Performance = () => {
       const res = await getEmployees();
       setEmployees(res?.employees || []);
     } catch (error) {
-      toast.error("Failed to load employees");
+      // toast.error("Failed to load employees");
       setEmployees([]);
     }
   };

@@ -36,7 +36,6 @@ const LeaveView = () => {
       setApplications(res?.data || []);
     } catch (err) {
       console.error(err);
-      setError('Failed to fetch leave applications.');
     } finally {
       setLoading(false);
     }

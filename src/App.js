@@ -36,6 +36,12 @@ import './assets/css/bootstrap.min.css';
 import './assets/css/style.css';
 import './assets/css/components.css';
 import Leaders from './pages/leader/Leaders';
+import Form16 from './pages/Form16';
+import Form24 from './pages/Form24Q';
+import ItDeclaration from './pages/ItDeclaration';
+import ItDeclarationReview from './pages/ITDeclarationReview';
+import EmployeeForm24 from './pages/EmployeeForm24Q';
+import EmployeeForm16 from './pages/EmployeeForm16';
 import Members from './pages/leaderpage/Members';
 import UserTeams from './components/Employees/UserTeams';
 import Attendance from './components/Employees/Attendance';
@@ -111,6 +117,11 @@ const App = () => {
               <Route path="/HolidayCalendarView" element={<HolidayCalendarView />} />
               <Route path="/RolePermission" element={<RolePermission />} />
               <Route path="/leaves/:id" element={<Leave />} />
+              <Route path="/form16" element={<Form16 />} />
+              <Route path="/form24" element={<Form24 />} />
+              <Route path="/itDeclaration" element={<ItDeclaration />} />
+              <Route path="/employeeform24" element={<EmployeeForm24 />} />
+
 
 
               <Route path="/userAttendance" element={<Attendance />} />
@@ -126,11 +137,12 @@ const App = () => {
               <Route path="/employee/:id" element={<Employee />} />
               <Route path="/editteam/:id" element={<EditTeam />} />
               <Route path="/admin/:id" element={<Admin />} />
+              <Route path="/itDeclarationReview" element={<ItDeclarationReview />} />
+
 
               <Route path="/view-announcements" element={<ViewAnnouncement />} />
               <Route path="/edituser/:id" element={<EditUser />} />
-              <Route element={<EmployeeRoute />}>
-              </Route>
+             
 
               <Route element={<AdminRoute />}>
                 <Route path="/invoices" element={<Invoice />} />
@@ -151,6 +163,8 @@ const App = () => {
               <Route element={<LeaderRoute />}>
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/attendance" element={<AttendanceView />} />
+                <Route path="/form16" element={<Form16 />} />
+              <Route path="/form24" element={<Form24 />} />
                 <Route path="/leaves" element={<LeaveView />} />
                 <Route path="/salary-structure" element={<SalarySetup />} />
                 <Route path="/performance" element={<Performance />} />
@@ -166,6 +180,8 @@ const App = () => {
                 <Route path="/userLeaveApplications" element={<LeaveApplications />} />
                 <Route path="/userLeaveApplications/:id" element={<LeaveApplication />} />
                 <Route path="/userSalary" element={<Salary />} />
+              <Route path="/itDeclaration" element={<ItDeclaration />} />
+              <Route path="/employeeform24" element={<EmployeeForm24 />} />
                 <Route path="/userTeams" element={<UserTeams />} />
                 <Route path="/userteam/:id" element={<EmployeeTeam />} />
                 <Route path="/dashboardEmployee" element={<DashboardEmployee />} />
@@ -175,6 +191,8 @@ const App = () => {
                 <Route path="/HolidayCalendarView" element={<HolidayCalendarView />} />
                 <Route path="/reimbursements" element={<MyExpense />} />
                 <Route path="/my-claims" element={<MyClaims />} />
+                <Route path="/EmployeeForm16" element={<EmployeeForm16 />} />
+
               </Route>
 
             </Route>

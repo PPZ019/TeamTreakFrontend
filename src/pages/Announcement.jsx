@@ -14,7 +14,7 @@ const Announcements = () => {
       });
       setAnnouncements(res.data.data);
     } catch {
-      toast.error("Failed to load announcements");
+      // toast.error("Failed to load announcements");
     }
   };
 

@@ -4,7 +4,7 @@ import { FiBarChart2 } from "react-icons/fi";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const COLORS = ["#34d399", "#f87171", "#c084fc", "#7e22ce"];
+const COLORS = ["#1e3a8a", "#d8b4fe", "#818cf8", "#a78bfa"];
 
 const StatCard = ({ title, stats }) => {
   const totalPercent = stats.reduce((sum, s) => sum + parseFloat(s.percent), 0);

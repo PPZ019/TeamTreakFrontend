@@ -36,6 +36,9 @@ const Leader = () => {
       <NavLink className={navLinkClass} to="/performance"><FaChartBar />Performance</NavLink>
       <NavLink className={navLinkClass} to="/HolidayCalendarView"><FaCalendarAlt />Holiday Calendar</NavLink>
       <NavLink className={navLinkClass} to="/announcement"><FaBullhorn />Announcements</NavLink>
+      <NavLink className={navLinkClass} to="/form16" ><FaUsersCog />Form16</NavLink>
+      <NavLink className={navLinkClass} to="/form24" ><FaUserTag />Form24Q</NavLink>
+      <NavLink className={navLinkClass} to="/itDeclarationReview" ><FaUserTag />It Declaration</NavLink>
       <NavLink className={navLinkClass} to="/addusers"><FaUserPlus />Add User</NavLink>
       <NavLink className={navLinkClass} to="/employee-claims"><FaFileInvoice />Employee Claims</NavLink>
       <NavLink onClick={logout} className="flex items-center gap-3 px-3 py-2 text-md rounded-md transition hover:no-underline text-black hover:bg-[#F0F1FF] hover:text-[#211C84]" to="#">
